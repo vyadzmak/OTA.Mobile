@@ -6,7 +6,7 @@ import LogoTitle from './../components/LogoTitleComponent'
 
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import ProductCategoriesScreen from './ProductCategories'
-
+import FlatListGridScreen from './FlatListGridScreen'
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
@@ -15,7 +15,7 @@ export default class HomeScreen extends React.Component {
     return (
      <Container>
        
-       <Header style={{backgroundColor:'#3a455c', height:60}}>
+       {/* <Header style={{backgroundColor:'#3a455c', height:60}}>
           <Left>
             <Icon name="menu" style={{color:'#ffffff',fontSize:32}}/>
 
@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
           <Right>
             <Icon name="shopping-cart" style={{color:'#ffffff',fontSize:32}}/>
           </Right> 
-       </Header>
+       </Header> */}
        <DashStack/>
        {/* <Content><DashStack/></Content> */}
      </Container>
@@ -37,9 +37,10 @@ export default class HomeScreen extends React.Component {
 
 const DashStack = createStackNavigator({
   ProductCategories: ProductCategoriesScreen,
+  FlatListGrid :FlatListGridScreen
   // Login: LoginScreen
 },
 {
-  initialRouteName: 'ProductCategories',
+  initialRouteName: 'FlatListGrid',
   
 });
