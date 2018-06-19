@@ -1,16 +1,11 @@
 import API_URL from './Settings'
+//make get request with get params
 export default function getWithParams(route, params) {
     try{
-        //alert("HERE")
-        ///productsCategoriesByProductCategory
         url = API_URL+route+"?"
-
         p_string =''
-
         p_length = params.length
         counter =0
-      
-        //alert("SS"+(params))
          for (key in params){
             element = params[key]
             e = element["name"] +"="+element["value"]
@@ -22,8 +17,6 @@ export default function getWithParams(route, params) {
             }
          }
         url+=p_string
-        //alert(url)
-        // //url = API_URL+ '/productsCategoriesByProductCategory?user_id=1&category_id='+this.state.current_category_id
         return fetch(url)
         .then(function(response) {
             if (response.status == 200) {
@@ -33,18 +26,29 @@ export default function getWithParams(route, params) {
         })
          .catch(function(error) {
              return []
-            //Alert.alert(error);   // Using this line
         });
-
-
-        // .then(response => response.json())
-        // .then(json => {
-        //     // alert(JSON.stringify(json))
-        //     return json
-            
-        // })
     }
     catch (err){
         alert("Error")
     }    
 }
+
+// //make get request with slash params
+// export default function getWithSlashParams(route) {
+//     try{
+//         url = API_URL+route
+//         return fetch(url)
+//         .then(function(response) {
+//             if (response.status == 200) {
+//                 return response.json()
+//             }
+//           else return []
+//         })
+//          .catch(function(error) {
+//              return []
+//         });
+//     }
+//     catch (err){
+//         alert("Error")
+//     }    
+// }

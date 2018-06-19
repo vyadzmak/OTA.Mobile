@@ -9,6 +9,7 @@ const data = [
   // { key: 'L' },
 ];
 
+// import Icon from 'react-native-vector-icons/FontAwesome';
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
 
@@ -45,6 +46,8 @@ export default class FlatListGridScreen extends React.Component {
       isLoading :true, 
       productCategories:[], 
       current_category_id:-1,
+      parent_category_id:-1,
+      parent_category_name:"",
       user_id : 1,
       route:'/productsCategoriesByProductCategory'
     }
@@ -59,7 +62,8 @@ export default class FlatListGridScreen extends React.Component {
     }
 
     static navigationOptions = {
-      title: 'Категории'
+      title: 'Категории',
+      
       };
 
       componentDidMount(){
@@ -67,6 +71,8 @@ export default class FlatListGridScreen extends React.Component {
         params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
         // url =  'http://10.0.2.2:5000/productsCategoriesByProductCategory?user_id=1&category_id='+this.state.current_category_id
         
+        
+
         response =getWithParams(this.state.route,params).then(
           response=> {
             formatProductCategoriesToData(response)
@@ -77,6 +83,19 @@ export default class FlatListGridScreen extends React.Component {
           }
         )
         
+        // if (this.state.parent_category_id!=-1){
+        //   params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.parent_category_id}]
+        //   _route = ""
+        //   response =getWithParams(this.state.route,params).then(
+        //     response=> {
+        //       formatProductCategoriesToData(response)
+        //       this.setState({
+        //         //isLoading:false,
+        //         productCategories:response
+        //       })
+        //     }
+        //   )
+        // }
         
       }
 
@@ -100,8 +119,10 @@ export default class FlatListGridScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const _current_category_id = navigation.getParam('current_category_id', -1);
+    const _parent_category_id = navigation.getParam('parent_category_id', -1);
     //const otherParam = navigation.getParam('otherParam', 'some default value');
     this.state.current_category_id=_current_category_id
+    this.state.parent_category_id=_parent_category_id
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -159,5 +180,8 @@ const styles = StyleSheet.create({
   touchableOpacity:{
     flex:1,
     flexDirection: 'column',
+  },icon: {
+    width: 24,
+    height: 24,
   }
 });

@@ -4,6 +4,8 @@ import { createStackNavigator } from 'react-navigation';
 
 import HomeScreen from './app/screens/HomeScreen'
 import LoginScreen from './app/screens/LoginScreen'
+import RegistrationScreen from './app/screens/RegistrationScreen'
+import TestDrawerScreen from './app/screens/TestDrawerScreen'
 
 export default class App extends React.Component {
   render() {
@@ -13,14 +15,16 @@ export default class App extends React.Component {
 
 const RootStack = createStackNavigator({
   Home: HomeScreen,
-  Login: LoginScreen
+  Login: LoginScreen,
+  Registration: RegistrationScreen,
+  //TestDrawer: TestDrawerScreen
 },
 {
   initialRouteName: 'Login',
   navigationOptions: {
     // headerTitle: <LogoTitle />,
     headerStyle: {
-      backgroundColor: '#f4511e',
+      backgroundColor: '#074c99',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
