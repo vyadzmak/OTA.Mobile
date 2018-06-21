@@ -5,7 +5,6 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './app/screens/HomeScreen'
 import LoginScreen from './app/screens/LoginScreen'
 import RegistrationScreen from './app/screens/RegistrationScreen'
-import TestDrawerScreen from './app/screens/TestDrawerScreen'
 
 export default class App extends React.Component {
   render() {
@@ -17,7 +16,6 @@ const RootStack = createStackNavigator({
   Home: HomeScreen,
   Login: LoginScreen,
   Registration: RegistrationScreen,
-  //TestDrawer: TestDrawerScreen
 },
 {
   initialRouteName: 'Login',

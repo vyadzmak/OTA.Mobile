@@ -5,11 +5,11 @@ import { createStackNavigator } from 'react-navigation'; // Version can be speci
 
 // import Icon from 'react-native-vector-icons/MaterialIcons'
 
-import ProductCategoriesScreen from './ProductCategories'
-import FlatListGridScreen from './FlatListGridScreen'
+import ProductCategoriesScreen from './ProductCategoriesScreen'
+
 import DashboardScreen from './DashboardScreen'
 import DrawerMenu from './../components/DrawerComponent'
-import TestDrawerScreen from './TestDrawerScreen'
+import RootScreen from './RootScreen'
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -26,11 +26,11 @@ const DashStack = createStackNavigator({
   Drawer :DrawerMenu,
   Dashboard :DashboardScreen,
   ProductCategories: ProductCategoriesScreen,
-  FlatListGrid :FlatListGridScreen,
-  TestDrawer :TestDrawerScreen
+  
+  RootScreen :RootScreen
 },
 {
-  initialRouteName: 'TestDrawer',
+  initialRouteName: 'RootScreen',
   navigationOptions: {
     headerStyle: {
       backgroundColor: '#074c99',

@@ -1,33 +1,39 @@
+//import system components
 import React from "react";
 import {
   View,  Text,  Button,  StyleSheet,
   TouchableOpacity,
   TextInput
 } from "react-native";
-
 import { Container, Content, Icon, Header, Body, Left } from 'native-base'
-import {DrawerNavigator} from 'react-navigation'
-import FlatListGridScreen from './FlatListGridScreen'
+import {DrawerNavigator, withNavigation} from 'react-navigation'
+
+//import custom components
+
+import ProductsCategoryList from './../components/ProductsCategoryListComponent'
+//import another
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
-export default class DashboardScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: "Главная"
-  // };
+class DashboardScreen extends React.Component {
+  constructor(props){
+    super(props)
+    }
+
+    static navigationOptions = {
+    title: "Главная",
+  };
 
   render() {
     return (
-      <Text>DashboardScreen</Text>
-      // <Container>
-      //   <Header>
-      //     <Left>
-      //       <MaterialIcon name="menu" onPress={()=>this.props.navigation.navigate('DrawerOpen')}></MaterialIcon>
-      //     </Left>  
-      //   </Header>
-      //   <Content>
-      //     <Text>DashboardScreen</Text>
-      //   </Content>
-      // </Container>
+      //
+      <View style ={styles.container}>
+      
+      {/* <Text>Категории</Text> */}
+      <ProductsCategoryList navigation={this.props.navigation}/>
+
+      
+      </View>
+      
     );
   }
 }
@@ -37,7 +43,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    //alignItems: "center",
+    //justifyContent: "center",
+    //borderColor: "#ff0000",
+    //borderWidth: 3,
   }
 });
+
+export default withNavigation(DashboardScreen)

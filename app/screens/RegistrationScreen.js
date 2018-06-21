@@ -14,7 +14,7 @@ export default class RegistrationScreen extends React.Component {
     }
 
     static navigationOptions = {
-        title: "Регистрация нового пользователя"
+        title: "Регистрация"
       };
       render() {
         return(
