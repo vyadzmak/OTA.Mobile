@@ -20,7 +20,8 @@ class DashboardScreen extends React.Component {
     }
 
     static navigationOptions = {
-    title: "Главная",
+    title: "Главная XXX",
+    
   };
 
   render() {

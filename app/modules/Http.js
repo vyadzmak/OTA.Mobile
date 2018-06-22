@@ -1,6 +1,42 @@
 import API_URL from './Settings'
 //make get request with get params
 //export const func1=()=>{
+
+export const AGetWithParams=(route, params)=> {
+        try {
+            url = API_URL+route+"?"
+            p_string =''
+            p_length = params.length
+            counter =0
+             for (key in params){
+                element = params[key]
+                e = element["name"] +"="+element["value"]
+                //alert(JSON.stringify(element))
+                p_string+=e
+                counter++
+                if (counter<=p_length-1){
+                    p_string+="&"
+                }
+             }
+            url+=p_string
+
+        console.log(url)
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log('DONE!!!')
+            return responseJson;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        } catch (error) {
+          console.error(error);
+          return null
+        }
+      }
+
 export const getWithParams=(route, params)=> {
     try{
         url = API_URL+route+"?"
@@ -18,17 +54,10 @@ export const getWithParams=(route, params)=> {
             }
          }
         url+=p_string
-        
+        console.log(url)
         return fetch(url)
-        .then(function(response) {
-            if (response.status == 200) {
-                return response.json()
-            }
-          else return []
-        })
-         .catch(function(error) {
-             return []
-        });
+        .then((response) => {return response.json()})
+        .catch((err) => console.log('Error!!!!' + err));
     }
     catch (err){
         alert("Error")

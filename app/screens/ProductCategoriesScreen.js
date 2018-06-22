@@ -99,7 +99,14 @@ export default class ProductCategoriesScreen extends React.Component {
               //alert(JSON.stringify(_response.name))
               this.props.navigation.setParams({title: _response.name})
 
-              params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
+              
+
+            }
+          )
+        }
+
+        
+        params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
         
               response =getWithParams(this.state.route,params).then(
                 response=> {
@@ -110,13 +117,6 @@ export default class ProductCategoriesScreen extends React.Component {
                   })
                 }
               )
-
-            }
-          )
-        }
-
-        
-        
       }
 
   renderItem = ({ item, index }) => {

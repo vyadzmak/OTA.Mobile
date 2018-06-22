@@ -7,97 +7,153 @@ import {
   Image, Button
 } from "react-native";
 
-
-import AccountScreen from './AccountScreen'
-import UserAgreementScreen from "./UserAgreementScreen";
-import DashboardScreen from './DashboardScreen'
-import ProductCategoriesScreen from './ProductCategoriesScreen'
-import ProductsCatalogScreen from './ProductsCatalogScreen'
 //library imports 
 import { Container, Content, Icon, Header, Body, Left } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView,createDrawerNavigator, createStackNavigator } from 'react-navigation'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
-const AccountsStack = StackNavigator({
-    Account: {
-      screen: AccountScreen,
-      navigationOptions: ({ navigation }) => ({
-        title: 'AccountScreen',  // Title to appear in status bar
-        headerLeft: <Icon name="menu"  onPress={ () => navigation.toggleDrawer() } />
-      })
-    },
-    
-  });
-  
-  const UserAgreementStack = StackNavigator({
-    UserAgreement: {
-      screen: UserAgreementScreen,
-      navigationOptions: ({ navigation }) => ({
-        title: 'Пользовательское соглашение',  // Title to appear in status bar
-        headerLeft: <Icon name="menu"  onPress={ () => navigation.toggleDrawer() } />
-      })
-    }
-  });
+//import stack elements 
+import {
+  DashboardStack,
+  AccountsStack,
+  UserAgreementStack,
+  ProductCategoriesStack,
+  OrdersHistoryStack,
+  BrandsCatalogStack,
+  PartnersCatalogStack,
+  RecommendationsCatalogStack,
+  CartStack,
+  FavoritesStack
 
-  
-const DashboardStack= createStackNavigator({
-  Dashboard: {screen:DashboardScreen, navigationOptions: ({ navigation }) => ({
-          title: 'Главная',  // Title to appear in status bar
-          headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
-})},
-  ProductCategories: {screen:ProductCategoriesScreen},
-  ProductsCatalog: {screen:ProductsCatalogScreen},
-
- // Registration: RegistrationScreen,
-},
-{
-  initialRouteName: 'Dashboard',
-  navigationOptions: ({ navigation }) => ({
-            title: 'Главная',  // Title to appear in status bar
-            //headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
-            headerStyle: {
-                backgroundColor: '#074c99',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              }
-          }),
-          //mode: 'modal',
-        
-});
-
+} from './StackContainer'
+import DrawerLogo from "../components/DrawerLogoComponent";
+const LogoMenuItemComponent = (props)=>{
+  return (
+      <Container>
+        <Header style={{height:150,backgroundColor:'#074c99'}}>
+          <DrawerLogo/>
+        </Header>
+        <Content>
+          <DrawerItems {...props}/>
+        </Content>
+      </Container>
+  )
+}
+const iconSize =24
 const Root = DrawerNavigator({
+
+  
     Dashboard: {
       screen: DashboardStack,
       navigationOptions: {
-        title: 'Главная' // Text shown in left menu
+        title: 'Главная',
+        //drawerLabel: 'Home',
+          drawerIcon: () => (
+          <MaterialIcon name="home" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    },
+    ProductCategories: {
+      screen: ProductCategoriesStack,
+      navigationOptions: {
+        title: 'Категории товаров', 
+        drawerIcon: () => (
+          <MaterialIcon name="view-module" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    },
+    
+    OrdersHistory: {
+      screen: OrdersHistoryStack,
+      navigationOptions: {
+        title: 'История заказов', 
+        drawerIcon: () => (
+          <MaterialIcon name="history" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
       }
     },
     UserAgreement: {
       screen: UserAgreementStack,
       navigationOptions: {
-        title: 'Пользовательское соглашение' // Text shown in left menu
+        title: 'Cоглашение',
+        drawerIcon: () => (
+          <MaterialIcon name="check" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
       }
     },
     Account: {
       screen: AccountsStack,
       navigationOptions: {
-        title: 'Профиль',  // Text shown in left menu
+        title: 'Профиль', 
+        drawerIcon: () => (
+          <MaterialIcon name="face" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
       }
-    }    
+    },
+    BrandsCatalog: {
+      screen: BrandsCatalogStack,
+      navigationOptions: {
+        title: 'Бренды', 
+        drawerIcon: () => (
+          <MaterialIcon name="label" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    }  ,
+    PartnersCatalog: {
+      screen: PartnersCatalogStack,
+      navigationOptions: {
+        title: 'Партнеры', 
+        drawerIcon: () => (
+          <MaterialIcon name="loyalty" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    },
+    RecommendationsCatalog: {
+      screen: RecommendationsCatalogStack,
+      navigationOptions: {
+        title: 'Рекомендации', 
+        drawerIcon: () => (
+          <MaterialIcon name="redeem" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    },
+    Cart: {
+      screen: CartStack,
+      navigationOptions: {
+        title: 'Корзина', 
+        drawerIcon: () => (
+          <MaterialIcon name="shopping-cart" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    }  ,
+    Favorites: {
+      screen: FavoritesStack,
+      navigationOptions: {
+        title: 'Избранное', 
+        drawerIcon: () => (
+          <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+          )
+      }
+    }        
+  }, {
+    contentComponent: LogoMenuItemComponent,
   })
 
   export default class RootScreen extends Component {
-    
     static navigationOptions = {
         headerMode: 'none',
         header: null
       };
     render() {
-      return (
-        
+      return (        
         <Root />
       )
     }
   }
+
+  const styles = StyleSheet.create({
+    drawerIcons: {
+       color :"#1c313a",
+       
+     }
+   });
