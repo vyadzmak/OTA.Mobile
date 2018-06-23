@@ -6,6 +6,7 @@ import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, 
 import StarRating from 'react-native-star-rating';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
+import {ProductStockIcon, ProductDiscountIcon,ProductAmountText, ProductAmountDiscountText,ProductDiscountText} from '../components/ProductListCardElements'
 //import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 
 export default class ProductsCatalogScreen extends React.Component {
@@ -124,7 +125,11 @@ export default class ProductsCatalogScreen extends React.Component {
                     <Body style={{paddingLeft:20}}>
                         <Text>{item.name}</Text>
                         <Text note>{item.short_description}</Text>
-                        <Text>{item.amount}</Text>
+                        {/* <Text>{item.amount} {item.product_currency_data.display_value}</Text> */}
+                        <View style={{flexDirection:'row'}}>
+                        <ProductAmountText amount ={item.amount} currency_display_value ={item.product_currency_data.display_value} discount_amount={item.discount_amount}></ProductAmountText>
+                          <ProductAmountDiscountText currency_display_value ={item.product_currency_data.display_value} discount_amount={item.discount_amount}></ProductAmountDiscountText>
+                        </View>
                         <View style={{flexDirection:'row'}}>
                         <StarRating
                                 disabled={false}
@@ -140,10 +145,20 @@ export default class ProductsCatalogScreen extends React.Component {
                             />
                             <Text style={{color:'orange',fontSize:16}}> ({item.comments_count})</Text>
                         </View>
+                        <View style={{flexDirection:'row'}}>
+                          <ProductStockIcon is_stock_product={item.is_stock_product} style={styles.icons}/>
+                          <ProductDiscountIcon is_discount_product={item.is_discount_product} style={styles.icons}/>
+                        </View>
+                        <ProductDiscountText stock_text={item.stock_text}></ProductDiscountText>
+
                         </Body>
                     {/* <Right><MaterialIcon name="shopping-cart" style={{color:'red',fontSize:48}} /></Right> */}
                     </CardItem>
-                  
+                    <CardItem>
+                     {/* <Left><View></View></Left>
+                      <Body>
+                      </Body> */}
+                    </CardItem>
                 </Card>
             //   </ListItem>
             }>
@@ -193,5 +208,9 @@ const styles = StyleSheet.create({
   },icon: {
     width: 24,
     height: 24,
+  },
+  icons :{
+    padding:10,
+    paddingHorizontal: 50,
   }
 });
