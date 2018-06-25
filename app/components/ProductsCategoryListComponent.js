@@ -66,11 +66,20 @@ export default class ProductsCategoryList extends React.Component {
         params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
         response =getWithParams(this.state.route,params).then(
           response=> {
+
+            if (response!=null){
             formatProductCategoriesToData(response)
             this.setState({
               isLoading:false,
               productCategories:response
             })
+          }else {
+            alert("Connection error")
+            this.setState({
+              isLoading:false,
+                        
+            })
+          }
           }
         )
       }

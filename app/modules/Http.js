@@ -70,15 +70,8 @@ export const getWithSlashParams=(route)=> {
         url = API_URL+route
         //alert(url)
         return fetch(url)
-        .then(function(response) {
-            if (response.status == 200) {
-                return response.json()
-            }
-          else return []
-        })
-         .catch(function(error) {
-             return []
-        });
+        .then((response) => {return response.json()})
+        .catch((err) => {console.log('Error!!!!' + err); return null});
     }
     catch (err){
         alert("Error")

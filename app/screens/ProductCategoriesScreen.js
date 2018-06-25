@@ -146,7 +146,7 @@ export default class ProductCategoriesScreen extends React.Component {
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator/>
+          <ActivityIndicator size="large" color="#0000ff"/>
         </View>
       )
     }

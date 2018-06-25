@@ -82,17 +82,23 @@ export default class ProductsCatalogScreen extends React.Component {
         
       }
 
-  renderItem = ({ item, index }) => {
-            
-    return (
-        <TouchableOpacity style ={styles.touchableOpacity} onPress={()=>this.clickItem(item.id)}>
-          <View style={styles.item}>
-              {/* <Image source={{uri:item.image}} style={styles.image} /> */}
-              <Text style={styles.itemText}>{item.name}</Text>
-          </View>
-        </TouchableOpacity>
-    );
-  };
+
+  clickItem(id,name){
+    try{
+      this.props.navigation.push('ProductCard', {
+        product_id: id,
+        product_name: name,
+        navigation :this.props.navigation
+      });
+
+      console.log(name)
+    }
+    catch (err){
+      console.log(err)
+    }
+
+    
+  }
 
   render() {
     const { navigation } = this.props;
@@ -115,8 +121,9 @@ export default class ProductsCatalogScreen extends React.Component {
           <List dataArray={ this.state.productsCatalog}
             renderRow={(item) =>
             //   <ListItem>
-                <Card style={{flex: 1,padding:0}}>
-                    <CardItem>
+            <TouchableOpacity style ={styles.touchableOpacity} onPress={()=>this.clickItem(item.id,item.name)}>
+                <Card style={{flex: 1,padding:0}} >
+                    <CardItem >
                     {/* <Left style={{alignItems: 'center'}} > */}
                         
                         <Thumbnail source={{uri: API_URL+item.default_image_data.thumb_file_path}} style={styles.image} />
@@ -160,6 +167,7 @@ export default class ProductsCatalogScreen extends React.Component {
                       </Body> */}
                     </CardItem>
                 </Card>
+                </TouchableOpacity>
             //   </ListItem>
             }>
           </List>

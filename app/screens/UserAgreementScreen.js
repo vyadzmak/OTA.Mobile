@@ -33,21 +33,21 @@ export default class UserAgreementScreen extends React.Component {
     
     response =getWithParams(this.state.route,params).then(
       response=> {
-        //formatProductsCatalogToData(response)
+        if (response!=null){
         console.log(JSON.stringify(response))
         this.setState({
           isLoading:false,
           agreement_text:response[0].user_agreement
         })
-       
+        } else {
+          alert("Connection error")
+          this.setState({
+            isLoading:false,
+            agreement_text:''            
+          })
+        }
       }
-    ) .catch(function(error) {
-      console.log('ALARMA: '+error)
-      // this.setState({
-      //   isLoading:false,
-      //   agreement_text:response[0].user_agreement
-      // })
-    });
+    ) 
     
   }
 

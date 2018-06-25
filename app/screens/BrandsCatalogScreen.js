@@ -2,22 +2,84 @@ import React from "react";
 import {
   View,  Text,  Button,  StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput, ActivityIndicator
 } from "react-native";
 
-import { Container, Content, Icon, Header, Body } from 'native-base'
+import { Container, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail } from 'native-base'
 import {DrawerNavigator} from 'react-navigation'
+import {getWithParams,getWithSlashParams} from './../modules/Http'
+import API_URL from './../modules/Settings'
 
 export default class BarandsCatalogScreen extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      isLoading :true, 
+      brandssCatalog:[], 
+      route:'/brandsCatalog',
+      
+    }
+    
+  }
+
   static navigationOptions = {
     title: "Бренды"
   };
 
+  componentDidMount(){
+    response =getWithSlashParams(this.state.route).then(
+      response=> {
+        if (response!=null){
+        console.log(JSON.stringify(response))
+        this.setState({
+          isLoading:false,
+          brandsCatalog:response
+        })
+      } else {
+        alert("Connection error")
+        this.setState({
+          isLoading:false            
+        })
+      }
+      }
+    )
+  
+}
+
+clickItem(id){
+  try{
+   console.log(id)
+  }
+  catch (err){
+    console.log(err)
+  }
+
+  
+}
+
   render() {
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
+
+
     return (
-      <View style={styles.container}>
-        <Text>Бренды</Text>
-      </View>
+      <List dataArray={ this.state.brandsCatalog}
+            renderRow={(item) =>
+              // <TouchableOpacity  >
+                  <ListItem button onPress={()=>this.clickItem({id:item.id})}>
+                    <Body>
+                      <Text style={styles.nameText}>{item.name}</Text>
+                      <Text >Количество товаров: {item.products_count}</Text>
+                    </Body>
+                  </ListItem>
+              // </ TouchableOpacity>
+            }>
+          </List>
     );
   }
 }
@@ -28,5 +90,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  nameText:{
+    color: '#000',
+    fontSize: 16,
+    // marginLeft: 30,
+    // marginTop: 10,
+  },
+  icons :{
+    // padding:10,
+    paddingHorizontal: 50,
+    width: 96,
+    height: 96
   }
 });

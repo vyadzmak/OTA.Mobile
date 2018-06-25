@@ -27,6 +27,8 @@ import RecommendationsCatalogScreen from './RecommendationsCatalogScreen'
 import CartScreen from './CartScreen'
 import FavoritesScreen from './FavoritesScreen'
 
+import ProductCardScreen from './ProductCardScreen'
+
 
 
 export const AccountsStack = createStackNavigator({
@@ -84,9 +86,9 @@ export const DashboardStack= createStackNavigator({
           title: 'Главная',  // Title to appear in status bar
           headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
             })},
-            ProductCategories: {screen:ProductCategoriesScreen},
-            ProductsCatalog: {screen:ProductsCatalogScreen},
-            
+              ProductCategories: {screen:ProductCategoriesScreen},
+              ProductsCatalog: {screen:ProductsCatalogScreen},
+              ProductCard : {screen:ProductCardScreen},
             },
             {
             initialRouteName: 'Dashboard',
