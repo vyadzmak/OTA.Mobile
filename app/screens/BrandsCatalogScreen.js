@@ -48,7 +48,10 @@ export default class BarandsCatalogScreen extends React.Component {
 
 clickItem(id){
   try{
-   console.log(id)
+    this.props.navigation.push('FilterProducts', {
+      filter_parameter :1,
+      filter_value: id
+    });
   }
   catch (err){
     console.log(err)
@@ -71,7 +74,7 @@ clickItem(id){
       <List dataArray={ this.state.brandsCatalog}
             renderRow={(item) =>
               // <TouchableOpacity  >
-                  <ListItem button onPress={()=>this.clickItem({id:item.id})}>
+                  <ListItem button onPress={()=>this.clickItem(item.id)}>
                     <Body>
                       <Text style={styles.nameText}>{item.name}</Text>
                       <Text >Количество товаров: {item.products_count}</Text>

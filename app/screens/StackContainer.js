@@ -28,7 +28,7 @@ import CartScreen from './CartScreen'
 import FavoritesScreen from './FavoritesScreen'
 
 import ProductCardScreen from './ProductCardScreen'
-
+import FilterProductsScreen from './FilterProductsScreen'
 
 
 export const AccountsStack = createStackNavigator({
@@ -89,6 +89,7 @@ export const DashboardStack= createStackNavigator({
               ProductCategories: {screen:ProductCategoriesScreen},
               ProductsCatalog: {screen:ProductsCatalogScreen},
               ProductCard : {screen:ProductCardScreen},
+              FilterProducts : {screen:FilterProductsScreen}
             },
             {
             initialRouteName: 'Dashboard',
@@ -160,6 +161,7 @@ export const BrandsCatalogStack= createStackNavigator({
             headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
+  FilterProducts : {screen:FilterProductsScreen}
   },
   {
     initialRouteName: 'BrandsCatalog',
@@ -183,6 +185,8 @@ export const PartnersCatalogStack= createStackNavigator({
             headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
+  FilterProducts : {screen:FilterProductsScreen}
+
   },
   {
     initialRouteName: 'PartnersCatalog',
@@ -202,7 +206,7 @@ export const PartnersCatalogStack= createStackNavigator({
 
  //-----------------------------------------------------------------------//
  export const RecommendationsCatalogStack= createStackNavigator({
-    RecommendationsCatalog: {screen:RecommendationsCatalogScreen, navigationOptions: ({ navigation }) => ({
+    RecommendationsCatalog: {screen:FilterProductsScreen, navigationOptions: ({ navigation }) => ({
             title: 'Рекомендации',  // Title to appear in status bar
             headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
@@ -210,6 +214,7 @@ export const PartnersCatalogStack= createStackNavigator({
   },
   {
     initialRouteName: 'RecommendationsCatalog',
+    initialRouteParams: {user_id:1, filter_parameter: 4, filter_value:'' },
     navigationOptions: ({ navigation }) => ({
               title: 'Рекомендации',  // Title to appear in status bar
               //headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
@@ -251,7 +256,7 @@ export const CartStack= createStackNavigator({
 
 //-----------------------------------------------------------------------//
 export const FavoritesStack= createStackNavigator({
-    Favorites: {screen:FavoritesScreen, navigationOptions: ({ navigation }) => ({
+    Favorites: {screen:FilterProductsScreen, navigationOptions: ({ navigation }) => ({
             title: 'Избранное',  // Title to appear in status bar
             headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
@@ -259,6 +264,7 @@ export const FavoritesStack= createStackNavigator({
   },
   {
     initialRouteName: 'Favorites',
+    initialRouteParams: {user_id:1, filter_parameter: 3, filter_value:1 },
     navigationOptions: ({ navigation }) => ({
               title: 'Избранное',  // Title to appear in status bar
               //headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,

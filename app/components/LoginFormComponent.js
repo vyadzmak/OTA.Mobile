@@ -6,10 +6,44 @@ import {
   TextInput,
   TouchableOpacity 
 } from 'react-native';
-
+import {getWithParams,getWithSlashParams} from './../modules/Http'
 export default class LoginForm extends React.Component {
-    login(){
-        alert("Login!"+this.login+" "+this.password)
+  constructor(props){
+    super(props)
+    this.state = {
+      isLoading:false,
+      login_data :{
+        //...this.state.user_data,
+        login :'375298653856',
+        password:'12345',
+      },
+      authData:{}, 
+      route:'/mobileUserAuth'
+    }
+    
+  }  
+  
+  
+  login(){
+      try{
+
+        params =[{"name":"login","value":this.state.state.login},{"name":"password","value":this.state.product_id}]
+        
+              response =getWithParams(this.state.route,params).then(
+                response=> {
+                  console.log(JSON.stringify(response))
+                  this.setState({
+                    isLoading:false,
+                    productDetails:response
+                  })
+                }
+              )
+
+      } catch(err){
+
+      }
+
+        //alert("Login!"+this.state.login_data.login+" "+this.state.login_data.password)
     }
 
 	render(){
@@ -22,6 +56,7 @@ export default class LoginForm extends React.Component {
               placeholderTextColor = "rgba(255,255,255,0.7)"
               selectionColor="#fff"
               keyboardType="numeric"
+              value ={this.state.login_data.login}
               onSubmitEditing={()=> this.password.focus()}
               />
 
@@ -30,10 +65,12 @@ export default class LoginForm extends React.Component {
               underlineColorAndroid='rgba(0,0,0,0)' 
               placeholder="******"
               secureTextEntry={true}
+              value ={this.state.login_data.password}
               placeholderTextColor = "rgba(255,255,255,0.7)"
               ref={(input) => this.password = input}
               />  
-           <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.push('Home')}>
+              {/* this.props.navigation.navigate('Home') */}
+           <TouchableOpacity style={styles.button} onPress={() => this.login()}>
              <Text style={styles.buttonText} >{this.props.type}</Text>
            
            </TouchableOpacity> 

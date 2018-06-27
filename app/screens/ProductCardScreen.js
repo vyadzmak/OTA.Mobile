@@ -5,11 +5,11 @@ import {
   TextInput, ActivityIndicator
 } from "react-native";
 
-import { Container, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail } from 'native-base'
+import { Container, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail, CardItem } from 'native-base'
 import {DrawerNavigator} from 'react-navigation'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
-import {ProductCardProductRemmendationsComponent} from './../components/ProductCardElements'
+import {ProductCardProductRemmendationsComponent,ProductCardGalleryComponent,ProductCardInfoComponent} from './../components/ProductCardElements'
 export default class ProductCardScreen extends React.Component {
   constructor(props){
     super(props)
@@ -78,9 +78,18 @@ clickItem(id){
     return (
         // <View style={styles.container}>
         <Container style={styles.container}>
-           <Content>
+           <Content padder style={{padding:0}}>
+           <CardItem style={{padding:0}}>
+            <ProductCardGalleryComponent gallery_images_data={this.state.productDetails.gallery_images_data}></ProductCardGalleryComponent>
+           </CardItem>
+          <CardItem>
+              <ProductCardInfoComponent product_details={this.state.productDetails}></ProductCardInfoComponent>
+          </CardItem>
+           <CardItem>
             <ProductCardProductRemmendationsComponent product_recomendations_data={this.state.productDetails.product_recomendations_data}></ProductCardProductRemmendationsComponent>
-            </Content>
+            </CardItem>
+
+          </Content>
         
         </Container>
         // </View>
@@ -93,7 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     //flex: 1,
     //alignItems: "center",
-    justifyContent: "center"
+    //justifyContent: "center",
+    marginVertical: 5
   },
   nameText:{
     color: '#000',

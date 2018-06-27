@@ -78,9 +78,14 @@ export const getWithSlashParams=(route)=> {
     }    
 }
 
+const read_json  = (response)=>{
+    return response.json().then(answer=>{return answer.message})
+}
+
 export const postRequest=(route, params)=> {
     try{
         url = API_URL+route
+        
         return fetch(url, {
             method: 'POST',
             headers: {
@@ -90,15 +95,13 @@ export const postRequest=(route, params)=> {
             body: JSON.stringify(params),
                     })
                     
-                    .then(function(response) {
-                        if (response.status == 200) {
-                            return response.json()
-                        }
-                      else return response
+                    .then((response) => response.json())
+                    .then((responseData) => {
+                        //ob = {}
+                        return responseData
+                        
                     })
-                     .catch(function(error) {
-                         return response
-                    });;
+                    .catch((err) => {console.log('Error!!!!' + err); return null});
     }
     catch (err){
         console.log(err)

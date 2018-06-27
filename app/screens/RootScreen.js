@@ -53,15 +53,15 @@ const Root = DrawerNavigator({
           )
       }
     },
-    ProductCategories: {
-      screen: ProductCategoriesStack,
-      navigationOptions: {
-        title: 'Категории товаров', 
-        drawerIcon: () => (
-          <MaterialIcon name="view-module" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
-      }
-    },
+    // ProductCategories: {
+    //   screen: ProductCategoriesStack,
+    //   navigationOptions: {
+    //     title: 'Категории товаров', 
+    //     drawerIcon: () => (
+    //       <MaterialIcon name="view-module" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+    //       )
+    //   }
+    // },
     
     OrdersHistory: {
       screen: OrdersHistoryStack,
