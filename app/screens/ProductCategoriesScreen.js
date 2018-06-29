@@ -4,6 +4,7 @@ import renderIf from './../modules/RenderIf'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
+import {USER_DATA,USER_ID} from './../modules/VarContainer'
 const data = [
   { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
   // { key: 'K' },
@@ -49,7 +50,7 @@ export default class ProductCategoriesScreen extends React.Component {
       current_category_id:-1,
       parent_category_id:-1,
       parent_category_name:"",
-      user_id : 1,
+      user_id : USER_ID,
       route:'/productsCategoriesByProductCategory',
       category_name: 'NONE'
     }

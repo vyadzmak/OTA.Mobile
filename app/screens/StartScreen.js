@@ -7,17 +7,16 @@ import {
 
 import { Container, Content, Icon, Header, Body } from 'native-base'
 import {DrawerNavigator} from 'react-navigation'
-import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'
 
-export default class CartScreen extends React.Component {
+export default class OrdersHistoryScreen extends React.Component {
   static navigationOptions = {
-    title: "Корзина"
+    title: "История заказов"
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Корзина</Text>
+        <Text>История заказов</Text>
       </View>
     );
   }

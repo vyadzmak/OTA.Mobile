@@ -1,30 +1,15 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import ConfirmationCodeForm from '../components/ConfiramtionCodeComponent';
 
-
-
-import RegistrationForm from '../components/RegistrationFormComponent';
-
-
-
-export default class RegistrationScreen extends React.Component {
-
-    signup(){
-      alert("SignUp")
-    }
-
+export default class ConfirmationCodeScreen extends React.Component {
     static navigationOptions = {
-        title: "Регистрация"
+        title: "Потверждение кода"
       };
       render() {
         return(
           <View style={styles.container}>
-            
-            <RegistrationForm type="ДАЛЕЕ" navigation={this.props.navigation}/>
-            {/* <View style={styles.signupTextCont}>
-              <Text style={styles.signupText}>Не зарегистрированы?</Text>
-              <TouchableOpacity onPress={this.signup}><Text style={styles.signupButton}> Регистрация</Text></TouchableOpacity>
-            </View> */}
+            <ConfirmationCodeForm type="ДАЛЕЕ" navigation={this.props.navigation}/>
           </View>	
           )
       }

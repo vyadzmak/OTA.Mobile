@@ -4,14 +4,15 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image, Button
+  Image, Button, TouchableOpacity,Alert, AsyncStorage
 } from "react-native";
 
 //library imports 
-import { Container, Content, Icon, Header, Body, Left } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left, Footer, Item,Separator, CardItem,List, ListItem } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView,createDrawerNavigator, createStackNavigator } from 'react-navigation'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { NavigationActions } from 'react-navigation';
 //import stack elements 
 import {
   DashboardStack,
@@ -28,14 +29,69 @@ import {
 } from './StackContainer'
 import DrawerLogo from "../components/DrawerLogoComponent";
 const LogoMenuItemComponent = (props)=>{
+
+  logout=()=>{
+    AsyncStorage.clear()
+    props.navigation.navigate('Login');
+
+
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0,
+  //     actions: [NavigationActions.navigate({routeName: 'Home'})]
+  // });
+  //  props.navigation.dispatch(resetAction);
+    //const { navigation } = this.props;
+    //alert(JSON.stringify(props.navigation))
+    // props.navigation.navigate('Login')
+   // navigate('ScreenOne', {}, NavigationActions.navigate({ 'ScreenOneSettings' }));
+  //   const resetAction = NavigationActions.reset({
+  //     index: 0,
+  //     actions: [
+  //         NavigationActions.navigate({ routeName: 'Home' })
+  //     ]
+  // });
+  // props.navigation.dispatch(resetAction);
+  // props.navigation.goBack(null);
+    
+  }
+  //const { navigation } = this;
+
+  //t = this.navigation
   return (
+    
       <Container>
         <Header style={{height:150,backgroundColor:'#074c99'}}>
           <DrawerLogo/>
         </Header>
         <Content>
           <DrawerItems {...props}/>
+          <List>
+          {/* <TouchableOpacity  > */}
+        <ListItem icon onPress={()=>{Alert.alert(
+                'Выход',
+                'Вы действительно хотите выйти?',
+                [
+                  {text: 'Отмена', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                  {text: 'Да', onPress: () => {this.logout() }},
+                ],
+                { cancelable: false }
+              )}}>
+            <Left>
+            <MCIcon name="exit-to-app" size={iconSize} style={styles.exitIcons}></MCIcon>
+            </Left>
+            <Body>
+              
+              <Text style={styles.exitButton}>Выход</Text>
+            </Body>
+          </ListItem>
+          {/* </TouchableOpacity> */}
+        
+        </List>
         </Content>
+        {/* .<Footer> */}
+        {/* <Content> */}
+        
+        {/* </Content> */}
       </Container>
   )
 }
@@ -134,9 +190,22 @@ const Root = DrawerNavigator({
           <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
           )
       }
-    }        
+    } 
+    ,
+    // Exit: {
+    //   screen: {},
+    //   navigationOptions: {
+    //     title: 'Выход', 
+    //     drawerIcon: () => (
+    //       <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+    //       )
+    //   }
+    // }        
   }, {
-    contentComponent: LogoMenuItemComponent,
+    // contentComponent: () => (
+    //   <LogoMenuItemComponent navigation={this.navigation} />
+    // )
+    contentComponent:LogoMenuItemComponent
   })
 
   export default class RootScreen extends Component {
@@ -146,7 +215,7 @@ const Root = DrawerNavigator({
       };
     render() {
       return (        
-        <Root />
+        <Root navigation={this.navigation}/>
       )
     }
   }
@@ -155,5 +224,14 @@ const Root = DrawerNavigator({
     drawerIcons: {
        color :"#1c313a",
        
+     },
+     exitIcons: {
+      color :"#074c99",
+      
+    },
+     exitButton:{
+       marginLeft: 12,
+       color: "#074c99",
+       fontWeight: 'bold'
      }
    });

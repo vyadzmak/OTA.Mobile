@@ -3,11 +3,11 @@ import React from "react";
 import {
   View,  Text,  Button,  StyleSheet,
   TouchableOpacity,
-  TextInput
+  TextInput,AsyncStorage
 } from "react-native";
 import { Container, Content, Icon, Header, Body, Left } from 'native-base'
 import {DrawerNavigator, withNavigation} from 'react-navigation'
-
+import {InitVars} from './../modules/VarContainer'
 //import custom components
 
 import ProductsCategoryList from './../components/ProductsCategoryListComponent'
@@ -20,12 +20,31 @@ class DashboardScreen extends React.Component {
     super(props)
     this.state = {
       showBar:false,
-      self:this
+      self:this,
+      userData: {}
     }
+    }
+
+    _retrieveData = async (name) => {
+      try {
+        const value = await AsyncStorage.getItem(name);
+        if (value !== null) {
+          // We have data!!
+          this.setState({
+            userData:value
+            
+          })
+          //alert(value)
+        }
+       } catch (error) {
+         // Error retrieving data
+       }
     }
 
     componentDidMount() {
       this.props.navigation.setParams({ increaseCount: this._increaseCount });
+      this._retrieveData('user_data')
+      InitVars()
     }
 
     _increaseCount = () => {

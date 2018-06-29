@@ -4,9 +4,13 @@ import {
   Text,
   View,
   TextInput,
-  TouchableOpacity 
+  TouchableOpacity,
+  AsyncStorage 
 } from 'react-native';
+
+import { NavigationActions } from 'react-navigation';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
+import {_storeData, _retrieveData} from './../modules/AsyncStorageModule'
 export default class LoginForm extends React.Component {
   constructor(props){
     super(props)
@@ -22,22 +26,46 @@ export default class LoginForm extends React.Component {
     }
     
   }  
-  
+  _storeData = async (name, value) => {
+    try {
+      await AsyncStorage.setItem(name, value);
+      //alert("OK")
+    } catch (error) {
+      // Error saving data
+    }
+  }
   
   login(){
       try{
 
-        params =[{"name":"login","value":this.state.state.login},{"name":"password","value":this.state.product_id}]
+        params =[{"name":"login","value":this.state.login_data.login},{"name":"password","value":this.state.login_data.password}]
         
               response =getWithParams(this.state.route,params).then(
                 response=> {
-                  console.log(JSON.stringify(response))
+                  //alert(JSON.stringify(response))
                   this.setState({
                     isLoading:false,
-                    productDetails:response
+                    authData:response
                   })
+
+                  _storeData('user_data', JSON.stringify(response)).then(()=>
+                    {
+                      //this.props.navigation.navigate('Home')
+                    // this.props.navigation.go}
+                    
+                  //   const resetAction = NavigationActions.reset({
+                  //     index: 0,
+                  //     actions: [NavigationActions.navigate({routeName: 'Home'})]
+                  // });
+                  this.props.navigation.navigate('Home')
+                  //this.props.navigation.dispatch(resetAction);
+                  
+                }
+                  )
+                  
                 }
               )
+              
 
       } catch(err){
 
@@ -57,6 +85,7 @@ export default class LoginForm extends React.Component {
               selectionColor="#fff"
               keyboardType="numeric"
               value ={this.state.login_data.login}
+              onChangeText ={(text) => this.setState({login_data:{...this.state.login_data,login : text}})}
               onSubmitEditing={()=> this.password.focus()}
               />
 
@@ -65,6 +94,7 @@ export default class LoginForm extends React.Component {
               underlineColorAndroid='rgba(0,0,0,0)' 
               placeholder="******"
               secureTextEntry={true}
+              onChangeText ={(text) => this.setState({login_data:{...this.state.login_data,password : text}})}
               value ={this.state.login_data.password}
               placeholderTextColor = "rgba(255,255,255,0.7)"
               ref={(input) => this.password = input}

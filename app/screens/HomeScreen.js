@@ -10,11 +10,21 @@ import ProductCategoriesScreen from './ProductCategoriesScreen'
 import DashboardScreen from './DashboardScreen'
 import DrawerMenu from './../components/DrawerComponent'
 import RootScreen from './RootScreen'
+import LoginScreen from './LoginScreen'
 
 export default class HomeScreen extends React.Component {
+  
   static navigationOptions = {
     header: null
   };
+
+  constructor(props){
+    super(props)
+    
+  }
+
+  
+
   render() {
     return (
       <DashStack /> 
@@ -25,12 +35,13 @@ export default class HomeScreen extends React.Component {
 const DashStack = createStackNavigator({
   Drawer :DrawerMenu,
   Dashboard :DashboardScreen,
-  ProductCategories: ProductCategoriesScreen,
-  
-  RootScreen :RootScreen
+  ProductCategories: ProductCategoriesScreen,  
+  RootScreen :RootScreen,
+  Login: LoginScreen
 },
 {
   initialRouteName: 'RootScreen',
+  initialRouteParams: {navigation:this.navigation},
   navigationOptions: {
     headerStyle: {
       backgroundColor: '#074c99',

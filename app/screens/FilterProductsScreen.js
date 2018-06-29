@@ -7,8 +7,8 @@ import StarRating from 'react-native-star-rating';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
 import {ProductStockIcon, ProductDiscountIcon,ProductAmountText, ProductAmountDiscountText,ProductDiscountText} from '../components/ProductListCardElements'
-//import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-
+import ProductsList from './../components/ProductsListComponent'
+import {USER_DATA, USER_ID} from './../modules/VarContainer'
 export default class FilterProductsScreen extends React.Component {
   constructor(props){
     super(props)
@@ -20,9 +20,9 @@ export default class FilterProductsScreen extends React.Component {
       filter_value:'',
       filter_parameter:-1,
       parent_category_name:"",
-      user_id : 1,
+      user_id : USER_ID,
       route:'/filterProducts',
-      category_name: 'NONE'
+      category_name: 'Фильтр'
     }
     //navigation.setParam({ title:'Allog' })
   }
@@ -31,7 +31,42 @@ export default class FilterProductsScreen extends React.Component {
          
     }
 
-    
+    check_favorites(response){
+      try{
+        //rralert('call')
+        //alert(JSON.stringify(response))
+        _products = response
+        favorites_products = USER_DATA.user_favorites_products.products_ids
+        for (var i = 0; i < favorites_products.length; i++) {
+          value = favorites_products[i]
+          //alert(this.state.products.length)
+          
+          for (var j=0; j<_products.length; j++){
+            product = _products[j]
+            if (product.is_favorite){
+              continue
+            }
+            product.is_favorite = false
+            
+            if (product.id==value){
+              //alert("YA"+value)
+              product.is_favorite = true
+            } 
+
+          }
+          
+          // ещё какие-то выражения
+       }
+       //alert(JSON.stringify(_products))
+       this.setState({              
+        productsCatalog:_products,
+        isLoading:false
+      })
+      } catch(err){
+
+      }
+      
+    }
 
     static navigationOptions = ({ navigation }) => {
       return {
@@ -39,32 +74,18 @@ export default class FilterProductsScreen extends React.Component {
       };
     };
       componentDidMount(){
-        
-        
-        
-        // if (this.state.current_category_id!=-1){
-        //   //params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
-        //   _route = "/productCategories/"+this.state.current_category_id
-
-        //   _response =getWithSlashParams(_route).then(
-        //     _response=> {
-        //       //formatProductCategoriesToData(response)
-        //       //alert(JSON.stringify(_response.name))
-        //       this.props.navigation.setParams({title: _response.name})
-        //     }
-        //   )
-        // }
 
         params =[{"name":"user_id","value":this.state.user_id},{"name":"filter_parameter","value":this.state.filter_parameter},{"name":"filter_value","value":this.state.filter_value}]
         
         response =getWithParams(this.state.route,params).then(
           response=> {
             //formatProductsCatalogToData(response)
-            console.log(JSON.stringify(response))
-            this.setState({
-              isLoading:false,
-              productsCatalog:response
-            })
+           //console.log(JSON.stringify(response))
+           this.check_favorites(response) 
+          //  this.setState({
+          //     isLoading:false,
+          //     productsCatalog:response
+          //   })
           }
         )
         
@@ -103,63 +124,9 @@ export default class FilterProductsScreen extends React.Component {
       )
     }
 
-    var items = ['Simon Mignolet','Nathaniel Clyne','Dejan Lovren','Mama Sakho','Emre Can'];
+    
     return (
-      
-          <List dataArray={ this.state.productsCatalog}
-            renderRow={(item) =>
-            //   <ListItem>
-            <TouchableOpacity style ={styles.touchableOpacity} onPress={()=>this.clickItem(item.id,item.name)}>
-                <Card style={{flex: 1,padding:0}} >
-                    <CardItem >
-                    {/* <Left style={{alignItems: 'center'}} > */}
-                        
-                        <Thumbnail source={{uri: API_URL+item.default_image_data.thumb_file_path}} style={styles.image} />
-                        
-                    {/* </Left> */}
-                    <Body style={{paddingLeft:20}}>
-                        <Text>{item.name}</Text>
-                        <Text note>{item.short_description}</Text>
-                        {/* <Text>{item.amount} {item.product_currency_data.display_value}</Text> */}
-                        <View style={{flexDirection:'row'}}>
-                        <ProductAmountText amount ={item.amount} currency_display_value ={item.product_currency_data.display_value} discount_amount={item.discount_amount}></ProductAmountText>
-                          <ProductAmountDiscountText currency_display_value ={item.product_currency_data.display_value} discount_amount={item.discount_amount}></ProductAmountDiscountText>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                        <StarRating
-                                disabled={false}
-                                emptyStar={'ios-star-outline'}
-                                fullStar={'ios-star'}
-                                halfStar={'ios-star-half'}
-                                iconSet={'Ionicons'}
-                                maxStars={5}
-                                rating={item.rate}
-                                // selectedStar={(rating) => this.onStarRatingPress(rating)}
-                                fullStarColor={'orange'}
-                                starSize ={20}
-                            />
-                            <Text style={{color:'orange',fontSize:16}}> ({item.comments_count})</Text>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                          <ProductStockIcon is_stock_product={item.is_stock_product} style={styles.icons}/>
-                          <ProductDiscountIcon is_discount_product={item.is_discount_product} style={styles.icons}/>
-                        </View>
-                        <ProductDiscountText stock_text={item.stock_text}></ProductDiscountText>
-
-                        </Body>
-                    {/* <Right><MaterialIcon name="shopping-cart" style={{color:'red',fontSize:48}} /></Right> */}
-                    </CardItem>
-                    <CardItem>
-                     {/* <Left><View></View></Left>
-                      <Body>
-                      </Body> */}
-                    </CardItem>
-                </Card>
-                </TouchableOpacity>
-            //   </ListItem>
-            }>
-          </List>
-          
+      <ProductsList navigation={this.props.navigation} products = {this.state.productsCatalog} categoryName={this.state.category_name} />
         
     );
   }

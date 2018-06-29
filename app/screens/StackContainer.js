@@ -26,7 +26,8 @@ import PartnersCatalogScreen from './PartnersCatalogScreen'
 import RecommendationsCatalogScreen from './RecommendationsCatalogScreen'
 import CartScreen from './CartScreen'
 import FavoritesScreen from './FavoritesScreen'
-
+import LoginScreen from './LoginScreen'
+import AppScreen from './../../App'
 import ProductCardScreen from './ProductCardScreen'
 import FilterProductsScreen from './FilterProductsScreen'
 
@@ -89,7 +90,9 @@ export const DashboardStack= createStackNavigator({
               ProductCategories: {screen:ProductCategoriesScreen},
               ProductsCatalog: {screen:ProductsCatalogScreen},
               ProductCard : {screen:ProductCardScreen},
-              FilterProducts : {screen:FilterProductsScreen}
+              FilterProducts : {screen:FilterProductsScreen},
+              Login : {screen:LoginScreen},
+              //App :{screen: AppScreen}
             },
             {
             initialRouteName: 'Dashboard',

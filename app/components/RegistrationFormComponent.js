@@ -8,13 +8,15 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {postRequest} from './../modules/Http'
 import {USER_ID, USER_NAME, CLIENT_ID, CLIENT_NAME} from './../modules/StorageVars'
 import {GetStorageValue,SetStorageValue} from '../modules/AsyncStorageModule'
+import ConfirmationCodeForm from './ConfiramtionCodeComponent';
 
 export default class RegistrationForm extends React.Component {
   constructor(props){
@@ -32,6 +34,18 @@ export default class RegistrationForm extends React.Component {
     }
     
   }
+  _storeData = async (name, value) => {
+    try {
+      await AsyncStorage.setItem(name, value);
+      //alert("OK")
+    } catch (error) {
+      // Error saving data
+    }
+  }
+
+
+
+
     user_registration=()=>{
       
       //alert(JSON.stringify(this.state.user_data))
@@ -79,26 +93,31 @@ export default class RegistrationForm extends React.Component {
                   status = response.code
                   if (status==400){
                       Alert.alert(JSON.stringify(response.message))
+                      this.setState({isLoading:false})
                     }
                   else{
+                    user_id = response.id.toString();
+                    confirmation_code = response.user_confirmation_code_data.code
+                    //alert(JSON.stringify(response.user_confirmation_code_data))
                     //здесь необходимо провести запись в хранилище и сделать редирект
-                    //alert(response.id)
-                    r_id =response.id
-                    r_name = response.name
-                    //r_client 
-                    SetStorageValue('user_id', 'r_id')
-                    //SetStorageValue(USER_NAME, response.name)
-                    //SetStorageValue(CLIENT_ID, response.client_data.id)
-                    //SetStorageValue(CLIENT_NAME, response.client_data.name)
-                    k =GetStorageValue(USER_ID)
-                    alert('K: '+k)
-                    //rec_data =GetStorageValue(USER_ID)+" "+GetStorageValue(USER_NAME)+" "+GetStorageValue(CLIENT_ID)+GetStorageValue(CLIENT_NAME)
-                    //alert(rec_data)
+                    this._storeData('confirmation_code',confirmation_code).then(()=>
+                    {                           
 
+                      //this.props.navigation.navigate('ConfirmationCode')
+                    }).then(
+              
                     
+                    this._storeData('user_id',user_id).then(()=>
+                          {                           
+
+                            this.props.navigation.navigate('ConfirmationCode')
+                          }
+                      )
+
+                    )
                   }
 
-                  this.setState({isLoading:false})
+                  
                   //this.setState({user_data:{...this.state.user_data,user_name : txt}})
                 }
               )

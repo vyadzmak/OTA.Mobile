@@ -4,7 +4,7 @@ import renderIf from './../modules/RenderIf'
 import {getWithParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
 const data = [];
-
+import {USER_DATA,USER_ID} from './../modules/VarContainer'
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
@@ -43,7 +43,7 @@ export default class ProductsCategoryList extends React.Component {
       current_category_id:-1,
       parent_category_id:-1,
       parent_category_name:"",
-      user_id : 1,
+      user_id : USER_ID,
       route:'/productsCategoriesByProductCategory'
     }
 

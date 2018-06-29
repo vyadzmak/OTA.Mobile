@@ -8,7 +8,7 @@ import {
 } from "react-native";
 
 //library imports 
-import { Container, Content, Icon, Header, Body, Left } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left,Item, Input } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 //custom files 
@@ -16,6 +16,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import DashboardScreen from './../screens/DashboardScreen'
 import AccountScreen from './../screens/AccountScreen'
 import UserAgreementScreen from "./../screens/UserAgreementScreen";
+//import { Container, Header, Content, Item, Input, Icon } from 'native-base';
 
 
 export default class DrawerMenu extends Component {
@@ -54,6 +55,8 @@ const CustomDrawerContentComponent = (props) => (
         <Image
           style={styles.drawerImage}
           source={require('./../../images/logo.png')} />
+
+          
       </Body>
     </Header>
 
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   drawerHeader: {
-    height: 200,
+    height: 250,
     backgroundColor: 'white'
   },
   drawerImage: {

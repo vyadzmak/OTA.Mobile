@@ -21,4 +21,23 @@ export function SetStorageValue(name, value){
   } catch (err) {}
 };
 
+export const _storeData = async (name, value) => {
+  try {
+    await AsyncStorage.setItem(name, value);
+   // alert("OK")
+  } catch (error) {
+    // Error saving data
+  }
+}
 
+export const _retrieveData = async (name) => {
+  try {
+    const value = await AsyncStorage.getItem(name);
+    if (value !== null) {
+      // We have data!!
+      console.log(value);
+    }
+   } catch (error) {
+     // Error retrieving data
+   }
+}
