@@ -32,11 +32,14 @@ export default class ProductsCatalogScreen extends React.Component {
     }
 
     check_favorites(response){
+      _products = response
       try{
-        //rralert('call')
-        //alert(JSON.stringify(response))
-        _products = response
-        favorites_products = USER_DATA.user_favorites_products.products_ids
+        favorites_products = []
+
+        favorites_products=USER_DATA.user_favorites_products.products_ids
+        
+        //alert('2')
+        if (favorites_products.length!=null || favorites_products.length!=undefined)
         for (var i = 0; i < favorites_products.length; i++) {
           value = favorites_products[i]
           //alert(this.state.products.length)
@@ -54,16 +57,15 @@ export default class ProductsCatalogScreen extends React.Component {
             } 
 
           }
-          
-          // ещё какие-то выражения
        }
-       //alert(JSON.stringify(_products))
-       this.setState({              
-        productsCatalog:_products,
-        //isLoading:false
-      })
+       
       } catch(err){
-
+        //alert(err)
+      } finally{
+        this.setState({              
+          productsCatalog:_products,
+          //isLoading:false
+        })
       }
       
     }

@@ -5,7 +5,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  AsyncStorage 
+  AsyncStorage ,
+  ActivityIndicator
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
@@ -57,7 +58,8 @@ export default class LoginForm extends React.Component {
                   //     index: 0,
                   //     actions: [NavigationActions.navigate({routeName: 'Home'})]
                   // });
-                  this.props.navigation.navigate('Home')
+                  AsyncStorage.setItem('userToken', 'App');
+                  this.props.navigation.navigate('App')
                   //this.props.navigation.dispatch(resetAction);
                   
                 }
@@ -75,6 +77,14 @@ export default class LoginForm extends React.Component {
     }
 
 	render(){
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
+    
 		return(
 			<View style={styles.container}>
              <Text style={styles.signupText}>Номер телефона</Text>

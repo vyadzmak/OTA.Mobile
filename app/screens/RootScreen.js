@@ -4,15 +4,15 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image, Button, TouchableOpacity,Alert, AsyncStorage
+  Image,  TouchableOpacity,Alert, AsyncStorage
 } from "react-native";
 
 //library imports 
-import { Container, Content, Icon, Header, Body, Left, Footer, Item,Separator, CardItem,List, ListItem } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left, Footer, Item,Separator, CardItem,List,Button, ListItem } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView,createDrawerNavigator, createStackNavigator } from 'react-navigation'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { NavigationActions } from 'react-navigation';
+import { StackActions, NavigationActions } from 'react-navigation';
 //import stack elements 
 import {
   DashboardStack,
@@ -27,31 +27,23 @@ import {
   FavoritesStack
 
 } from './StackContainer'
+
+//import StartScreen from './StartScreen'
 import DrawerLogo from "../components/DrawerLogoComponent";
 const LogoMenuItemComponent = (props)=>{
 
   logout=()=>{
-    AsyncStorage.clear()
-    props.navigation.navigate('Login');
+    //const nav = props.nav;
 
-
-  //   const resetAction = NavigationActions.reset({
-  //     index: 0,
-  //     actions: [NavigationActions.navigate({routeName: 'Home'})]
-  // });
-  //  props.navigation.dispatch(resetAction);
-    //const { navigation } = this.props;
+    alert(props.nav)
     //alert(JSON.stringify(props.navigation))
-    // props.navigation.navigate('Login')
-   // navigate('ScreenOne', {}, NavigationActions.navigate({ 'ScreenOneSettings' }));
-  //   const resetAction = NavigationActions.reset({
-  //     index: 0,
-  //     actions: [
-  //         NavigationActions.navigate({ routeName: 'Home' })
-  //     ]
-  // });
-  // props.navigation.dispatch(resetAction);
-  // props.navigation.goBack(null);
+    //props.navigation.replace('StartScreen');
+    //props.navigation.popToTop()
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Auth' })],
+    });
+    props.navigation.dispatch(resetAction);
     
   }
   //const { navigation } = this;
@@ -109,16 +101,7 @@ const Root = DrawerNavigator({
           )
       }
     },
-    // ProductCategories: {
-    //   screen: ProductCategoriesStack,
-    //   navigationOptions: {
-    //     title: 'Категории товаров', 
-    //     drawerIcon: () => (
-    //       <MaterialIcon name="view-module" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-    //       )
-    //   }
-    // },
-    
+   
     OrdersHistory: {
       screen: OrdersHistoryStack,
       navigationOptions: {
@@ -191,31 +174,30 @@ const Root = DrawerNavigator({
           )
       }
     } 
-    ,
-    // Exit: {
-    //   screen: {},
-    //   navigationOptions: {
-    //     title: 'Выход', 
-    //     drawerIcon: () => (
-    //       <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-    //       )
-    //   }
-    // }        
+           
   }, {
-    // contentComponent: () => (
-    //   <LogoMenuItemComponent navigation={this.navigation} />
-    // )
-    contentComponent:LogoMenuItemComponent
+    
+    contentComponent:
+        LogoMenuItemComponent 
   })
 
   export default class RootScreen extends Component {
     static navigationOptions = {
         headerMode: 'none',
-        header: null
+        header: null,
+
       };
+
+    logout_f(){
+      alert('OK')
+    }
+
     render() {
-      return (        
-        <Root navigation={this.navigation}/>
+      return (   
+        // <View>
+          // <Button onPress={()=>this.logout_f()}><Text>TEXT</Text></Button>     
+          <Root navigation={this.navigation}/>
+        // </View>
       )
     }
   }

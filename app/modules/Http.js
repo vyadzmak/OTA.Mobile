@@ -104,6 +104,7 @@ export const postRequest=(route, params)=> {
                     .catch((err) => {console.log('Error!!!!' + err); return null});
     }
     catch (err){
+        return null
         console.log(err)
     }
 }

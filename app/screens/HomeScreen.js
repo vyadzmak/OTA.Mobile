@@ -11,7 +11,7 @@ import DashboardScreen from './DashboardScreen'
 import DrawerMenu from './../components/DrawerComponent'
 import RootScreen from './RootScreen'
 import LoginScreen from './LoginScreen'
-
+//import StartScreen from './StartScreen'
 export default class HomeScreen extends React.Component {
   
   static navigationOptions = {
@@ -20,7 +20,7 @@ export default class HomeScreen extends React.Component {
 
   constructor(props){
     super(props)
-    
+    //alert(JSON.stringify(this.p_nav))
   }
 
   
@@ -37,7 +37,7 @@ const DashStack = createStackNavigator({
   Dashboard :DashboardScreen,
   ProductCategories: ProductCategoriesScreen,  
   RootScreen :RootScreen,
-  Login: LoginScreen
+  //Start: StartScreen
 },
 {
   initialRouteName: 'RootScreen',

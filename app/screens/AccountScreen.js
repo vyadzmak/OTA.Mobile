@@ -10,8 +10,28 @@ import {DrawerNavigator} from 'react-navigation'
 
 export default class AccountScreen extends React.Component {
   static navigationOptions = {
-    title: "Аккаунт"
+    title: "Профиль пользователя",
+    route:'/userProfile',
+    userProfile:{}
   };
+
+  componentDidMount(){
+
+    params =[{"name":"user_id","value":USER_ID}]
+    response =getWithParams(this.state.route,params).then(
+      response=> {
+        
+       if (response.message==undefined){
+       this.setState({
+          isLoading:false,
+          userProfile:response,
+          
+        })}
+        
+      }
+    )    
+  }
+
 
   render() {
     return (

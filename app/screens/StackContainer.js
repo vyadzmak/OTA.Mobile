@@ -30,7 +30,7 @@ import LoginScreen from './LoginScreen'
 import AppScreen from './../../App'
 import ProductCardScreen from './ProductCardScreen'
 import FilterProductsScreen from './FilterProductsScreen'
-
+import PrepareOrderScreen from './PrepareOrderScreen'
 
 export const AccountsStack = createStackNavigator({
     Account: {screen:AccountScreen, navigationOptions: ({ navigation }) => ({
@@ -240,6 +240,7 @@ export const CartStack= createStackNavigator({
             headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
+    PrepareOrder :{screen:PrepareOrderScreen}
   },
   {
     initialRouteName: 'Cart',
