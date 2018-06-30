@@ -71,6 +71,7 @@ export default class CartScreen extends React.Component {
   componentDidMount(){
 
     params =[{"name":"user_id","value":USER_ID},{"name":"user_cart_id","value":CART_ID}]
+    //alert(USER_ID +" "+CART_ID)
     if (CART_ID!=-1)
     //alert('1')
     {response =getWithParams(this.state.route,params).then(
@@ -78,7 +79,12 @@ export default class CartScreen extends React.Component {
         //formatProductsCatalogToData(response)
        //console.log(JSON.stringify(response))
        //this.check_favorites(response) 
-        //alert(JSON.stringify(respose))
+        alert(JSON.stringify(response))
+        if (response==undefined){
+          this.setState({
+            isLoading:false,
+          })
+        }
        if (response.message==undefined){
        // alert(JSON.stringify(response))
        this.setState({
@@ -151,8 +157,8 @@ remove_item(id){
 
 prepare_order(){
   try{
-    this.props.navigation.popToTop()
-//  this.props.navigation.navigate('PrepareOrder')
+    //this.props.navigation.popToTop()
+  this.props.navigation.navigate('PrepareOrder')
 }catch(err){alert(err)}}
 
 

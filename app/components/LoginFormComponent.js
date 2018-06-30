@@ -38,7 +38,10 @@ export default class LoginForm extends React.Component {
   
   login(){
       try{
-
+        this.setState({
+          isLoading:true,
+          
+        })
         params =[{"name":"login","value":this.state.login_data.login},{"name":"password","value":this.state.login_data.password}]
         
               response =getWithParams(this.state.route,params).then(
@@ -77,13 +80,13 @@ export default class LoginForm extends React.Component {
     }
 
 	render(){
-    if(this.state.isLoading){
-      return(
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" color="#0000ff"/>
-        </View>
-      )
-    }
+    // if(this.state.isLoading){
+    //   return(
+    //     <View style={{flex: 1, padding: 20}}>
+    //       <ActivityIndicator size="large" color="#0000ff"/>
+    //     </View>
+    //   )
+    // }
     
 		return(
 			<View style={styles.container}>
@@ -112,7 +115,6 @@ export default class LoginForm extends React.Component {
               {/* this.props.navigation.navigate('Home') */}
            <TouchableOpacity style={styles.button} onPress={() => this.login()}>
              <Text style={styles.buttonText} >{this.props.type}</Text>
-           
            </TouchableOpacity> 
   		</View>
 			)

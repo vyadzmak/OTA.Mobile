@@ -204,12 +204,10 @@ const Root = DrawerNavigator({
 
   const styles = StyleSheet.create({
     drawerIcons: {
-       color :"#1c313a",
-       
+       color :"#1c313a",       
      },
      exitIcons: {
-      color :"#074c99",
-      
+      color :"#074c99",      
     },
      exitButton:{
        marginLeft: 12,

@@ -18,7 +18,7 @@ export default DrawerNavigator({
     Dashboard: {
     screen: DashboardStack
   },
-  Accounts: {
+  Account: {
     screen: AccountsStack
   },
   UserAgreement: {

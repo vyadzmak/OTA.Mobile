@@ -3,9 +3,14 @@ import React, {Component} from 'react';
 import styles from './SideMenu.style';
 import {NavigationActions} from 'react-navigation';
 import {ScrollView, Text, View,AsyncStorage,Alert} from 'react-native';
+import { Container, Content, Icon, Header, Body, Left, Footer, Item,Separator, CardItem,List,Button, ListItem, Right } from 'native-base'
 
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+
+import DrawerLogo from "../components/DrawerLogoComponent";
+
+
 const iconSize =24
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
@@ -40,39 +45,102 @@ class SideMenu extends Component {
   render () {
     return (
       <View style={styles.container}>
+        <Header style={styles.logoStyle}>
+        <DrawerLogo/>
+        </Header>
         <ScrollView>
-          <View>
-            <Text style={styles.sectionHeadingStyle}>
-              Section 1
-            </Text>
-            <View style={styles.navSectionStyle}>
-              <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Page1')}>
-              Page1
+           
+        <Item style={styles.navItemElementStyle}  onPress={this.navigateToScreen('Dashboard')}>
+            <MaterialIcon name="home" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle}>
+                Главная
               </Text>
-            </View>
-          </View>
-          <View>
-            <Text style={styles.sectionHeadingStyle}>
-              Section 2
-            </Text>
-            <View style={styles.navSectionStyle}>
-              <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Page2')}>
-                Page2
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('OrdersHistory')}>
+          <MaterialIcon name="history" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle}>
+                История заказов
               </Text>
-              <Text style={styles.navItemStyle} onPress={this.navigateToScreen('Page3')}>
-                Page3
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('UserAgreement')}>
+          <MaterialIcon name="check" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle}>
+                Соглашение
               </Text>
-            </View>
-          </View>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('Account')}>
+          <MaterialIcon name="face" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Профиль
+              </Text>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('BrandsCatalog')}>
+            <MaterialIcon name="label" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Бренды
+              </Text>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('PartnersCatalog')}>
+          <MaterialIcon name="loyalty" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Партнеры
+              </Text>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('RecommendationsCatalog')}>
+          <MaterialIcon name="redeem" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Рекомендации
+              </Text>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('Cart')}>
+          <MaterialIcon name="shopping-cart" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Корзина
+              </Text>
+          </Item>
+
+          <Item style={styles.navItemElementStyle} onPress={this.navigateToScreen('Favorites')}>
+          <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
+            <Text style={styles.navItemStyle} >
+                Избранное
+              </Text>
+          </Item>
+
+        <Item style={styles.navItemElementStyle} onPress={()=>this.logout()}>
+        <MCIcon name="exit-to-app" size={iconSize} style={styles.drawerIcons}></MCIcon>
+            <Text style={styles.navItemStyle} >
+                Выход
+              </Text>
+        </Item>
+           
+
+
         </ScrollView>
-        <View style={styles.footerContainer}>
+
+        {/* <Item style={styles.footerContainer} onPress={()=>this.logout()}>
+        <MCIcon name="exit-to-app" size={iconSize} style={styles.drawerIcons}></MCIcon>
+            <Text style={styles.navItemStyle} >
+                Выход
+              </Text>
+        </Item> */}
+        {/* <View style={styles.footerContainer}>
         <MCIcon name="exit-to-app" size={iconSize} style={styles.exitIcons}></MCIcon>
           <Text onPress={()=>this.logout()}>Выход </Text>
-        </View>
+        </View> */}
       </View>
     );
   }
 }
+
+
+
 
 SideMenu.propTypes = {
   navigation: PropTypes.object

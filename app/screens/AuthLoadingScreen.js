@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-
+import {InitVars} from './../modules/VarContainer'
 export default class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +19,14 @@ export default class AuthLoadingScreen extends React.Component {
     AsyncStorage.getItem('userToken').then(
     value => {
       //alert('T'+      value)
+      if (value==null){
+        value='Auth'
+      }
+
+      if (value=='App'){
+        InitVars()
+      }
+
       this.props.navigation.navigate(value);
       
     }

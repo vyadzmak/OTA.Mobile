@@ -6,6 +6,7 @@ import {
 
 export var USER_ID =-1
 export var CART_ID =-1
+export var CLIENT_ID =-1
 export var USER_DATA ={}
 
 get_user_data=()=>{
@@ -15,8 +16,9 @@ get_user_data=()=>{
         if (value!=null){
             //alert(JSON.parse(value).id)
             USER_DATA = JSON.parse(value)
-            USER_ID =USER_DATA.id
-           // alert(USER_ID)
+            USER_ID =USER_DATA.user_data.id
+            CLIENT_ID = USER_DATA.user_data.client_data.id
+            //alert('USER ID '+USER_ID+' CLIENT_ID '+CLIENT_ID)
         }
   })
   .then(res => {
@@ -41,6 +43,8 @@ get_cart_id=()=>{
 
   }
 }
+
+
 
 export const InitVars=()=>{
     get_user_data()
