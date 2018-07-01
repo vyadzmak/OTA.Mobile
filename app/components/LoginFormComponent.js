@@ -6,12 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   AsyncStorage ,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import {_storeData, _retrieveData} from './../modules/AsyncStorageModule'
+import CustomSpinner from './CustomSpinnerComponent'
 export default class LoginForm extends React.Component {
   constructor(props){
     super(props)
@@ -19,8 +21,8 @@ export default class LoginForm extends React.Component {
       isLoading:false,
       login_data :{
         //...this.state.user_data,
-        login :'375298653856',
-        password:'12345',
+        login :'',
+        password:'',
       },
       authData:{}, 
       route:'/mobileUserAuth'
@@ -47,6 +49,15 @@ export default class LoginForm extends React.Component {
               response =getWithParams(this.state.route,params).then(
                 response=> {
                   //alert(JSON.stringify(response))
+
+                  if (response.message!=undefined){
+                    Alert.alert("Ошибка авторизации", response.message)
+                    this.setState({
+                      isLoading:false,
+                    })
+                    return
+                  }
+
                   this.setState({
                     isLoading:false,
                     authData:response
@@ -54,16 +65,9 @@ export default class LoginForm extends React.Component {
 
                   _storeData('user_data', JSON.stringify(response)).then(()=>
                     {
-                      //this.props.navigation.navigate('Home')
-                    // this.props.navigation.go}
-                    
-                  //   const resetAction = NavigationActions.reset({
-                  //     index: 0,
-                  //     actions: [NavigationActions.navigate({routeName: 'Home'})]
-                  // });
+                      
                   AsyncStorage.setItem('userToken', 'App');
                   this.props.navigation.navigate('App')
-                  //this.props.navigation.dispatch(resetAction);
                   
                 }
                   )
@@ -76,7 +80,6 @@ export default class LoginForm extends React.Component {
 
       }
 
-        //alert("Login!"+this.state.login_data.login+" "+this.state.login_data.password)
     }
 
 	render(){
@@ -116,6 +119,7 @@ export default class LoginForm extends React.Component {
            <TouchableOpacity style={styles.button} onPress={() => this.login()}>
              <Text style={styles.buttonText} >{this.props.type}</Text>
            </TouchableOpacity> 
+           <CustomSpinner isLoading = {this.state.isLoading}/>
   		</View>
 			)
 	}

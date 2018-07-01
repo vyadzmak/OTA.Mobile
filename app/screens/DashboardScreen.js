@@ -14,6 +14,8 @@ import ProductsCategoryList from './../components/ProductsCategoryListComponent'
 import SearchBarComponent from './../components/SearchBarComponent'
 //import another
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import HeaderCartComponent from './../components/HeaderCartComponent'
 var self
 class DashboardScreen extends React.Component {
   constructor(props){
@@ -31,8 +33,7 @@ class DashboardScreen extends React.Component {
         if (value !== null) {
           // We have data!!
           this.setState({
-            userData:value
-            
+            userData:value            
           })
           //alert(value)
         }
@@ -42,33 +43,30 @@ class DashboardScreen extends React.Component {
     }
 
     componentDidMount() {
-      this.props.navigation.setParams({ increaseCount: this._increaseCount });
+      this.props.navigation.setParams({ manageBar: this._manageBar });
       this._retrieveData('user_data')
       InitVars()
     }
 
-    _increaseCount = () => {
+    _manageBar = () => {
       if (this.state.showBar==false){
         this.child.showBar()
-      // this.setState({
-      //   showBar:true
-      // })
-      //this.child.showBar()
+      
     } else{
-        // this.setState({
-        //   showBar:false
-        // })
-
+      
         this.child.hideBar()
       }
-      //this.setState({ count: this.state.count + 1 });
     };
 
     static navigationOptions =  ({ navigation }) => {
       return {
         
-        headerRight: <MaterialIcon name="search" style={{color:'#ffffff',fontSize:32}}  onPress={navigation.getParam('increaseCount')}/>
-        
+        headerRight: 
+        <View style={{flexDirection:'row'}}>
+        <HeaderCartComponent navigation={navigation}/>
+          {/* <MCIcon name="cart" style={{color:'#ffffff',fontSize:32,marginRight:10}}  onPress={()=>navigation.navigate('Cart')}/> */}
+          <MaterialIcon name="search" style={{color:'#ffffff',fontSize:32,marginRight:10}}  onPress={navigation.getParam('manageBar')}/>
+        </View>
       };
 
       
@@ -95,10 +93,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     flex: 1,
-    //alignItems: "center",
-    //justifyContent: "center",
-    //borderColor: "#ff0000",
-    //borderWidth: 3,
+    
   }
 });
 

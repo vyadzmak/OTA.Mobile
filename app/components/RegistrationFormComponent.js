@@ -25,11 +25,11 @@ export default class RegistrationForm extends React.Component {
       isLoading:false,
       user_data :{
         //...this.state.user_data,
-        client_name :'Нетвикс',
-        user_name:'Хведькович Александр',
-        phone_number :'375298653856',
-        password :'12345',
-        confirm_password :'12345',
+        client_name :'',
+        user_name:'',
+        phone_number :'',
+        password :'',
+        confirm_password :'',
       }
     }
     
@@ -47,7 +47,7 @@ export default class RegistrationForm extends React.Component {
 
 
     user_registration=()=>{
-      
+      try{
       //alert(JSON.stringify(this.state.user_data))
       if (this.state.user_data.phone_number=='' || this.state.user_data.user_name=='' || this.state.client_name=='' || this.state.password==''|| this.state.confirm_password==''){
         Alert.alert('Ошибка регистрации', 'Все поля должны быть заполнены!')
@@ -90,26 +90,39 @@ export default class RegistrationForm extends React.Component {
                   //txt = JSON.stringify(response)
                   
                   
-                  status = response.code
-                  if (status==400){
+
+                  //status = response.code
+                  //alert(response.code)
+                  
+                  
+                  if (response.code!=undefined)
+                  {
                       Alert.alert(JSON.stringify(response.message))
                       this.setState({isLoading:false})
-                    }
+                  }
                   else{
+                    
+                    //alert(JSON.stringify(response))
                     user_id = response.id.toString();
+                    //alert('UID: '+user_id)
+                    
+                    
                     confirmation_code = response.user_confirmation_code_data.code
+                    //alert(user_id)
                     //alert(JSON.stringify(response.user_confirmation_code_data))
                     //здесь необходимо провести запись в хранилище и сделать редирект
                     this._storeData('confirmation_code',confirmation_code).then(()=>
                     {                           
-
+                      //alert('Write CC')
+                        this.setState({isLoading:false})
                       //this.props.navigation.navigate('ConfirmationCode')
                     }).then(
               
                     
                     this._storeData('user_id',user_id).then(()=>
                           {                           
-
+                            //alert(JSON.stringify(this.props.navigation))
+                            this.setState({isLoading:false})
                             this.props.navigation.navigate('ConfirmationCode')
                           }
                       )
@@ -121,7 +134,9 @@ export default class RegistrationForm extends React.Component {
                   //this.setState({user_data:{...this.state.user_data,user_name : txt}})
                 }
               )
-              
+            } catch(err){
+                alert(err)
+            }    
     }
 
 	render(){

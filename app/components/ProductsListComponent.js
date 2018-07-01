@@ -70,10 +70,14 @@ export default class ProductsList extends React.Component {
 
   render() {
     if (this.state.products==undefined){
-      return (null)
+      return (<View>
+        <Text>Ничего не найдено</Text>
+      </View>)
     }
     if (this.state.products.length==0){
-      return (null)
+      return (<View>
+        <Text>Ничего не найдено</Text>
+      </View>)
     }
     //this.check_favorites()
     return (

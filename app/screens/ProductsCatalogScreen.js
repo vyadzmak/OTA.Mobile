@@ -10,6 +10,9 @@ import {ProductStockIcon, ProductDiscountIcon,ProductAmountText, ProductAmountDi
 //import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import {USER_DATA,USER_ID} from './../modules/VarContainer'
 import ProductsList from './../components/ProductsListComponent'
+import HeaderCartComponent from './../components/HeaderCartComponent'
+import SearchBarComponent from './../components/SearchBarComponent'
+
 export default class ProductsCatalogScreen extends React.Component {
   constructor(props){
     super(props)
@@ -23,7 +26,9 @@ export default class ProductsCatalogScreen extends React.Component {
       parent_category_name:"",
       user_id : USER_ID,
       route:'/productsByProductCategory',
-      category_name: 'NONE'
+      category_name: 'NONE',
+      showBar:false,
+      self:this,
     }
     //navigation.setParam({ title:'Allog' })
   }
@@ -74,11 +79,17 @@ export default class ProductsCatalogScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
       return {
         title: navigation.getParam('title', 'Категория'),
+        headerRight: 
+        <View style={{flexDirection:'row'}}>
+        <HeaderCartComponent navigation={navigation}/>
+          {/* <MCIcon name="cart" style={{color:'#ffffff',fontSize:32,marginRight:10}}  onPress={()=>navigation.navigate('Cart')}/> */}
+          <MaterialIcon name="search" style={{color:'#ffffff',fontSize:32,marginRight:10}}  onPress={navigation.getParam('manageBar')}/>
+        </View>
       };
     };
       componentDidMount(){
         
-        
+        this.props.navigation.setParams({ manageBar: this._manageBar });
         
         if (this.state.current_category_id!=-1){
           //params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
@@ -119,6 +130,15 @@ export default class ProductsCatalogScreen extends React.Component {
       }
 
 
+      _manageBar = () => {
+        if (this.state.showBar==false){
+          this.child.showBar()
+        
+      } else{
+        
+          this.child.hideBar()
+        }
+      };
   clickItem(id,name){
     try{
       this.props.navigation.push('ProductCard', {
@@ -153,7 +173,12 @@ export default class ProductsCatalogScreen extends React.Component {
 
     
     return (
+      <Container style ={styles.container}>
+      <SearchBarComponent navigation={this.props.navigation}  ref={ref => (this.child = ref)} />
+        
       <ProductsList navigation={this.props.navigation} products = {this.state.productsCatalog} categoryName={this.state.category_name} />
+
+      </Container>
     );
   }
 }

@@ -38,7 +38,7 @@ export default class FilterProductsScreen extends React.Component {
 
         favorites_products=USER_DATA.user_favorites_products.products_ids
         
-        //alert('2')
+        //alert(JSON.stringify(favorites_products))
         if (favorites_products.length!=null || favorites_products.length!=undefined)
         for (var i = 0; i < favorites_products.length; i++) {
           value = favorites_products[i]
@@ -60,11 +60,12 @@ export default class FilterProductsScreen extends React.Component {
        }
        
       } catch(err){
-        //alert(err)
+        alert(err)
       } finally{
+        
         this.setState({              
           productsCatalog:_products,
-          //isLoading:false
+          isLoading:false
         })
       }
       
@@ -84,6 +85,7 @@ export default class FilterProductsScreen extends React.Component {
           response=> {
             //formatProductsCatalogToData(response)
            //console.log(JSON.stringify(response))
+           //alert(JSON.stringify(response))
            this.check_favorites(response) 
           //  this.setState({
           //     isLoading:false,

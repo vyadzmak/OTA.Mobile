@@ -87,6 +87,7 @@ export default class StartScreen extends React.Component {
 const AuthStack = createStackNavigator({
   Login: LoginScreen,
   Registration: RegistrationScreen,
+  ConfirmationCode:ConfirmationCodeScreen
 },
 {
   initialRouteName: "Login",

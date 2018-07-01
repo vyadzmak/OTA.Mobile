@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  View,  Text,    StyleSheet,
+  View,     StyleSheet,
   TouchableOpacity,
   TextInput,ActivityIndicator
 } from "react-native";
 
-import { Container, Content,Input, Icon, Header, Body, Left, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right } from 'native-base'
+import { Container, Text, Content,Input, Icon, Header, Body, Left, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right } from 'native-base'
 
 import {DrawerNavigator} from 'react-navigation'
 import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'

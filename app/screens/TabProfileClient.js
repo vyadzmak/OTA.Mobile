@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  View,  Text,    StyleSheet,
-  TouchableOpacity,
+  View,      StyleSheet,
+  TouchableOpacity,Alert,
   TextInput,ActivityIndicator, Picker
 } from "react-native";
 import Modal from "react-native-modal";
-import { Container, Content,Input, Icon, Header, Body, Left,Form,Label, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right, Switch } from 'native-base'
+import { Container,Text, Content,Input, Icon, Header, Body, Left,Form,Label, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right, Switch } from 'native-base'
 
 import {DrawerNavigator} from 'react-navigation'
 import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'
@@ -62,12 +62,11 @@ export default class TabProfileClient extends React.Component {
                 this.state.userProfile.user_data.client_data.client_addresses.push(response)
                 this.c_userProfile = this.state.userProfile
                 
-                // this.setState({ userProfile:{}}, function () {
-                //     this.setState({userProfile:this.c_userProfile}, function () {
-                //         console.log("OK")
-                
-                //     } )
-                //   })
+                this.setState({c_address:{...this.state.c_address,name : ''}})
+                this.setState({c_address:{...this.state.c_address,address : ''}})
+                this.setState({c_address:{...this.state.c_address,code : ''}})
+                this.setState({c_address:{...this.state.c_address,is_default : false}})
+                this.setState({c_address:{...this.state.c_address,tobacco_alcohol_license : false}})
               }
     
               
@@ -80,10 +79,33 @@ export default class TabProfileClient extends React.Component {
         }
       }
 
-      _toggleModal = () =>
+      _toggleModal(isCancel)
         {
+          if (isCancel==true && this.state.isModalVisible==true){
+            this.setState({ isModalVisible: !this.state.isModalVisible });
+            this.setState({c_address:{...this.state.c_address,name : ''}})
+                this.setState({c_address:{...this.state.c_address,address : ''}})
+                this.setState({c_address:{...this.state.c_address,code : ''}})
+                this.setState({c_address:{...this.state.c_address,is_default : false}})
+                this.setState({c_address:{...this.state.c_address,tobacco_alcohol_license : false}})
+                
+                return
+          }
+          if (this.state.isModalVisible==true){
+          if (this.state.c_address.name=="" || this.state.c_address.name.length<3){
+            Alert.alert('Ошибка', "Заполните поле имя")
+            return
+          }
+
+          if (this.state.c_address.address=="" || this.state.c_address.address.length<3){
+            Alert.alert('Ошибка', "Заполните поле адрес")
+            return
+          }}
+
             if (this.state.isModalVisible==true){
             //post
+                
+
                 if (this.state.c_address.id==-1){
                 model ={
                     client_id: this.state.userProfile.user_data.client_data.id,
@@ -101,6 +123,12 @@ export default class TabProfileClient extends React.Component {
             //alert(JSON.stringify(this.state.c_address))
         }
             this.setState({ isModalVisible: !this.state.isModalVisible });
+
+            this.setState({c_address:{...this.state.c_address,name : ''}})
+                this.setState({c_address:{...this.state.c_address,address : ''}})
+                this.setState({c_address:{...this.state.c_address,code : ''}})
+                this.setState({c_address:{...this.state.c_address,is_default : false}})
+                this.setState({c_address:{...this.state.c_address,tobacco_alcohol_license : false}})
         
         }
 
@@ -276,7 +304,7 @@ export default class TabProfileClient extends React.Component {
             renderRow={(item) =>
               <ListItem>
                 <Text>{item.address}</Text>
-                <Text>{item.name}</Text>
+                <Text>({item.name})</Text>
                 {/* <Text>{item.city_data.name}</Text>
                 <Text>{item.city_data.area_data.name}</Text>
                  */}
@@ -284,7 +312,7 @@ export default class TabProfileClient extends React.Component {
             }>
           </List>
           </Card>
-          <Button block primary onPress={this._toggleModal} style={{marginTop:40}}>
+          <Button block primary onPress={()=>this._toggleModal(false)} style={{marginTop:40}}>
           <Text>ДОБАВИТЬ АДРЕС</Text>
         </Button>
       </Content>
@@ -297,7 +325,7 @@ export default class TabProfileClient extends React.Component {
         <View style={{ flex: 1,backgroundColor:"#ffffff" }}>
         <Container>
         <Header style={styles.modalHeaderStyle}>
-            <Text>НОВЫЙ АДРЕС</Text>
+            <Text style={styles.modalHeaderStyleText}>НОВЫЙ АДРЕС</Text>
         </Header>
         <Content>
           <Form>
@@ -307,7 +335,7 @@ export default class TabProfileClient extends React.Component {
             //   placeholder="Магазин 'Ромашка'"
               placeholderTextColor = "rgba(255,255,255,0.7)"
               selectionColor="#fff"
-              keyboardType="numeric"
+              keyboardType="default"
               onChangeText = {(text) => this.setState({c_address:{...this.state.c_address,name : text}})}
               value ={this.state.c_address.name}
               maxLength = {16}
@@ -344,25 +372,13 @@ export default class TabProfileClient extends React.Component {
               />
             </Item>
 
-            {/* <Item floatingLabel> */}
-              <Label>Лицензия на алкоголь и табачную продукцию</Label>
-              <Switch 
-              onValueChange ={(value)=>this.setState({c_address:{...this.state.c_address,tobacco_alcohol_license : value}})}
-              value = {this.state.c_address.tobacco_alcohol_license}
-
-              />
-
-              <Label>Адрес по умолчанию</Label>
-              <Switch 
-              onValueChange ={(value)=>this.setState({c_address:{...this.state.c_address,is_default : value}})}
-              value = {this.state.c_address.is_default}
-
-              />
+           
             {/* </Item> */}
 
             
             {/* <Item> */}
-            <Label>Область</Label>
+            <View style={{padding:10}}>
+                          <Label>Область</Label>
             <Picker
             selectedValue={this.state.area}
  
@@ -371,10 +387,13 @@ export default class TabProfileClient extends React.Component {
             { this.state.areas.map((item, key)=>(
                 <Picker.Item label={item.name} value={item.name} key={key} />)
             )}
-    
+
           </Picker>
+          </View>
+
           {/* </Item> */}
           {/* <Item> */}
+          <View style={{padding:10}}>
           <Label>Город/Район/Административная единица</Label>
 
           <Picker
@@ -387,14 +406,39 @@ export default class TabProfileClient extends React.Component {
             )}
     
           </Picker>
+          </View>
+ {/* <Item floatingLabel> */}
+ <Item>
+             <Left><Label>Лиц-я на алк. и табач. прод.</Label></Left> 
+              <Right>
+              <Switch 
+              onValueChange ={(value)=>this.setState({c_address:{...this.state.c_address,tobacco_alcohol_license : value}})}
+              value = {this.state.c_address.tobacco_alcohol_license}
+
+              />
+              </Right>
+            </Item>
+            <Item>
+              <Left>
+              <Label>Адрес по умолчанию</Label>
+              </Left>
+              <Right>
+              <Switch 
+              onValueChange ={(value)=>this.setState({c_address:{...this.state.c_address,is_default : value}})}
+              value = {this.state.c_address.is_default}
+
+              />
+              </Right>
+              </Item>
+
           {/* </Item> */}
           </Form>
         </Content>
         
-          <Button block success onPress={this._toggleModal}>
+          <Button block success onPress={()=>this._toggleModal(false)}>
             <Text>ДОБАВИТЬ</Text>
           </Button>
-          <Button block danger onPress={this._toggleModal}>
+          <Button block danger onPress={()=>this._toggleModal(true)}>
             <Text>ОТМЕНА</Text>
           </Button>
       </Container>
@@ -418,7 +462,12 @@ const styles = StyleSheet.create({
   },
   modalHeaderStyle:{
       color:"#074c99",
-      height :50
+      height :50,
+      alignItems: "center",
+      justifyContent: "center"
+  },
+  modalHeaderStyleText:{
+    color:"#ffffff"
   }
 
 });

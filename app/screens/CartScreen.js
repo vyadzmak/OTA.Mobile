@@ -79,7 +79,7 @@ export default class CartScreen extends React.Component {
         //formatProductsCatalogToData(response)
        //console.log(JSON.stringify(response))
        //this.check_favorites(response) 
-        alert(JSON.stringify(response))
+        //alert(JSON.stringify(response))
         if (response==undefined){
           this.setState({
             isLoading:false,
@@ -140,6 +140,26 @@ minus_count(id){
 
 }
 
+manage_invoice(id){
+  index=-1
+  update=false
+  for (i=0;i<this.cart.cart_positions.length; i++){
+    if (this.cart.cart_positions[i].id==id){        
+      this.cart.cart_positions[i].need_invoice=!this.cart.cart_positions[i].need_invoice
+      update=true
+      break
+      
+    }
+  } 
+  if (update==true)
+  this.setState({ cartPositions:{}}, function () {
+  this.setState({cartPositions:this.cart}, function () {
+    this.update_cart()
+  } )
+});
+
+}
+
 remove_item(id){
   for (i=0;i<this.cart.cart_positions.length; i++){
     if (this.cart.cart_positions[i].id==id){        
@@ -158,7 +178,10 @@ remove_item(id){
 prepare_order(){
   try{
     //this.props.navigation.popToTop()
-  this.props.navigation.navigate('PrepareOrder')
+  this.props.navigation.navigate('PrepareOrder', {
+    
+    navigation :this.props.navigation
+  });
 }catch(err){alert(err)}}
 
 
@@ -223,7 +246,10 @@ prepare_order(){
               </View>
               <View style={{flexDirection:'row', marginTop:10}}>
               <Text style={styles.nameTextStyle}>Счет-фактура</Text>
-              <Switch value={item.need_invoice} />
+              <Switch 
+                value={item.need_invoice} 
+                onValueChange = {()=>this.manage_invoice(item.id)}
+              />
               </View>
             </Right>
           </ListItem>

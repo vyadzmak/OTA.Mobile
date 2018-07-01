@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  View,  Text,    StyleSheet,
-  TouchableOpacity,
+  View,      StyleSheet,
+  TouchableOpacity,Alert,
   TextInput,ActivityIndicator, Picker
 } from "react-native";
 
 import {DrawerNavigator} from 'react-navigation'
-import {USER_DATA,USER_ID, CART_ID, CLIENT_ID} from './../modules/VarContainer'
-import { Container, Content,Input, Icon, Header, Body, Left,Form,Label, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right, Switch } from 'native-base'
+import {USER_DATA,USER_ID, CART_ID, CLIENT_ID,SetUserCartId} from './../modules/VarContainer'
+import { Container, Content,Text,Input, Icon, Header, Body, Left,Form,Label, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right, Switch } from 'native-base'
 
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -24,6 +24,7 @@ export default class PrepareOrderScreen extends React.Component {
       route:'/clientAddressesByClient',
       addresses:{},
       address:'',
+      confirmed: true,
       order_params:{
         user_cart_id : -1,
         client_address_id :-1,
@@ -48,6 +49,7 @@ export default class PrepareOrderScreen extends React.Component {
        this.setState({
           addresses:response,
           address: response[0],
+          confirmed: response[0].confirmed,
           isLoading:false,   
           order_params:{...this.state.order_params,client_address_id : response[0].id}
         })
@@ -67,12 +69,23 @@ export default class PrepareOrderScreen extends React.Component {
     for (i=0;i<this.state.addresses.length;i++){
         if (this.state.addresses[i].address==_address){
             id = this.state.addresses[i].id
+            this.setState({
+              confirmed:this.state.addresses[i].confirmed
+            })
+            //alert(JSON.stringify(this.state.addresses[i]))
             this.setState({order_params:{...this.state.order_params,client_address_id : id}})
             
             this.setState({address: _address})
             break
         }
     }
+  }
+
+  complete_order(){
+    SetUserCartId(-1)
+    this.props.navigation.navigate('Dashboard', {
+
+    });
   }
 
   make_order(data){
@@ -83,7 +96,7 @@ export default class PrepareOrderScreen extends React.Component {
       response =postRequest(update_route, data).then(
         response=> {
           //txt = JSON.stringify(response)
-          alert(JSON.stringify(response))
+          
           
           status = response.code
           if (status==400){
@@ -91,7 +104,17 @@ export default class PrepareOrderScreen extends React.Component {
               this.setState({isLoading:false})
             }
           else{
-            
+            if (response.status_code==200){
+              Alert.alert(
+                'Успех',
+                'Ваш заказ был успешно офрмлен',
+                [
+                  {text: 'Да', onPress: () => {this.complete_order() }},
+                ],
+                { cancelable: false }
+              )
+              
+            }  
           }
 
           
@@ -110,10 +133,22 @@ export default class PrepareOrderScreen extends React.Component {
     try{
       //alert("CART_ID "+CART_ID+" USER_ID "+USER_ID)
      // alert(JSON.stringify(this.state.order_params))
+     if (this.state.confirmed==true){
      this.make_order(this.state.order_params)
+     } else{
+      Alert.alert(
+        'Ошибка',
+        'На этот адрес невозможно оформить заказ, так как он не был проверен. Обратитесь в поддержку',
+        [
+          {text: 'Да', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        ],
+        { cancelable: false }
+      )
+     }
   }catch(err){alert(err)}}
 
   render() {
+    const { navigation } = this.props;
     if(this.state.isLoading){
       return(
         <View style={{flex: 1, padding: 20}}>
@@ -127,7 +162,7 @@ export default class PrepareOrderScreen extends React.Component {
       <Container>
       <Content>
           <Form>
-        <Label>Адрес</Label>
+        <Label>Выберите адрес заказа</Label>
             <Picker
             selectedValue={this.state.address}
  

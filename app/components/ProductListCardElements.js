@@ -11,7 +11,7 @@ import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import FIcon from 'react-native-vector-icons/FontAwesome'
 import Toast from 'react-native-simple-toast';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
-import {USER_ID, CART_ID,USER_DATA, SetUserCartId,SetUserData} from './../modules/VarContainer'
+import {USER_ID, CART_ID,USER_DATA, SetUserCartId,SetUserData,SetUserCartProductsCount} from './../modules/VarContainer'
 
 
 export class ProductStockIcon extends React.Component {
@@ -232,7 +232,9 @@ export class ProductFastCart extends React.Component {
 		response =getWithParams(this.state.route,params).then(
 			response=> {
 				//if (response.)
-				//alert(JSON.stringify(response.id))
+				//alert(JSON.stringify(response))
+				SetUserCartProductsCount(response.products_count)
+				//alert(response.products_count)
 				SetUserCartId(response.id)
 				Toast.show('Продукт был добавлен в корзину');
 				//alert(CART_ID)

@@ -31,7 +31,7 @@ import AppScreen from './../../App'
 import ProductCardScreen from './ProductCardScreen'
 import FilterProductsScreen from './FilterProductsScreen'
 import PrepareOrderScreen from './PrepareOrderScreen'
-
+import OrderDetailsScreen from './OrderDetailsScreen'
 export const AccountsStack = createStackNavigator({
     Account: {screen:AccountScreen, navigationOptions: ({ navigation }) => ({
             title: 'Аккаунт',  // Title to appear in status bar
@@ -85,7 +85,7 @@ export const AccountsStack = createStackNavigator({
 export const DashboardStack= createStackNavigator({
   Dashboard: {screen:DashboardScreen, navigationOptions: ({ navigation }) => ({
           title: 'Главная',  // Title to appear in status bar
-          headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+          headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
             })},
               ProductCategories: {screen:ProductCategoriesScreen},
               ProductsCatalog: {screen:ProductsCatalogScreen},
@@ -115,7 +115,7 @@ export const DashboardStack= createStackNavigator({
 export const ProductCategoriesStack= createStackNavigator({
     ProductCategories: {screen:ProductCategoriesScreen, navigationOptions: ({ navigation }) => ({
             title: 'Категории товаров',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   ProductsCatalog: {screen:ProductsCatalogScreen},
   },
@@ -138,9 +138,10 @@ export const ProductCategoriesStack= createStackNavigator({
   export const OrdersHistoryStack= createStackNavigator({
     OrdersHistory: {screen:OrdersHistoryScreen, navigationOptions: ({ navigation }) => ({
             title: 'История заказов',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
+  OrderDetails: {screen:OrderDetailsScreen},
   },
   {
     initialRouteName: 'OrdersHistory',
@@ -161,7 +162,7 @@ export const ProductCategoriesStack= createStackNavigator({
 export const BrandsCatalogStack= createStackNavigator({
     BrandsCatalog: {screen:BrandsCatalogScreen, navigationOptions: ({ navigation }) => ({
             title: 'Бренды',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
   FilterProducts : {screen:FilterProductsScreen}
@@ -185,7 +186,7 @@ export const BrandsCatalogStack= createStackNavigator({
 export const PartnersCatalogStack= createStackNavigator({
     PartnersCatalog: {screen:PartnersCatalogScreen, navigationOptions: ({ navigation }) => ({
             title: 'Партнеры',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
   FilterProducts : {screen:FilterProductsScreen}
@@ -211,7 +212,7 @@ export const PartnersCatalogStack= createStackNavigator({
  export const RecommendationsCatalogStack= createStackNavigator({
     RecommendationsCatalog: {screen:FilterProductsScreen, navigationOptions: ({ navigation }) => ({
             title: 'Рекомендации',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
   },
@@ -237,7 +238,7 @@ export const PartnersCatalogStack= createStackNavigator({
 export const CartStack= createStackNavigator({
     Cart: {screen:CartScreen, navigationOptions: ({ navigation }) => ({
             title: 'Корзина',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
     PrepareOrder :{screen:PrepareOrderScreen}
@@ -262,7 +263,7 @@ export const CartStack= createStackNavigator({
 export const FavoritesStack= createStackNavigator({
     Favorites: {screen:FilterProductsScreen, navigationOptions: ({ navigation }) => ({
             title: 'Избранное',  // Title to appear in status bar
-            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+            headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32,marginLeft:10}}  onPress={ () => navigation.toggleDrawer() } />,
   })},
   //another screens
   },

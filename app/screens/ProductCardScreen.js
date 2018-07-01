@@ -1,15 +1,17 @@
 import React from "react";
 import {
-  View,  Text,  Button,  StyleSheet,
+  View,     StyleSheet,
   TouchableOpacity,
   TextInput, ActivityIndicator
 } from "react-native";
 
-import { Container, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail, CardItem } from 'native-base'
+import { Container,Text, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail, CardItem, Item, Button } from 'native-base'
 import {DrawerNavigator} from 'react-navigation'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
-import API_URL from './../modules/Settings'
+import {USER_ID, CART_ID,USER_DATA, SetUserCartId,SetUserData,SetUserCartProductsCount} from './../modules/VarContainer'
+import Toast from 'react-native-simple-toast';
 import {ProductCardProductRemmendationsComponent,ProductCardGalleryComponent,ProductCardInfoComponent} from './../components/ProductCardElements'
+//import {USER_ID, CART_ID} from './../modules/VarContainer'
 export default class ProductCardScreen extends React.Component {
   constructor(props){
     super(props)
@@ -17,9 +19,11 @@ export default class ProductCardScreen extends React.Component {
       isLoading :true, 
       productDetails:{}, 
       route:'/productDetails',
+      routeAdd: '/addCartPositionToCart',
       product_id:-1,
       product_name:" ",
-      user_id:1
+      user_id:USER_ID,
+      count :1
     }
     
   }
@@ -55,9 +59,60 @@ clickItem(id){
   catch (err){
     console.log(err)
   }
-
-  
 }
+  add_to_cart()
+  {
+  user_id = USER_ID
+  count = this.state.count
+  cart_id = CART_ID
+  _product_id = this.state.productDetails.id
+
+  params =[
+    {"name":"user_id","value":user_id},
+    {"name":"user_cart_id","value":cart_id},
+    {"name":"product_id","value":_product_id},
+    {"name":"count","value":count}
+
+  ]
+  
+
+
+  //alert(JSON.stringify(params))
+  response =getWithParams(this.state.routeAdd,params).then(
+    response=> {
+      //if (response.)
+      //alert(JSON.stringify(response))
+      SetUserCartProductsCount(response.products_count)
+      //alert(response.products_count)
+      SetUserCartId(response.id)
+      Toast.show('Продукт был добавлен в корзину');
+      //alert(CART_ID)
+    }
+    )
+  
+  }
+
+
+  addCount()
+  {
+    c= this.state.count
+    c+=1
+    this.setState({count:c})
+    
+    
+
+  }
+  
+  minusCount()
+  {
+    if (this.state.count>1)
+     { c= this.state.count
+      c-=1
+      this.setState({count:c})
+     }  
+  }
+
+
 
   render() {
     const { navigation } = this.props;
@@ -75,19 +130,42 @@ clickItem(id){
     }
 
 
+    
+
+
+   
     return (
         // <View style={styles.container}>
         <Container style={styles.container}>
            <Content padder style={{padding:0}}>
-           <CardItem style={{padding:0}}>
+           <Item style={{padding:0}}>
             <ProductCardGalleryComponent gallery_images_data={this.state.productDetails.gallery_images_data}></ProductCardGalleryComponent>
-           </CardItem>
-          <CardItem>
+           </Item>
+          <Item>
               <ProductCardInfoComponent product_details={this.state.productDetails}></ProductCardInfoComponent>
-          </CardItem>
-           <CardItem>
+          </Item>
+           <Item>
             <ProductCardProductRemmendationsComponent product_recomendations_data={this.state.productDetails.product_recomendations_data}></ProductCardProductRemmendationsComponent>
-            </CardItem>
+            </Item>
+            <Item>
+            {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
+            <Left>
+            <Button block danger onPress={()=>this.minusCount()}>
+              <Text>-</Text>
+            </Button>
+            </Left>
+            <Body>
+            <Button block primary onPress={()=>this.add_to_cart()}>
+              <Text>Добавить в корзину ({this.state.count})</Text>
+            </Button>
+            </Body>
+            <Right>
+            <Button block success onPress={()=>this.addCount()}>
+              <Text>+</Text>
+            </Button>
+            </Right>
+            {/* </View> */}
+            </Item>
 
           </Content>
         
