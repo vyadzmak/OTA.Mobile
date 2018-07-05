@@ -3,12 +3,12 @@ import { StyleSheet, Text, View, FlatList, Dimensions,Image,ActivityIndicator, T
 import renderIf from './../modules/RenderIf'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
-import { Container, Content, Icon, Header, Body, Left } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left,Footer } from 'native-base'
 import API_URL from './../modules/Settings'
 import {USER_DATA,USER_ID} from './../modules/VarContainer'
-
+import {ImageComponent, ThumbComponent} from './../components/ImagesComponents'
 const data = [
-  { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
+  // { key: 'A' }, { key: 'B' }, { key: 'C' }, { key: 'D' }, { key: 'E' }, { key: 'F' }, { key: 'G' }, { key: 'H' }, { key: 'I' }, { key: 'J' },
   // { key: 'K' },
   // { key: 'L' },
 ];
@@ -34,7 +34,7 @@ const formatProductCategoriesToData = (productCategories)=>{
       id: element.id,
       internal_categories_count:element.internal_categories_count,
       internal_products_count:element.internal_products_count,
-      image: API_URL+ element.default_image_data.thumb_file_path
+      image: element.default_image_data.thumb_file_path
     }
     data.push(item_element)
   });
@@ -92,6 +92,7 @@ export default class ProductCategoriesComponent extends React.Component {
         };
       };
         componentDidMount(){
+          data =[]
           //alert(this.props.current_category_id)
           this.setState({
               current_category_id:this.props.current_category_id,
@@ -140,18 +141,16 @@ export default class ProductCategoriesComponent extends React.Component {
         }
   
     renderItem = ({ item, index }) => {
-      
       if (item.empty === true) {
         return <View style={[styles.item, styles.itemInvisible]} />;
       }
-      //alert('TOP')
-      
       return (
           <TouchableOpacity style ={styles.touchableOpacity} onPress={()=>this.clickItem(item.id,item.internal_categories_count,item.internal_products_count)}>
-            <View style={styles.item}>
-            {/* <Text>3</Text> */}
-                <Image source={{uri:item.image}} style={styles.image} />
-                <Text style={styles.itemText}>{item.key}</Text>
+            <View style={styles.item}>          
+            <ImageComponent image_url={item.image}/>
+              <View style={styles.paragraph}>
+                <Text style={styles.pTextStyle}>{item.key}</Text>
+              </View>
             </View>
           </TouchableOpacity>
       );
@@ -161,21 +160,26 @@ export default class ProductCategoriesComponent extends React.Component {
       const { navigation } = this.props;
       const _current_category_id = this.props.current_category_id;
       const _parent_category_id = -1;
-      //alert('PNAV'+this.props.navigation)
-      //alert('NAV'+this.navigation)
-
-      //alert('PR'+_current_category_id)
-      //const otherParam = navigation.getParam('otherParam', 'some default value');
       this.state.current_category_id=_current_category_id
       this.state.parent_category_id=_parent_category_id
       if(this.state.isLoading){
         return(
-          <View style={{flex: 1, padding: 20}}>
+          <View style={{flex: 1, padding: 30}}>
             <ActivityIndicator size="large" color="#0000ff"/>
           </View>
         )
       }
-  
+
+      if ( data.length==0){
+        return(
+          <View style={styles.container}>
+            <Text>
+              Данные не найдены
+            </Text>
+          </View>
+        )
+      } 
+      else{
       return (
          <Container>
              <Content>
@@ -187,11 +191,10 @@ export default class ProductCategoriesComponent extends React.Component {
                 />
              </Content>
          </Container>
-        // <View style={styles.container}>
-        // <Text>TRASH</Text>
-        
-        // </View>
+       
       );
+
+    }
     }
   }
   
@@ -201,7 +204,7 @@ export default class ProductCategoriesComponent extends React.Component {
       //marginVertical: 20,
       backgroundColor:"#ffffff",
       //alignItems: 'center',
-      //justifyContent: 'center',
+      //justifyContent: 'stretch',
     },
     item: {
       backgroundColor: '#ffffff',
@@ -209,7 +212,8 @@ export default class ProductCategoriesComponent extends React.Component {
       justifyContent: 'center',
       flex: 1,
       margin: 1,
-      padding: 5,
+      //padding: 5,
+      paddingTop: 20,
       borderWidth: 1,
       borderColor: '#C0C0C0',
       height: Dimensions.get('window').width / numColumns+40, // approximate a square
@@ -221,8 +225,12 @@ export default class ProductCategoriesComponent extends React.Component {
     },
     itemText: {
       color: '#696969',
+      flex:1,
       fontSize: 16,
       marginTop: 10,
+      alignSelf: 'stretch',
+      backgroundColor:'rgba(0,0,0,0)'
+
     },
     image: {
       height: Dimensions.get('window').width / numColumns-20,
@@ -236,5 +244,24 @@ export default class ProductCategoriesComponent extends React.Component {
     },icon: {
       width: 24,
       height: 24,
+    },
+    testStyle:{
+        //marginTop:10
+    },
+    
+    paragraph: {     
+      backgroundColor: 'rgba(0,0,0,0.6)',
+       width:'100%',
+       height:'35%',
+       position: 'absolute',
+       bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      
+    }, 
+    pTextStyle :{
+      textAlign: 'center',
+      color: 'white',
+      fontSize:14,
     }
   });

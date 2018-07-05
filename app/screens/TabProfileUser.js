@@ -9,21 +9,54 @@ import { Container, Text, Content,Input, Icon, Header, Body, Left, Footer, Item,
 
 import {DrawerNavigator} from 'react-navigation'
 import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'
-import {getWithParams,getWithSlashParams} from './../modules/Http'
+import {getWithParams,getWithSlashParams, postRequest} from './../modules/Http'
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Toast from 'react-native-simple-toast';
+
 export default class TabProfileUser extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       isLoading:true,
       route:'/userProfile',
-      userProfile:{}
+      userProfile:{},
+      user_data:{
+        user_id:-1,
+        user_name:'',
+        user_login:'',
+        user_password:'',
+        user_phone_number :'',
+        user_email:'',
+      }
     }
   }
 
   static navigationOptions = {
     title: "Профиль пользователя",
   };
+
+  update_user_data(){
+    try{
+      update_route ='/updateUserProfile'
+      data = this.state.user_data
+      //alert(JSON.stringify(data))
+      response =postRequest(update_route, data).then(
+        response=> {
+          //txt = JSON.stringify(response)
+          
+          
+          status = response.code
+          if (status==400){
+              Alert.alert(JSON.stringify(response.message))
+              this.setState({isLoading:false})
+            }
+          else{
+            Toast.show('Данные были успешно обновлены');
+          }
+        })
+    }catch(err){
+  }
+}
 
   componentDidMount(){
       //alert('AA')
@@ -35,9 +68,22 @@ export default class TabProfileUser extends React.Component {
        this.setState({
           userProfile:response,
           isLoading:false,   
-
+          
         })
-        
+        this.setState(
+          {
+            user_data:{
+              ...this.state.user_data,
+              user_id:this.state.userProfile.user_data.id,
+              user_name:this.state.userProfile.user_data.name,
+              user_login:this.state.userProfile.login,
+              user_phone_number: this.state.userProfile.user_data.user_info.phone_number,
+              user_email: this.state.userProfile.user_data.user_info.email,
+
+
+            }
+          }
+        )
         }
       }
     )    
@@ -69,7 +115,7 @@ export default class TabProfileUser extends React.Component {
                         <Text>Логин</Text>
                     </Left>
                     <Body>
-                        <Input disabled inlineLabel  value={this.state.userProfile.login}/>
+                        <Input disabled inlineLabel  value={this.state.user_data.user_login}/>
                     </Body>
                     
                 </CardItem>
@@ -78,7 +124,12 @@ export default class TabProfileUser extends React.Component {
                         <Text>Пароль</Text>
                     </Left>
                     <Body>
-                        <Input  value={this.state.userProfile.password}/>
+                        <Input  
+                        
+                        value={this.state.user_data.user_password}
+                        onChangeText = {(text) => this.setState({user_data:{...this.state.user_data,user_password : text}})}
+                        
+                        />
                     </Body>
                     
                 </CardItem>
@@ -87,7 +138,12 @@ export default class TabProfileUser extends React.Component {
                         <Text>Имя</Text>
                     </Left>
                     <Body>
-                        <Input value={this.state.userProfile.user_data.name}/>
+                    <Input  
+                        
+                        value={this.state.user_data.user_name}
+                        onChangeText = {(text) => this.setState({user_data:{...this.state.user_data,user_name : text}})}
+                        
+                        />
                     </Body>
                     
                 </CardItem>
@@ -96,7 +152,12 @@ export default class TabProfileUser extends React.Component {
                         <Text>Email</Text>
                     </Left>
                     <Body>
-                        <Input placeholder='Email' value={this.state.userProfile.user_data.user_info.email}/>
+                    <Input  
+                        
+                        value={this.state.user_data.user_email}
+                        onChangeText = {(text) => this.setState({user_data:{...this.state.user_data,user_email : text}})}
+                        
+                        />
                     </Body>
                     
                 </CardItem>
@@ -106,12 +167,17 @@ export default class TabProfileUser extends React.Component {
                         <Text>Телефон</Text>
                     </Left>
                     <Body>
-                        <Input placeholder='Телефон' value={this.state.userProfile.user_data.user_info.phone_number}/>
+                    <Input  
+                        keyboardType="numeric"
+                        value={this.state.user_data.user_phone_number}
+                        onChangeText = {(text) => this.setState({user_data:{...this.state.user_data,user_phone_number : text}})}
+                        
+                        />
                     </Body>
                     
                 </CardItem>
             </Card>
-            <Button block success>
+            <Button block success onPress={()=>this.update_user_data()}>
             <Text>СОХРАНИТЬ</Text>
           </Button>
         </Content>

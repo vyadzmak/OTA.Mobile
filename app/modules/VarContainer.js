@@ -10,6 +10,7 @@ export var CART_PRODUCTS_COUNT =0
 export var CLIENT_ID =-1
 export var USER_DATA ={}
 export var CART_DATA ={}
+export var NO_IMAGE_URL =""
 get_user_data=()=>{
     try{
     AsyncStorage.getItem('user_data').then((value) => {
@@ -18,6 +19,7 @@ get_user_data=()=>{
             //alert(JSON.parse(value).id)
             USER_DATA = JSON.parse(value)
             USER_ID =USER_DATA.user_data.id
+            NO_IMAGE_URL = USER_DATA.no_image_url
             CLIENT_ID = USER_DATA.user_data.client_data.id
             //alert('USER ID '+USER_ID+' CLIENT_ID '+CLIENT_ID)
         }

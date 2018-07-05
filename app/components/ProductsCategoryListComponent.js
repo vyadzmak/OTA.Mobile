@@ -3,8 +3,11 @@ import { StyleSheet, Text, View, FlatList, Dimensions,Image,ActivityIndicator, T
 import renderIf from './../modules/RenderIf'
 import {getWithParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
+import { Container, Content, Icon, Header, Body, Left,Footer } from 'native-base'
+
 const data = [];
 import {USER_DATA,USER_ID} from './../modules/VarContainer'
+import {ImageComponent, ThumbComponent} from './../components/ImagesComponents'
 
 const formatData = (data, numColumns) => {
   const numberOfFullRows = Math.floor(data.length / numColumns);
@@ -26,7 +29,7 @@ const formatProductCategoriesToData = (productCategories)=>{
       id: element.id,
       internal_categories_count:element.internal_categories_count,
       internal_internal_products_count:element.internal_products_count,
-      image: API_URL+ element.default_image_data.thumb_file_path
+      image: element.default_image_data.thumb_file_path
     }
     data.push(item_element)
   });
@@ -63,6 +66,7 @@ export default class ProductsCategoryList extends React.Component {
       };
 
       componentDidMount(){
+        data = []
         params =[{"name":"user_id","value":this.state.user_id},{"name":"category_id","value":this.state.current_category_id}]
         response =getWithParams(this.state.route,params).then(
           response=> {
@@ -93,10 +97,12 @@ export default class ProductsCategoryList extends React.Component {
     
     return (
         <TouchableOpacity style ={styles.touchableOpacity} onPress={()=>this.clickItem(item.id)}>
-          <View style={styles.item}>
-              <Image source={{uri:item.image}} style={styles.image} />
-              <Text style={styles.itemText}>{item.key}</Text>
-          </View>
+          <View style={styles.item}>          
+            <ImageComponent image_url={item.image}/>
+              <View style={styles.paragraph}>
+                <Text style={styles.pTextStyle}>{item.key}</Text>
+              </View>
+            </View>
         </TouchableOpacity>
     );
   };
@@ -116,14 +122,31 @@ export default class ProductsCategoryList extends React.Component {
       )
     }
 
-    return (      
-        <FlatList
-          data={formatData(data, numColumns)}
-          style={styles.container}
-          renderItem={this.renderItem}
-          numColumns={numColumns}
-        />      
+    if ( data.length==0){
+      return(
+        <View style={styles.container}>
+          <Text>
+            Данные не найдены
+          </Text>
+        </View>
+      )
+    } 
+    else{
+    return (
+       <Container>
+           <Content>
+           <FlatList
+                  data={formatData(data, numColumns)}
+                  style={styles.container}
+                  renderItem={this.renderItem}
+                  numColumns={numColumns}
+              />
+           </Content>
+       </Container>
+     
     );
+
+  }
   }
 }
 
@@ -141,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     margin: 1,
-    padding: 5,
+    //padding: 5,
     borderWidth: 1,
     borderColor: '#C0C0C0',
     height: Dimensions.get('window').width / numColumns+40, // approximate a square
@@ -168,5 +191,21 @@ const styles = StyleSheet.create({
   },icon: {
     width: 24,
     height: 24,
+  },
+    
+  paragraph: {     
+    backgroundColor: 'rgba(0,0,0,0.6)',
+     width:'100%',
+     height:'35%',
+     position: 'absolute',
+     bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+  }, 
+  pTextStyle :{
+    textAlign: 'center',
+    color: 'white',
+    fontSize:14,
   }
 });

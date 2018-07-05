@@ -115,7 +115,7 @@ clickItem(id){
               </Left>
 
               <Body>
-                <Text>{this.state.orderDetails.creation_date}</Text>
+                <Text>{this.state.orderDetails.display_creation_date}</Text>
               </Body>
             </ListItem>
 

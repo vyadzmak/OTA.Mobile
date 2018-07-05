@@ -25,6 +25,7 @@ export class ProductCardProductRemmendationsComponent extends React.Component {
       }
   
       render () {
+        if (this.state.items!=null && this.state.items>0){
         return (
 
           <Card style={{ marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0 }}>
@@ -72,7 +73,9 @@ export class ProductCardProductRemmendationsComponent extends React.Component {
         </CardItem>
         </Content>
         </Card>
-        )
+        )} else{
+          return (null)
+        }
       }
 }
 
@@ -153,12 +156,14 @@ export class ProductCardGalleryComponent extends React.Component {
         }
       }
       componentDidMount () {
-        this.setState({
-          items: this.props.gallery_images_data
-        })
+        if (this.props.gallery_images_data!=null)
+          this.setState({
+            items: this.props.gallery_images_data
+          })
       }
   
       render () {
+        if (this.state.items!=null && this.state.items>0){
         return (
             <Card style={{ marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0 }}>
             <Content>
@@ -186,7 +191,9 @@ export class ProductCardGalleryComponent extends React.Component {
           </Content>
           </Card>
             
-        )
+        )} else{
+          return (null)
+        }
       }
 }
 const styles = {

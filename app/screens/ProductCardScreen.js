@@ -42,10 +42,18 @@ export default class ProductCardScreen extends React.Component {
         
               response =getWithParams(this.state.route,params).then(
                 response=> {
-                  console.log(JSON.stringify(response))
+                  //alert(JSON.stringify(response))
+                  if (response==undefined){
+                    alert("Connection error")
+                    this.setState({
+                      isLoading:false,
+                    })
+                    return
+                  }
                   this.setState({
+                    productDetails:response,
                     isLoading:false,
-                    productDetails:response
+                    
                   })
                 }
               )

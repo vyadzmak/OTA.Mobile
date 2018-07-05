@@ -33,15 +33,15 @@ export default class OrdersHistoryScreen extends React.Component {
 
     params =[{"name":"user_id","value":USER_ID}]
     //alert(USER_ID +" "+CART_ID)
-    if (CART_ID!=-1)
+   // if (CART_ID!=-1)
     //alert('1')
-    {response =getWithParams(this.state.route,params).then(
+    response =getWithParams(this.state.route,params).then(
       response=> {
         //formatProductsCatalogToData(response)
        //console.log(JSON.stringify(response))
        //this.check_favorites(response) 
         //alert(JSON.stringify(response))
-        if (response==undefined){
+        if (response.message!=undefined){
           this.setState({
             isLoading:false,
           })
@@ -55,11 +55,9 @@ export default class OrdersHistoryScreen extends React.Component {
         })}
         //this.cart = response
       }
-    )}else{
-      this.setState({
-        isLoading:false,
-      })
-    }
+    )
+  
+  
     
   }
 
@@ -103,7 +101,7 @@ export default class OrdersHistoryScreen extends React.Component {
             
             <Body >
               <Text style={styles.nameTextStyle}>Заказ №{item.number}</Text>
-              <Text note>Дата заказа: {item.creation_date}</Text>
+              <Text note>Дата заказа: {item.display_creation_date}</Text>
               <Text note>Адрес: {item.client_address_data.address}</Text>
               <Text note >Сумма: {item.total_amount} {item.currency_data.display_value}</Text>
               <Text note >Статус: {item.order_state_data.title}</Text>

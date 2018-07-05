@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Container,Text, Content,Input, Icon, Header, Body, Left,Form,Label, Footer, Item,Separator,Card, CardItem,List,Button, ListItem, Right, Switch } from 'native-base'
-
+import Toast from 'react-native-simple-toast';
 import {DrawerNavigator} from 'react-navigation'
 import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
@@ -36,10 +36,41 @@ export default class TabProfileClient extends React.Component {
               tobacco_alcohol_license:false,
               city_id:-1,
               is_default: false
+          },
+          client_data:{
+            client_id:-1,
+            client_name:'',
+            client_registration_number:'',
+            client_phone_number :'',
+            client_email:'',
+            client_main_info:'',
+            client_additional_info:''
           }
         }
       }
 
+      update_client_data(){
+        try{
+          update_route ='/updateClientProfile'
+          data = this.state.client_data
+          //alert(JSON.stringify(data))
+          response =postRequest(update_route, data).then(
+            response=> {
+              //txt = JSON.stringify(response)
+              
+              
+              status = response.code
+              if (status==400){
+                  Alert.alert(JSON.stringify(response.message))
+                  this.setState({isLoading:false})
+                }
+              else{
+                Toast.show('Данные были успешно обновлены');
+              }
+            })
+        }catch(err){
+      }
+    }
 
       update_model(data){
         try{
@@ -189,7 +220,23 @@ export default class TabProfileClient extends React.Component {
               isLoading:false,   
     
             })
-            
+              this.setState(
+                {
+                  client_data:{
+                    ...this.state.client_data,
+                    client_id:this.state.userProfile.user_data.client_data.id,
+                    client_name:this.state.userProfile.user_data.client_data.name,
+                    client_registration_number:this.state.userProfile.user_data.client_data.registration_number,
+                    client_phone_number: this.state.userProfile.user_data.client_data.client_info.phone_number,
+                    client_email: this.state.userProfile.user_data.client_data.client_info.email,
+                    client_main_info: this.state.userProfile.user_data.client_data.client_info.main_info,
+                    client_additional_info: this.state.userProfile.user_data.client_data.client_info.additional_info,
+
+
+                  }
+                }
+              )
+              //alert(JSON.stringify(this.state.userProfile.user_data.client_data))
             }
           }
         )  
@@ -261,7 +308,7 @@ export default class TabProfileClient extends React.Component {
                       <Text>Имя организации</Text>
                   </Left>
                   <Body>
-                      <Input disabled placeholder='Имя организации' value={this.state.userProfile.user_data.client_data.name}/>
+                      <Input disabled placeholder='Имя организации' value={this.state.client_data.client_name}/>
                   </Body>
                   
               </CardItem>
@@ -270,7 +317,11 @@ export default class TabProfileClient extends React.Component {
                       <Text>Регистрационный номер</Text>
                   </Left>
                   <Body>
-                      <Input  value={this.state.userProfile.user_data.client_data.registration_number}/>
+                      <Input  
+                      keyboardType="numeric"
+                      value={this.state.client_data.client_registration_number}
+                      onChangeText = {(text) => this.setState({client_data:{...this.state.client_data,client_registration_number : text}})}
+                      />
                   </Body>
                   
               </CardItem>
@@ -280,7 +331,10 @@ export default class TabProfileClient extends React.Component {
                       <Text>Email</Text>
                   </Left>
                   <Body>
-                      <Input  value={this.state.userProfile.user_data.client_data.client_info.email}/>
+                  <Input  
+                      value={this.state.client_data.client_email}
+                      onChangeText = {(text) => this.setState({client_data:{...this.state.client_data,client_email : text}})}
+                      />
                   </Body>
                   
               </CardItem>
@@ -290,12 +344,16 @@ export default class TabProfileClient extends React.Component {
                       <Text>Телефон</Text>
                   </Left>
                   <Body>
-                      <Input  value={this.state.userProfile.user_data.client_data.client_info.phone_number}/>
+                  <Input  
+                      keyboardType="numeric"
+                      value={this.state.client_data.client_phone_number}
+                      onChangeText = {(text) => this.setState({client_data:{...this.state.client_data,client_phone_number : text}})}
+                      />
                   </Body>
                   
               </CardItem>
           </Card>
-          <Button block success>
+          <Button block success onPress={()=>this.update_client_data()}>
           <Text>СОХРАНИТЬ</Text>
         </Button>
         <Card>

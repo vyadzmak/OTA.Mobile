@@ -7,7 +7,7 @@ import StarRating from 'react-native-star-rating';
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import API_URL from './../modules/Settings'
 import {ProductStockIcon, ProductDiscountIcon,ProductAmountText, ProductAmountDiscountText,ProductDiscountText, ProductFastCart,ProductFavorite} from '../components/ProductListCardElements'
-
+import {ImageComponent, ThumbComponent} from './../components/ImagesComponents'
 //import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 export default class ProductsList extends React.Component {
@@ -90,8 +90,8 @@ export default class ProductsList extends React.Component {
                     <CardItem >
                     {/* <Left style={{alignItems: 'center'}} > */}
                         
-                        <Thumbnail source={{uri: API_URL+item.default_image_data.thumb_file_path}} style={styles.image} />
-                        
+                        {/* <Thumbnail source={{uri: API_URL+item.default_image_data.thumb_file_path}} style={styles.image} /> */}
+                        <ThumbComponent image_url={item.default_image_data.thumb_file_path}/>
                     {/* </Left> */}
                     <Body style={{paddingLeft:20}}>
                         <Text>{item.name}</Text>
