@@ -22,7 +22,7 @@ export default class PrepareOrderScreen extends React.Component {
     this.state = {
       isLoading:true,
       route:'/clientAddressesByClient',
-      addresses:{},
+      addresses:null,
       address:'',
       confirmed: true,
       order_params:{
@@ -43,17 +43,49 @@ export default class PrepareOrderScreen extends React.Component {
     params =[{"name":"user_id","value":USER_ID},{"name":"client_id","value":CLIENT_ID}]
     response =getWithParams(this.state.route,params).then(
       response=> {
-      
+       // alert(JSON.stringify(response))
        if (response.message==undefined){
 
        this.setState({
           addresses:response,
-          address: response[0],
-          confirmed: response[0].confirmed,
-          isLoading:false,   
-          order_params:{...this.state.order_params,client_address_id : response[0].id}
+          
         })
+
+
+        if (response!=null && response!=undefined){
+          _address =response[0]
+          for (i=0;i<response.length;i++){
+            if (response[i].is_default){
+              _address= response[i]
+              //alert(JSON.stringify(_address))
+              this.change_address(_address.address)
+              this.setState({isLoading:false})
+              break
+            }
+          }
+
+          // this.setState({
+          //   address: _address,
+          //   confirmed: _address.confirmed,
+          //   isLoading:false,   
+          //   order_params:{...this.state.order_params,client_address_id : _address.id}
+          // })
+        }
         
+        } else{
+          Alert.alert(
+            'Ошибка',
+            'Не найдено ни одного адреса. Оформить заказ невозможно. Добавьте адрес в профиле',
+            [
+              {text: 'Да'},
+            ],
+            { cancelable: false }
+          )
+          this.setState({
+            //addresses:response,
+            isLoading:false
+          })
+  
         }
       }
     )  
@@ -107,7 +139,7 @@ export default class PrepareOrderScreen extends React.Component {
             if (response.status_code==200){
               Alert.alert(
                 'Успех',
-                'Ваш заказ был успешно офрмлен',
+                'Ваш заказ был успешно оформлен',
                 [
                   {text: 'Да', onPress: () => {this.complete_order() }},
                 ],
@@ -156,8 +188,11 @@ export default class PrepareOrderScreen extends React.Component {
         </View>
       )
     }
-
+    if (this.state.addresses!=null && this.state.addresses!=undefined){
     return (
+
+      
+
       <View style={{ flex: 1,backgroundColor:"#ffffff" }}>
       <Container>
       <Content>
@@ -181,7 +216,14 @@ export default class PrepareOrderScreen extends React.Component {
           </Content>
           </Container>
       </View>
-    );
+    );} else{
+      return(
+        <View style={{ flex: 1,backgroundColor:"#ffffff" }}>
+        <Text>Невозможно оформить заказ, так как нет ни одного адреса</Text>
+        </View>
+
+      )
+    }
   }
 }
 

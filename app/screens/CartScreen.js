@@ -10,6 +10,8 @@ import API_URL from './../modules/Settings'
 import {USER_DATA,USER_ID, CART_ID} from './../modules/VarContainer'
 import {getWithParams,getWithSlashParams} from './../modules/Http'
 import {postRequest} from './../modules/Http'
+import {ImageComponent, ThumbComponent} from './../components/ImagesComponents'
+
 export default class CartScreen extends React.Component {
   constructor(props){
     super(props)
@@ -205,7 +207,8 @@ prepare_order(){
           renderRow={(item) =>
           <ListItem avatar>
             <Left>
-              <Thumbnail source={{ uri: API_URL+item.user_cart_position_product_data.default_image_data.thumb_file_path }} />
+              {/* <Thumbnail source={{ uri: API_URL+item.user_cart_position_product_data.default_image_data.thumb_file_path }} /> */}
+              <ThumbComponent image_url={item.user_cart_position_product_data.default_image_data.thumb_file_path}/>
             </Left>
             <Body>
               <Text style={styles.nameTextStyle}>{item.user_cart_position_product_data.name}</Text>
