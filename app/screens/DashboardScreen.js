@@ -2,8 +2,8 @@
 import React from "react";
 import {
   View,  Text,  Button,  StyleSheet,
-  TouchableOpacity,
-  TextInput,AsyncStorage
+  TouchableOpacity,ActivityIndicator,
+  TextInput,AsyncStorage,ScrollView
 } from "react-native";
 import { Container, Content, Icon, Header, Body, Left } from 'native-base'
 import {DrawerNavigator, withNavigation} from 'react-navigation'
@@ -18,9 +18,9 @@ import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import HeaderCartComponent from './../components/HeaderCartComponent'
 //imort dashboard components
 import DashboardSliderComponent from './../components/DashboardSliderComponent'
-import DashboardBadgesComponent from './../components/DashboardBadgesComponent'
-import DashboardRecommendationsComponent from '../components/DashboardRecommendationsComponent'
-import DashboardBrandsComponent from './../components/DashboardBrandsComponent'
+import {DashboardBadgesComponent} from './../components/DashboardBadgesComponent'
+import {DashboardRecommendationsComponent} from '../components/DashboardRecommendationsComponent'
+import {DashboardBrandsComponent} from './../components/DashboardBrandsComponent'
 
 
 
@@ -30,6 +30,7 @@ class DashboardScreen extends React.Component {
     super(props)
     this.state = {
       showBar:false,
+      isLoading:true,
       self:this,
       userData: {},
       show_slider :false,
@@ -66,6 +67,7 @@ class DashboardScreen extends React.Component {
           _brand_elements_data = JSON.parse(value).view_settings.brand_elements_data
           _partner_elements_data = JSON.parse(value).view_settings.partner_elements_data
 
+          //alert("OOO: "+JSON.stringify(_slider_images_data))
 
           // We have data!!
           this.setState({
@@ -81,8 +83,8 @@ class DashboardScreen extends React.Component {
             slider_images_data:_slider_images_data,
             recomendation_elements_data:_recomendation_elements_data,
             brand_elements_data:_brand_elements_data,
-            partner_elements_data:_partner_elements_data
-
+            partner_elements_data:_partner_elements_data,
+            isLoading:false
           })
           //alert(value)
         }
@@ -122,19 +124,30 @@ class DashboardScreen extends React.Component {
   };
 
   render() {
+
+    if(this.state.isLoading){
+      return(
+        <View style={{flex: 1, padding: 20}}>
+          <ActivityIndicator size="large" color="#0000ff"/>
+        </View>
+      )
+    }
+
     return (
       //
       <Container style ={styles.container}>
       
         <SearchBarComponent navigation={this.props.navigation}  ref={ref => (this.child = ref)} />
-        <DashboardSliderComponent images_data={this.state.slider_images_data} show_slider={this.state.show_slider}/>
-        <DashboardBadgesComponent show_badge_popular={this.state.show_badge_popular} show_badge_partners={this.state.show_badge_partners} show_badge_discount={this.state.show_badge_discount} show_badge_stock={this.state.show_badge_stock} show_badges={this.state.show_badges}/>
+        
+        <ScrollView>
+        <DashboardSliderComponent  style={styles.slider_component} images_data={this.state.slider_images_data} show_slider={this.state.show_slider}/>
+        <DashboardBadgesComponent navigation={this.props.navigation} show_badge_popular={this.state.show_badge_popular} show_badge_partners={this.state.show_badge_partners} show_badge_discount={this.state.show_badge_discount} show_badge_stock={this.state.show_badge_stock} show_badges={this.state.show_badges}/>
         
         {/* <Text>Категории</Text> */}
-        <ProductsCategoryList navigation={this.props.navigation}/>
-        <DashboardRecommendationsComponent images_data={this.state.recomendation_elements_data} show_recommendations={this.state.show_recommendations}/>
+        <ProductsCategoryList navigation={this.props.navigation} style={{paddingBottom: 50,}}/>
+        <DashboardRecommendationsComponent  images_data={this.state.recomendation_elements_data} show_recommendations={this.state.show_recommendations}/>
         <DashboardBrandsComponent images_data={this.state.brand_elements_data} show_brands={this.state.show_brands}/>
-
+        </ScrollView>
       
       </Container>
       
@@ -145,9 +158,16 @@ class DashboardScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
-    flex: 1,
-    
+    backgroundColor: "#e6ffff",
+    flex: 1,    
+  },
+  slider_component:{
+    marginTop: 10,
+    height:100,
+    width:'100%'
+  },
+  recommendation_component:{
+   // marginTop:200
   }
 });
 

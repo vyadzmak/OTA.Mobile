@@ -1,11 +1,32 @@
-import React from 'react';
-import { StyleSheet,AsyncStorage,Image} from 'react-native';
-import {View,Text, Container, Content, Icon, Header, Body, Left,Item, Input } from 'native-base'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+   Image 
+} from 'react-native';
+
+import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right,Switch } from 'native-base';
 import API_URL from './../modules/Settings'
-import {  Thumbnail } from 'native-base';
+import StarRating from 'react-native-star-rating';
 import {NO_IMAGE_URL} from './../modules/VarContainer'
-export default class DashboardBrandsComponent extends React.Component {   
-  
+import {ProductStockIcon, ProductDiscountIcon,ProductAmountText, ProductAmountDiscountText,ProductDiscountText} from './ProductListCardElements'
+
+export class DashboardBrandsComponent extends React.Component {   
+  constructor (props) {
+    super(props)
+    this.state = {
+      items: []
+    }
+  }
+  componentDidMount () {
+    if (this.props.images_data!=null)
+      this.setState({
+        items: this.props.images_data
+      })
+
+      //alert(JSON.stringify(this.props.images_data))
+  }
   render() {
 
     //alert('this.props.show_slider: '+this.props.show_slider)
@@ -15,12 +36,24 @@ export default class DashboardBrandsComponent extends React.Component {
     if (this.props.show_brands){
     if (this.props.images_data!=null && this.props.images_data!=undefined){
       return (
-            //    <Thumbnail
-            //         source={{uri:API_URL+this.props.image_url}}
-            //         style = {styles.thumbImage}                    
-            //         />
-             <View><Text>ЗДЕСЬ БУДЕТ СЛАЙДЕР С БРЕНДАМИ</Text></View>
-          
+        <Container style={styles.container}>
+          <Text>Бренды</Text>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        {
+          this.state.items.map((item, key) => {
+        return (
+                  
+                        <CardItem style={{width:150}} >
+                            <View>
+                            <Image source={{uri: API_URL+item.default_image_data_brands.thumb_file_path}} style={{height: 96, width: 96}}/>
+                            <Text style={{fontSize:12}}>{item.name}</Text>
+                            
+                            </View>
+                        </CardItem>    
+              )
+  })}
+      </ScrollView>
+      </Container>
       );} else{
         return (null  
       );
@@ -36,44 +69,7 @@ export default class DashboardBrandsComponent extends React.Component {
 
   const styles = StyleSheet.create({
     container : {
-      flexGrow: 1,
-      justifyContent:'center',
-      alignItems: 'center'
-    },
-    logoText : {
-        marginVertical: 5,
-        fontSize:14,
-        color:'rgba(255, 255, 255, 0.7)'
-    },
-
-    clientText : {
-      paddingBottom: 10,
-      fontSize:14,
-      color:'rgba(255, 255, 255, 0.7)'
-  },
-  testStyle :{
-     //flex:1,
-     alignItems: 'center',
-     justifyContent: 'center',
-     width:'90%',
-     height:'90%'
-    //borderWidth: 3,
-    //borderColor: "red",
-  },
-  imgStyle :{
-    
-   position: 'absolute',
-   top: 5,
-   left: 5,
-    bottom: 5,
-    right: 5,
-   // backgroundColor: 'rgba(0,0,0,0.5)',    
-
-  },
-  thumbImage: {
-    height: 96,
-    width: 96,
-    
-    paddingHorizontal:20
-  },
+      //marginVertical:50,
+      height:180
+    }
   });

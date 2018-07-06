@@ -153,8 +153,9 @@ export default class ProductsCategoryList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor:"#ffffff",
+    paddingBottom: 50,
     //borderColor: "#00ffff",
     //borderWidth: 3
   },
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     //padding: 5,
     borderWidth: 1,
     borderColor: '#C0C0C0',
-    height: Dimensions.get('window').width / numColumns+40, // approximate a square
+    height: Dimensions.get('window').width / numColumns+20, // approximate a square
   },
   itemInvisible: {
     backgroundColor: 'transparent',

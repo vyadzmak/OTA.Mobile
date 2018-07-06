@@ -1,26 +1,55 @@
-import React from 'react';
-import { StyleSheet,AsyncStorage,Image} from 'react-native';
-import {View,Text, Container, Content, Icon, Header, Body, Left,Item, Input } from 'native-base'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+   Image 
+} from 'react-native';
+
+import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right,Switch } from 'native-base';
 import API_URL from './../modules/Settings'
-import {  Thumbnail } from 'native-base';
+import Swiper from 'react-native-swiper'
+
 import {NO_IMAGE_URL} from './../modules/VarContainer'
 export default class DashboardSliderComponent extends React.Component {   
-  
+    constructor (props) {
+        super(props)
+        this.state = {
+          items: []
+        }
+      }
+      componentDidMount () {
+        if (this.props.images_data!=null)
+          this.setState({
+            items: this.props.images_data
+          })
+
+          //alert(JSON.stringify(this.props.images_data))
+      }
+
   render() {
 
-    //alert('this.props.show_slider: '+this.props.show_slider)
-    //alert('this.props.images_data: '+JSON.stringify(this.props.images_data))
-
+    
 
     if (this.props.show_slider){
     if (this.props.images_data!=null && this.props.images_data!=undefined){
       return (
-            //    <Thumbnail
-            //         source={{uri:API_URL+this.props.image_url}}
-            //         style = {styles.thumbImage}                    
-            //         />
-             <View><Text>ЗДЕСЬ БУДЕТ СЛАЙДЕР С ПРЕДЛОЖКАМИ</Text></View>
-          
+          <Container style={styles.container}>
+        <Swiper showsButtons={false} showsPagination={false} autoplay={true} autoplayTimeout={4} loop={true} bounces={true} height={150}
+        >
+          {this.state.items.map((item, key) => {
+            return (
+              <View key={key} style={styles.slide}>
+                <Image 
+                resizeMode="contain"
+                source={{uri: API_URL+item.thumb_file_path}} 
+                style={styles.slideImage}/>
+                 
+              </View>
+            )
+          })}
+        </Swiper>
+        </Container>
       );} else{
         return (null  
       );
@@ -35,45 +64,20 @@ export default class DashboardSliderComponent extends React.Component {
 
 
   const styles = StyleSheet.create({
-    container : {
-      flexGrow: 1,
-      justifyContent:'center',
-      alignItems: 'center'
+      container:{
+        marginTop: 10,
+        height:'100%',
+        width:'100%'
+      },
+    slide:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:150,
+        width:'100%'
     },
-    logoText : {
-        marginVertical: 5,
-        fontSize:14,
-        color:'rgba(255, 255, 255, 0.7)'
-    },
-
-    clientText : {
-      paddingBottom: 10,
-      fontSize:14,
-      color:'rgba(255, 255, 255, 0.7)'
-  },
-  testStyle :{
-     //flex:1,
-     alignItems: 'center',
-     justifyContent: 'center',
-     width:'90%',
-     height:'90%'
-    //borderWidth: 3,
-    //borderColor: "red",
-  },
-  imgStyle :{
-    
-   position: 'absolute',
-   top: 5,
-   left: 5,
-    bottom: 5,
-    right: 5,
-   // backgroundColor: 'rgba(0,0,0,0.5)',    
-
-  },
-  thumbImage: {
-    height: 96,
-    width: 96,
-    
-    paddingHorizontal:20
-  },
+    slideImage:{
+        width:'100%',
+        height:'100%'
+    }
   });

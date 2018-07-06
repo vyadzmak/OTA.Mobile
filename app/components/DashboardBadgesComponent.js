@@ -1,10 +1,146 @@
-import React from 'react';
-import { StyleSheet,AsyncStorage,Image} from 'react-native';
-import {View,Text, Container, Content, Icon, Header, Body, Left,Item, Input } from 'native-base'
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+   Image 
+} from 'react-native';
+
+import { Container, Header, Content, List, ListItem, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right,Switch,Badge, Item } from 'native-base';
 import API_URL from './../modules/Settings'
-import {  Thumbnail } from 'native-base';
 import {NO_IMAGE_URL} from './../modules/VarContainer'
-export default class DashboardBadgesComponent extends React.Component {   
+
+
+
+export class DashboardBadgePopularComponent extends React.Component {   
+
+  click_badge(){
+    try{
+      this.props.navigation.push('FilterProducts', {
+        filter_parameter :9,
+        filter_value: -1
+      });
+    }
+    catch (err){
+      console.log(err)
+    }
+  }
+  
+  render() {
+
+    
+    if (this.props.show_badge_popular){
+      return (
+            
+        <Badge success style={styles.badgeStyle}>
+          <Text onPress={()=>this.click_badge()}>Популярное</Text>
+        </Badge>
+          
+      );
+    
+    } else {
+        return (null)
+    }    
+  }
+}
+
+export class DashboardBadgePartnersComponent extends React.Component {   
+
+  click_badge(){
+    try{
+      this.props.navigation.push('FilterProducts', {
+        filter_parameter :8,
+        filter_value: -1
+      });
+    }
+    catch (err){
+      console.log(err)
+    }
+  }
+  
+  render() {
+
+    
+    if (this.props.show_badge_partners){
+      return (
+            
+        <Badge success style={styles.badgeStyle}>
+          <Text onPress={()=>this.click_badge()}>Партнеры</Text>
+        </Badge>
+          
+      );
+    
+    } else {
+        return (null)
+    }    
+  }
+}
+
+export class DashboardBadgeDiscountComponent extends React.Component {   
+
+  click_badge(){
+    try{
+      this.props.navigation.push('FilterProducts', {
+        filter_parameter :6,
+        filter_value: -1
+      });
+    }
+    catch (err){
+      console.log(err)
+    }
+  }
+  
+  render() {
+
+    
+    if (this.props.show_badge_discount){
+      return (
+            
+        <Badge success style={styles.badgeStyle}>
+          <Text onPress={()=>this.click_badge()}>Скидки</Text>
+        </Badge>
+          
+      );
+    
+    } else {
+        return (null)
+    }    
+  }
+}
+
+export class DashboardBadgeStockComponent extends React.Component {   
+
+  click_badge(){
+    try{
+      this.props.navigation.push('FilterProducts', {
+        filter_parameter :7,
+        filter_value: -1
+      });
+    }
+    catch (err){
+      console.log(err)
+    }
+  }
+  
+  render() {
+
+    
+    if (this.props.show_badge_stock){
+      return (
+            
+        <Badge success style={styles.badgeStyle}>
+          <Text onPress={()=>this.click_badge()}>Акции</Text>
+        </Badge>
+          
+      );
+    
+    } else {
+        return (null)
+    }    
+  }
+}
+
+export class DashboardBadgesComponent extends React.Component {   
   
   render() {
 
@@ -18,11 +154,15 @@ export default class DashboardBadgesComponent extends React.Component {
 
     if (this.props.show_badges){
       return (
-            //    <Thumbnail
-            //         source={{uri:API_URL+this.props.image_url}}
-            //         style = {styles.thumbImage}                    
-            //         />
-             <View><Text>ЗДЕСЬ БУДУТ БЕЙДЖИ</Text></View>
+            
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollStyle}>
+       
+          <DashboardBadgePopularComponent navigation={this.props.navigation} show_badge_popular={this.props.show_badge_popular} />
+          
+          <DashboardBadgePartnersComponent  navigation={this.props.navigation}  show_badge_partners={this.props.show_badge_partners} />
+          <DashboardBadgeDiscountComponent navigation={this.props.navigation}  show_badge_discount={this.props.show_badge_discount} />
+          <DashboardBadgeStockComponent navigation={this.props.navigation}  show_badge_stock={this.props.show_badge_stock} />
+        </ScrollView>
           
       );
     
@@ -40,40 +180,14 @@ export default class DashboardBadgesComponent extends React.Component {
       justifyContent:'center',
       alignItems: 'center'
     },
-    logoText : {
-        marginVertical: 5,
-        fontSize:14,
-        color:'rgba(255, 255, 255, 0.7)'
+    scrollStyle:{
+      padding: 10,
+      marginLeft: 10,
+      height:50,
+      width:'100%'
     },
-
-    clientText : {
-      paddingBottom: 10,
-      fontSize:14,
-      color:'rgba(255, 255, 255, 0.7)'
-  },
-  testStyle :{
-     //flex:1,
-     alignItems: 'center',
-     justifyContent: 'center',
-     width:'90%',
-     height:'90%'
-    //borderWidth: 3,
-    //borderColor: "red",
-  },
-  imgStyle :{
-    
-   position: 'absolute',
-   top: 5,
-   left: 5,
-    bottom: 5,
-    right: 5,
-   // backgroundColor: 'rgba(0,0,0,0.5)',    
-
-  },
-  thumbImage: {
-    height: 96,
-    width: 96,
-    
-    paddingHorizontal:20
-  },
+    badgeStyle:{
+      //marginHorizontal: 50,
+      marginRight: 10,
+    }
   });
