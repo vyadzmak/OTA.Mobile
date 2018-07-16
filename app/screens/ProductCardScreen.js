@@ -1,184 +1,294 @@
 import React from "react";
 import {
-  View,     StyleSheet,
+  View,
+  StyleSheet,
   TouchableOpacity,
-  TextInput, ActivityIndicator
+  TextInput,
+  ActivityIndicator
 } from "react-native";
 
-import { Container,Text, Content, Icon, Header, Body, List, ListItem, Left,Right, Thumbnail, CardItem, Item, Button } from 'native-base'
-import {DrawerNavigator} from 'react-navigation'
-import {getWithParams,getWithSlashParams} from './../modules/Http'
-import {USER_ID, CART_ID,USER_DATA, SetUserCartId,SetUserData,SetUserCartProductsCount} from './../modules/VarContainer'
-import Toast from 'react-native-simple-toast';
-import {ProductCardProductRemmendationsComponent,ProductCardGalleryComponent,ProductCardInfoComponent} from './../components/ProductCardElements'
+import {
+  Container,
+  Text,
+  Content,
+  Icon,
+  Header,
+  Body,
+  List,
+  ListItem,
+  Left,
+  Right,
+  Thumbnail,
+  CardItem,
+  Item,
+  Button
+} from "native-base";
+import { DrawerNavigator } from "react-navigation";
+import { getWithParams, getWithSlashParams } from "./../modules/Http";
+import {
+  USER_ID,
+  CART_ID,
+  USER_DATA,
+  SetUserCartId,
+  SetUserData,
+  SetUserCartProductsCount
+} from "./../modules/VarContainer";
+import Toast from "react-native-simple-toast";
+import {
+  ProductCardProductRemmendationsComponent,
+  ProductCardGalleryComponent,
+  ProductCardInfoComponent
+} from "./../components/ProductCardElements";
+
+import { DashboardRecommendationsComponent } from "../components/DashboardRecommendationsComponent";
+
 //import {USER_ID, CART_ID} from './../modules/VarContainer'
 export default class ProductCardScreen extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      isLoading :true, 
-      productDetails:{}, 
-      route:'/productDetails',
-      routeAdd: '/addCartPositionToCart',
-      product_id:-1,
-      product_name:" ",
-      user_id:USER_ID,
-      count :1
-    }
-    
+      isLoading: true,
+      productDetails: null,
+      product_gallery: [],
+      route: "/productDetails",
+      routeAdd: "/addCartPositionToCart",
+      product_id: -1,
+      product_name: " ",
+      user_id: USER_ID,
+      count: 1,
+      recomendation_elements_data: null,
+      recommendation_visibility: true,
+      show_recommendations: true
+    };
   }
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('title', 'ТОВАР'),
+      title: navigation.getParam("title", "ТОВАР")
     };
   };
 
-  componentDidMount(){
+  _loadProductsCount = async () => {
+    try {
+      r = "/userCartProductCount";
+      params = [
+        { name: "user_id", value: this.state.user_id },
+        { name: "user_cart_id", value: CART_ID },
+        { name: "product_id", value: this.state.product_id }
+      ];
+
+      response = getWithParams(r, params).then(response => {
+        //alert(JSON.stringify(response))
+        if (response == undefined) {
+          // alert("Connection error");
+          // this.setState({
+          //   isLoading: false
+          // });
+          return;
+        } else {
+          //alert(JSON.stringify(response));
+          _count = response.product_count;
+          this.setState({
+            isLoading: false,
+            count: _count
+          });
+        }
+        //alert(count);
+      });
+    } catch (err) {}
+  };
+
+  _retrieveData = async () => {
+    try {
+      const value = await this._loadProductsCount();
+      params = [
+        { name: "user_id", value: this.state.user_id },
+        { name: "product_id", value: this.state.product_id }
+      ];
+
+      response = getWithParams(this.state.route, params)
+        .then(response => {
+          //alert(JSON.stringify(response))
+          if (response == undefined) {
+            alert("Connection error");
+            this.setState({
+              isLoading: false
+            });
+            return;
+          }
+
+          this.setState({
+            productDetails: response,
+            product_gallery: response.gallery_images_data,
+            recomendation_elements_data: response.product_recomendations_data
+          });
+        })
+        .then(x => {
+          if (
+            this.state.recomendation_elements_data == null ||
+            this.state.recomendation_elements_data == undefined ||
+            this.state.recomendation_elements_data.length == 0
+          ) {
+            this.setState({
+              show_recommendations: false,
+              recommendation_visibility: false,
+              isLoading: false
+              //isLoading: false
+            });
+          } else {
+            this.setState({
+              show_recommendations: true,
+              recommendation_visibility: true,
+              isLoading: false
+              //isLoading: false
+            });
+          }
+        });
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  retrive_data = async () => {
+    try {
+      //const value = await this._retrieveData();
+      this._retrieveData().then(x => {
+        //        alert(JSON.stringify(this.state.recomendation_elements_data));
+        //alert(JSON.stringify(this.state.isLoading));
+        //alert(JSON.stringify(this.state.product_recomendations_data));
+      });
+    } catch (err) {}
+  };
+
+  componentDidMount() {
     //alert(this.state.product_id)
-    this.props.navigation.setParams({title: this.state.product_name})
+    this.props.navigation.setParams({ title: this.state.product_name });
 
-    params =[{"name":"user_id","value":this.state.user_id},{"name":"product_id","value":this.state.product_id}]
-        
-              response =getWithParams(this.state.route,params).then(
-                response=> {
-                  //alert(JSON.stringify(response))
-                  if (response==undefined){
-                    alert("Connection error")
-                    this.setState({
-                      isLoading:false,
-                    })
-                    return
-                  }
-                  this.setState({
-                    productDetails:response,
-                    isLoading:false,
-                    
-                  })
-                }
-              )
-  
-}
-
-clickItem(id){
-  try{
-   console.log(id)
+    this.retrive_data().then(x => {
+      this.setState({});
+    });
   }
-  catch (err){
-    console.log(err)
+
+  clickItem(id) {
+    try {
+      console.log(id);
+    } catch (err) {
+      console.log(err);
+    }
   }
-}
-  add_to_cart()
-  {
-  user_id = USER_ID
-  count = this.state.count
-  cart_id = CART_ID
-  _product_id = this.state.productDetails.id
+  add_to_cart() {
+    user_id = USER_ID;
+    count = this.state.count;
+    cart_id = CART_ID;
+    _product_id = this.state.productDetails.id;
 
-  params =[
-    {"name":"user_id","value":user_id},
-    {"name":"user_cart_id","value":cart_id},
-    {"name":"product_id","value":_product_id},
-    {"name":"count","value":count}
+    params = [
+      { name: "user_id", value: user_id },
+      { name: "user_cart_id", value: cart_id },
+      { name: "product_id", value: _product_id },
+      { name: "count", value: count }
+    ];
 
-  ]
-  
-
-
-  //alert(JSON.stringify(params))
-  response =getWithParams(this.state.routeAdd,params).then(
-    response=> {
+    //alert(JSON.stringify(params))
+    response = getWithParams(this.state.routeAdd, params).then(response => {
       //if (response.)
       //alert(JSON.stringify(response))
-      SetUserCartProductsCount(response.products_count)
+      SetUserCartProductsCount(response.products_count);
       //alert(response.products_count)
-      SetUserCartId(response.id)
-      Toast.show('Продукт был добавлен в корзину');
+      SetUserCartId(response.id);
+      Toast.show("Продукт был добавлен в корзину");
       //alert(CART_ID)
+    });
+  }
+
+  addCount() {
+    c = this.state.count;
+    c += 1;
+    this.setState({ count: c });
+  }
+
+  minusCount() {
+    if (this.state.count > 1) {
+      c = this.state.count;
+      c -= 1;
+      this.setState({ count: c });
     }
-    )
-  
   }
-
-
-  addCount()
-  {
-    c= this.state.count
-    c+=1
-    this.setState({count:c})
-    
-    
-
-  }
-  
-  minusCount()
-  {
-    if (this.state.count>1)
-     { c= this.state.count
-      c-=1
-      this.setState({count:c})
-     }  
-  }
-
-
 
   render() {
     const { navigation } = this.props;
-    const product_id = navigation.getParam('product_id', -1);
-    const product_name = navigation.getParam('product_name', " ");
-    this.state.product_id = product_id
-    this.state.product_name = product_name
+    const product_id = navigation.getParam("product_id", -1);
+    const product_name = navigation.getParam("product_name", " ");
+    this.state.product_id = product_id;
+    this.state.product_name = product_name;
 
-    if(this.state.isLoading){
-      return(
-        <View style={{flex: 1, padding: 20}}>
-          <ActivityIndicator size="large" color="#0000ff"/>
+    if (
+      this.state.isLoading ||
+      this.state.productDetails == null ||
+      this.state.productDetails == undefined ||
+      this.state.recomendation_elements_data == null ||
+      this.state.recomendation_elements_data == undefined
+    ) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator size="large" color="#0000ff" />
         </View>
-      )
+      );
     }
 
-
-    
-
-
-   
     return (
-        // <View style={styles.container}>
-        <Container style={styles.container}>
-           <Content padder style={{padding:0}}>
-           <Item style={{padding:0}}>
-            <ProductCardGalleryComponent gallery_images_data={this.state.productDetails.gallery_images_data}></ProductCardGalleryComponent>
-           </Item>
-          <Item>
-              <ProductCardInfoComponent product_details={this.state.productDetails}></ProductCardInfoComponent>
+      // <View style={styles.container}>
+      <Container style={styles.container}>
+        <Content padder style={{ padding: 0 }}>
+          <Item style={{ padding: 0 }}>
+            <ProductCardGalleryComponent
+              gallery_images_data={this.state.product_gallery}
+            />
           </Item>
-           <Item>
-            <ProductCardProductRemmendationsComponent product_recomendations_data={this.state.productDetails.product_recomendations_data}></ProductCardProductRemmendationsComponent>
-            </Item>
-            <Item>
+          <Item>
+            <ProductCardInfoComponent
+              product_details={this.state.productDetails}
+            />
+          </Item>
+          <Item>
+            <ProductCardProductRemmendationsComponent
+              product_recomendations_data={
+                this.state.productDetails.product_recomendations_data
+              }
+            />
+          </Item>
+          <Item>
             {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
             <Left>
-            <Button block danger onPress={()=>this.minusCount()}>
-              <Text>-</Text>
-            </Button>
+              <Button block danger onPress={() => this.minusCount()}>
+                <Text>-</Text>
+              </Button>
             </Left>
             <Body>
-            <Button block primary onPress={()=>this.add_to_cart()}>
-              <Text>Добавить в корзину ({this.state.count})</Text>
-            </Button>
+              <Button block primary onPress={() => this.add_to_cart()}>
+                <Text>Добавить в корзину ({this.state.count})</Text>
+              </Button>
             </Body>
             <Right>
-            <Button block success onPress={()=>this.addCount()}>
-              <Text>+</Text>
-            </Button>
+              <Button block success onPress={() => this.addCount()}>
+                <Text>+</Text>
+              </Button>
             </Right>
             {/* </View> */}
-            </Item>
+          </Item>
 
-          </Content>
-        
-        </Container>
-        // </View>
+          {this.state.recommendation_visibility && (
+            <Item style={styles.recommendedItemStyle}>
+              <DashboardRecommendationsComponent
+                navigation={this.props.navigation}
+                images_data={this.state.recomendation_elements_data}
+                show_recommendations={this.state.show_recommendations}
+              />
+            </Item>
+          )}
+        </Content>
+      </Container>
+      // </View>
     );
   }
 }
@@ -191,16 +301,22 @@ const styles = StyleSheet.create({
     //justifyContent: "center",
     marginVertical: 5
   },
-  nameText:{
-    color: '#000',
-    fontSize: 16,
+  nameText: {
+    color: "#000",
+    fontSize: 16
     // marginLeft: 30,
     // marginTop: 10,
   },
-  icons :{
+  icons: {
     // padding:10,
     paddingHorizontal: 50,
     width: 96,
     height: 96
+  },
+  recommendedItemStyle: {
+    padding: 5,
+    height: 300,
+
+    justifyContent: "flex-start"
   }
 });

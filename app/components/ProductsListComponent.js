@@ -44,6 +44,7 @@ import {
 } from "./../components/ImagesComponents";
 //import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
+
 export default class ProductsList extends React.Component {
   constructor(props) {
     super(props);
@@ -182,16 +183,18 @@ export default class ProductsList extends React.Component {
               </TouchableOpacity>
 
               <CardItem>
-                <Left />
-                <Right>
+                <Left>
                   <View style={{ flexDirection: "row" }}>
-                    {/* <MCIcon name="heart" size={32} /> */}
                     <ProductFavorite
                       is_favorite={item.is_favorite}
                       product_id={item.id}
+                      style={styles.favoriteElementStyle}
                     />
-                    {/* <MCIcon name="cart" size={32} /> */}
-                    <ProductFastCart product_id={item.id} />
+                  </View>
+                </Left>
+                <Right>
+                  <View style={{ flexDirection: "row" }}>
+                    <ProductFastCart product_id={item.id} count={item.count} />
                   </View>
                 </Right>
               </CardItem>
@@ -248,5 +251,8 @@ const styles = StyleSheet.create({
   icons: {
     padding: 10,
     paddingHorizontal: 50
+  },
+  favoriteElementStyle: {
+    marginLeft: -50
   }
 });

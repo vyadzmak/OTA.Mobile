@@ -57,7 +57,11 @@ class DashboardScreen extends React.Component {
       slider_images_data: [],
       recomendation_elements_data: [],
       brand_elements_data: [],
-      partner_elements_data: []
+      partner_elements_data: [],
+      recommendation_visibility: false,
+      badges_visibility: false,
+      brands_visibility: false,
+      slider_visibility: false
     };
   }
 
@@ -101,13 +105,64 @@ class DashboardScreen extends React.Component {
           show_badge_discount: _show_badge_discount,
           show_badge_stock: _show_badge_stock,
           show_badge_partners: _show_badge_partners,
+
           slider_images_data: _slider_images_data,
           recomendation_elements_data: _recomendation_elements_data,
           brand_elements_data: _brand_elements_data,
           partner_elements_data: _partner_elements_data,
+
+          slider_visibility: _show_slider,
+          badges_visibility: _show_badges,
+          recommendation_visibility: _show_recommendations,
+          brands_visibility: _show_brands,
           isLoading: false
         });
-        //alert(value)
+
+        if (
+          this.state.slider_images_data == null ||
+          this.state.slider_images_data == undefined ||
+          this.state.slider_images_data.length == 0
+        ) {
+          this.setState({
+            slider_visibility: false
+          });
+        }
+
+        if (
+          this.state.recomendation_elements_data == null ||
+          this.state.recomendation_elements_data == undefined ||
+          this.state.recomendation_elements_data.length == 0
+        ) {
+          this.setState({
+            recommendation_visibility: false
+          });
+        }
+
+        if (
+          this.state.brand_elements_data == null ||
+          this.state.brand_elements_data == undefined ||
+          this.state.brand_elements_data.length == 0
+        ) {
+          this.setState({
+            brands_visibility: false
+          });
+        }
+
+        // show_badge_popular: _show_badge_popular,
+        //   show_badge_discount: _show_badge_discount,
+        //   show_badge_stock: _show_badge_stock,
+        //   show_badge_partners: _show_badge_partners,
+
+        if (
+          this.state.show_badge_popular == false &&
+          this.show_badge_discount == false &&
+          this.show_badge_stock == false &&
+          this.show_badge_partners == false
+        ) {
+          this.setState({
+            badges_visibility: false
+          });
+        }
       }
     } catch (error) {
       // Error retrieving data
@@ -162,44 +217,53 @@ class DashboardScreen extends React.Component {
         />
 
         <ScrollView>
-          <Item style={styles.itemStyle}>
-            <DashboardSliderComponent
-              style={styles.slider_component}
-              images_data={this.state.slider_images_data}
-              show_slider={this.state.show_slider}
-            />
-          </Item>
-          <Item style={styles.itemStyle}>
-            <DashboardBadgesComponent
-              navigation={this.props.navigation}
-              show_badge_popular={this.state.show_badge_popular}
-              show_badge_partners={this.state.show_badge_partners}
-              show_badge_discount={this.state.show_badge_discount}
-              show_badge_stock={this.state.show_badge_stock}
-              show_badges={this.state.show_badges}
-            />
-          </Item>
+          {this.state.slider_visibility && (
+            <Item style={styles.itemStyle}>
+              <DashboardSliderComponent
+                style={styles.slider_component}
+                images_data={this.state.slider_images_data}
+                show_slider={this.state.show_slider}
+              />
+            </Item>
+          )}
+          {this.state.badges_visibility && (
+            <Item style={styles.itemStyle}>
+              <DashboardBadgesComponent
+                navigation={this.props.navigation}
+                show_badge_popular={this.state.show_badge_popular}
+                show_badge_partners={this.state.show_badge_partners}
+                show_badge_discount={this.state.show_badge_discount}
+                show_badge_stock={this.state.show_badge_stock}
+                show_badges={this.state.show_badges}
+              />
+            </Item>
+          )}
+
           <Item style={styles.itemStyle}>
             <ProductsCategoryList
               navigation={this.props.navigation}
               // style={{ paddingBottom: 50 }}
             />
           </Item>
-          <Item style={styles.recommendedItemStyle}>
-            <DashboardRecommendationsComponent
-              navigation={this.props.navigation}
-              images_data={this.state.recomendation_elements_data}
-              show_recommendations={this.state.show_recommendations}
-            />
-          </Item>
 
-          <Item style={styles.brandItemStyle}>
-            <DashboardBrandsComponent
-              navigation={this.props.navigation}
-              images_data={this.state.brand_elements_data}
-              show_brands={this.state.show_brands}
-            />
-          </Item>
+          {this.state.recommendation_visibility && (
+            <Item style={styles.recommendedItemStyle}>
+              <DashboardRecommendationsComponent
+                navigation={this.props.navigation}
+                images_data={this.state.recomendation_elements_data}
+                show_recommendations={this.state.show_recommendations}
+              />
+            </Item>
+          )}
+          {this.state.brands_visibility && (
+            <Item style={styles.brandItemStyle}>
+              <DashboardBrandsComponent
+                navigation={this.props.navigation}
+                images_data={this.state.brand_elements_data}
+                show_brands={this.state.show_brands}
+              />
+            </Item>
+          )}
         </ScrollView>
       </Container>
     );

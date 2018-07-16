@@ -42,6 +42,8 @@ export class DashboardRecommendationsComponent extends React.Component {
       this.setState({
         items: this.props.images_data
       });
+
+    // alert(JSON.stringify(this.props.images_data));
   }
   render() {
     if (this.props.show_recommendations) {
@@ -49,33 +51,35 @@ export class DashboardRecommendationsComponent extends React.Component {
         this.props.images_data != null &&
         this.props.images_data != undefined
       ) {
-        return (
-          <Container style={styles.container}>
-            <Text>Рекомендованные товары</Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              style={styles.scrollBarStyle}>
-              {this.state.items.map((item, key) => {
-                return (
-                  <RecommendationProductComponent
-                    navigation={this.props.navigation}
-                    id={item.id}
-                    image_path={item.default_image_data.thumb_file_path}
-                    name={item.name}
-                    currency_display_value={
-                      item.product_currency_data.display_value
-                    }
-                    amount={item.amount}
-                    discount_amount={item.discount_amount}
-                    rate={item.rate}
-                    comments_count={item.rate}
-                  />
-                );
-              })}
-            </ScrollView>
-          </Container>
-        );
+        if (this.props.images_data.length > 0) {
+          return (
+            <Container style={styles.container}>
+              <Text>Рекомендованные товары</Text>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.scrollBarStyle}>
+                {this.state.items.map((item, key) => {
+                  return (
+                    <RecommendationProductComponent
+                      navigation={this.props.navigation}
+                      id={item.id}
+                      image_path={item.default_image_data.thumb_file_path}
+                      name={item.name}
+                      currency_display_value={
+                        item.product_currency_data.display_value
+                      }
+                      amount={item.amount}
+                      discount_amount={item.discount_amount}
+                      rate={item.rate}
+                      comments_count={item.rate}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </Container>
+          );
+        } else return null;
       } else {
         return null;
       }

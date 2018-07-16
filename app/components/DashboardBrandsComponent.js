@@ -51,26 +51,30 @@ export class DashboardBrandsComponent extends React.Component {
         this.props.images_data != null &&
         this.props.images_data != undefined
       ) {
-        return (
-          <Container style={styles.container}>
-            <Text>Бренды</Text>
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              style={styles.scrollBarStyle}>
-              {this.state.items.map((item, key) => {
-                return (
-                  <BrandComponent
-                    navigation={this.props.navigation}
-                    id={item.id}
-                    image_path={item.default_image_data_brands.thumb_file_path}
-                    name={item.name}
-                  />
-                );
-              })}
-            </ScrollView>
-          </Container>
-        );
+        if (this.props.images_data.length > 0) {
+          return (
+            <Container style={styles.container}>
+              <Text>Бренды</Text>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.scrollBarStyle}>
+                {this.state.items.map((item, key) => {
+                  return (
+                    <BrandComponent
+                      navigation={this.props.navigation}
+                      id={item.id}
+                      image_path={
+                        item.default_image_data_brands.thumb_file_path
+                      }
+                      name={item.name}
+                    />
+                  );
+                })}
+              </ScrollView>
+            </Container>
+          );
+        } else return null;
       } else {
         return null;
       }
