@@ -38,7 +38,7 @@ export class DashboardBadgePopularComponent extends React.Component {
   render() {
     if (this.props.show_badge_popular) {
       return (
-        <Badge success style={styles.badgeStyle}>
+        <Badge primary style={styles.badgeStyle}>
           <Text onPress={() => this.click_badge()}>Популярное</Text>
         </Badge>
       );
@@ -51,10 +51,12 @@ export class DashboardBadgePopularComponent extends React.Component {
 export class DashboardBadgePartnersComponent extends React.Component {
   click_badge() {
     try {
-      this.props.navigation.push("FilterProducts", {
-        filter_parameter: 8,
-        filter_value: -1
-      });
+      this.props.navigation.push("Partners");
+
+      // , {
+      //   filter_parameter: 8,
+      //   filter_value: -1
+      // }
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +65,7 @@ export class DashboardBadgePartnersComponent extends React.Component {
   render() {
     if (this.props.show_badge_partners) {
       return (
-        <Badge success style={styles.badgeStyle}>
+        <Badge primary style={styles.badgeStyle}>
           <Text onPress={() => this.click_badge()}>Партнеры</Text>
         </Badge>
       );
@@ -88,7 +90,7 @@ export class DashboardBadgeDiscountComponent extends React.Component {
   render() {
     if (this.props.show_badge_discount) {
       return (
-        <Badge success style={styles.badgeStyle}>
+        <Badge primary style={styles.badgeStyle}>
           <Text onPress={() => this.click_badge()}>Скидки</Text>
         </Badge>
       );
@@ -113,7 +115,7 @@ export class DashboardBadgeStockComponent extends React.Component {
   render() {
     if (this.props.show_badge_stock) {
       return (
-        <Badge success style={styles.badgeStyle}>
+        <Badge primary style={styles.badgeStyle}>
           <Text onPress={() => this.click_badge()}>Акции</Text>
         </Badge>
       );

@@ -128,32 +128,181 @@ export class ProductCardProductRemmendationsComponent extends React.Component {
   }
 }
 
-export class ProductCardInfoComponent extends React.Component {
+export class ProductCardMainInfoShortDescriptionComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      description: ""
+    };
+  }
+  componentDidMount() {
+    this.setState({
+      description: this.props.description
+    });
+    // alert(this.props.description);
+  }
+
+  render() {
+    if (this.state.description == "" || this.state.description == undefined) {
+      return null;
+    } else {
+      return (
+        <Item style={styles.itemDetailsStyle}>
+          <Text style={styles.shortDescriptionStyle}>
+            {this.state.description}
+          </Text>
+        </Item>
+      );
+    }
+  }
+}
+
+export class ProductCardMainInfoFullDescriptionComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      description: ""
+    };
+  }
+  componentDidMount() {
+    this.setState({
+      description: this.props.description
+    });
+    //alert(this.props.description);
+  }
+
+  render() {
+    if (this.state.description == "" || this.state.description == undefined) {
+      return null;
+    } else {
+      return (
+        <Item style={styles.itemDetailsStyle}>
+          <Text style={styles.fullDescriptionStyle}>
+            {this.state.description}
+          </Text>
+        </Item>
+      );
+    }
+  }
+}
+
+export class ProductCardMainInfoComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       productDetails: {},
       currency_data: {},
-      unit_data: {}
+      unit_data: {},
+      partner_data: {},
+      brand_data: {},
+      isLoading: true
     };
   }
   componentDidMount() {
     this.setState({
       productDetails: this.props.product_details,
       currency_data: this.props.product_details.product_currency_data,
-      unit_data: this.props.product_details.product_unit_data
+      unit_data: this.props.product_details.product_unit_data,
+      partner_data: this.props.product_details.partner_data,
+      brand_data: this.props.product_details.brand_data,
+      isLoading: false
     });
-    //alert(JSON.stringify(this.props.product_details.product_unit_data));
+    //alert("PD:" + JSON.stringify(this.state.productDetails));
+  }
+
+  clickOnStar(rating) {
+    alert(rating);
+  }
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
+
+    return (
+      <Content style={styles.mainInfoStyle}>
+        <Item style={styles.itemDetailsStyle}>
+          <Text style={styles.productNameStyle}>
+            {this.state.productDetails.name}
+          </Text>
+        </Item>
+
+        <ProductCardMainInfoShortDescriptionComponent
+          description={this.state.productDetails.short_description}
+        />
+
+        <ProductCardMainInfoFullDescriptionComponent
+          description={this.state.productDetails.full_description}
+        />
+
+        <Item style={styles.itemDetailsStyle}>
+          <View style={{ flexDirection: "row" }}>
+            <StarRating
+              disabled={false}
+              emptyStar={"ios-star-outline"}
+              fullStar={"ios-star"}
+              halfStar={"ios-star-half"}
+              iconSet={"Ionicons"}
+              maxStars={5}
+              rating={this.state.productDetails.rate}
+              selectedStar={rating => this.clickOnStar(rating)}
+              fullStarColor={"orange"}
+              starSize={25}
+            />
+            <Text style={{ color: "orange", fontSize: 20 }}>
+              {" "}
+              ({this.state.productDetails.comments_count})
+            </Text>
+          </View>
+        </Item>
+      </Content>
+    );
+  }
+}
+
+export class ProductCardInfoComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      productDetails: {},
+      currency_data: {},
+      unit_data: {},
+      partner_data: {},
+      brand_data: {},
+      isLoading: true
+    };
+  }
+  componentDidMount() {
+    this.setState({
+      productDetails: this.props.product_details,
+      currency_data: this.props.product_details.product_currency_data,
+      unit_data: this.props.product_details.product_unit_data,
+      partner_data: this.props.product_details.partner_data,
+      brand_data: this.props.product_details.brand_data,
+      isLoading: false
+    });
+    //alert(JSON.stringify(this.props.product_details.partner_data.name));
     // console.log(JSON.stringify(this.props.product_details))
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
+
     return (
       <Content>
         <Item header style={styles.itemDetailsStyle}>
           <Text style={styles.itemHeaderTextStyle}>Данные по товару</Text>
         </Item>
-        <Item style={styles.itemDetailsStyle}>
+        {/* <Item style={styles.itemDetailsStyle}>
           <Left>
             <Text style={styles.itemNameTextStyle}>Наименование</Text>
           </Left>
@@ -162,7 +311,7 @@ export class ProductCardInfoComponent extends React.Component {
               {this.state.productDetails.name}
             </Text>
           </Right>
-        </Item>
+        </Item> */}
 
         <Item style={styles.itemDetailsStyle}>
           <Left>
@@ -175,7 +324,7 @@ export class ProductCardInfoComponent extends React.Component {
           </Right>
         </Item>
 
-        <Item style={styles.itemDetailsStyle}>
+        {/* <Item style={styles.itemDetailsStyle}>
           <Left>
             <Text style={styles.itemNameTextStyle}>Краткое описание</Text>
           </Left>
@@ -195,7 +344,7 @@ export class ProductCardInfoComponent extends React.Component {
               {this.state.productDetails.full_description}
             </Text>
           </Right>
-        </Item>
+        </Item> */}
 
         <Item style={styles.itemDetailsStyle}>
           <Left>
@@ -252,6 +401,28 @@ export class ProductCardInfoComponent extends React.Component {
           <Right>
             <Text style={styles.itemValueTextStyle}>
               {this.state.productDetails.bonus_percent}
+            </Text>
+          </Right>
+        </Item>
+
+        <Item style={styles.itemDetailsStyle}>
+          <Left>
+            <Text style={styles.itemNameTextStyle}>Партнер</Text>
+          </Left>
+          <Right>
+            <Text style={styles.itemValueTextStyle}>
+              {this.state.partner_data.name}
+            </Text>
+          </Right>
+        </Item>
+
+        <Item style={styles.itemDetailsStyle}>
+          <Left>
+            <Text style={styles.itemNameTextStyle}>Бренд </Text>
+          </Left>
+          <Right>
+            <Text style={styles.itemValueTextStyle}>
+              {this.state.brand_data.name}
             </Text>
           </Right>
         </Item>
@@ -365,5 +536,21 @@ const styles = {
   itemValueTextStyle: {
     fontSize: 14,
     color: "#1c1c1c"
+  },
+
+  productNameStyle: {
+    fontSize: 16,
+    color: "#000000"
+  },
+  shortDescriptionStyle: {
+    fontSize: 14,
+    color: "#1c1c1c"
+  },
+  fullDescriptionStyle: {
+    fontSize: 12,
+    color: "#1c1c1c"
+  },
+  mainInfoStyle: {
+    marginTop: 15
   }
 };

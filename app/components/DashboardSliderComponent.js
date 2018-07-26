@@ -47,8 +47,8 @@ export default class DashboardSliderComponent extends React.Component {
         return (
           // <View style={styles.container}>
           <Swiper
-            showsButtons={false}
-            showsPagination={false}
+            showsButtons={true}
+            showsPagination={true}
             autoplay={true}
             autoplayTimeout={4}
             loop={true}

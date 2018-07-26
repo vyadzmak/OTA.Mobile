@@ -53,6 +53,7 @@ export class RecommendationProductComponent extends React.Component {
   }
 
   componentDidMount() {
+    //alert(JSON.stringify(this.props));
     //if (this.props.images_data != null)
     this.setState({
       id: this.props.id,
@@ -161,7 +162,9 @@ const styles = StyleSheet.create({
     padding: 0,
     flexDirection: "column",
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    borderWidth: 3,
+    borderColor: "#1c1c1c"
   },
   touchableOpacity: {
     flex: 1,

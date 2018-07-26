@@ -37,7 +37,8 @@ import Toast from "react-native-simple-toast";
 import {
   ProductCardProductRemmendationsComponent,
   ProductCardGalleryComponent,
-  ProductCardInfoComponent
+  ProductCardInfoComponent,
+  ProductCardMainInfoComponent
 } from "./../components/ProductCardElements";
 
 import { DashboardRecommendationsComponent } from "../components/DashboardRecommendationsComponent";
@@ -215,6 +216,16 @@ export default class ProductCardScreen extends React.Component {
     }
   }
 
+  clickImage() {
+    //alert("CLicker");
+
+    this.props.navigation.push("Gallery", {
+      images: this.state.product_gallery,
+      //product_name: name,
+      navigation: this.props.navigation
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const product_id = navigation.getParam("product_id", -1);
@@ -240,24 +251,19 @@ export default class ProductCardScreen extends React.Component {
       // <View style={styles.container}>
       <Container style={styles.container}>
         <Content padder style={{ padding: 0 }}>
-          <Item style={{ padding: 0 }}>
+          <Item style={{ padding: 0 }} onPress={() => this.clickImage()}>
             <ProductCardGalleryComponent
               gallery_images_data={this.state.product_gallery}
             />
           </Item>
+
           <Item>
-            <ProductCardInfoComponent
+            <ProductCardMainInfoComponent
               product_details={this.state.productDetails}
             />
           </Item>
-          <Item>
-            <ProductCardProductRemmendationsComponent
-              product_recomendations_data={
-                this.state.productDetails.product_recomendations_data
-              }
-            />
-          </Item>
-          <Item>
+
+          <Item style={{ marginTop: 15 }}>
             {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
             <Left>
               <Button block danger onPress={() => this.minusCount()}>
@@ -275,6 +281,18 @@ export default class ProductCardScreen extends React.Component {
               </Button>
             </Right>
             {/* </View> */}
+          </Item>
+          <Item>
+            <ProductCardInfoComponent
+              product_details={this.state.productDetails}
+            />
+          </Item>
+          <Item>
+            <ProductCardProductRemmendationsComponent
+              product_recomendations_data={
+                this.state.productDetails.product_recomendations_data
+              }
+            />
           </Item>
 
           {this.state.recommendation_visibility && (

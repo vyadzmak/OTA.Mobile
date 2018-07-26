@@ -102,7 +102,7 @@ export default class LoginForm extends React.Component {
         <TextInput
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder="7123456789"
+          placeholder="Логин"
           placeholderTextColor="rgba(255,255,255,0.7)"
           selectionColor="#fff"
           keyboardType="numeric"
@@ -119,7 +119,7 @@ export default class LoginForm extends React.Component {
         <TextInput
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
-          placeholder="******"
+          placeholder="Пароль"
           secureTextEntry={true}
           onChangeText={text =>
             this.setState({

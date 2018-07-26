@@ -42,8 +42,6 @@ export class DashboardRecommendationsComponent extends React.Component {
       this.setState({
         items: this.props.images_data
       });
-
-    // alert(JSON.stringify(this.props.images_data));
   }
   render() {
     if (this.props.show_recommendations) {

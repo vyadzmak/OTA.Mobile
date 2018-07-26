@@ -1,6 +1,19 @@
+import { NetInfo } from "react-native";
 import API_URL from "./Settings";
 //make get request with get params
 //export const func1=()=>{
+export const CheckInternetConnection = async () => {
+  try {
+    NetInfo.getConnectionInfo().then(connectionInfo => {
+      t = connectionInfo.type;
+      if (t == "none" || t == "unknown") {
+        ("Не обнаружено подключение к интернету. Пожалуйста, проверьте ваше подключение и повторите попытку!");
+      }
+    });
+  } catch (err) {
+    alert("Connection down: " + err);
+  }
+};
 
 export const AGetWithParams = (route, params) => {
   try {
@@ -38,6 +51,7 @@ export const AGetWithParams = (route, params) => {
 
 export const getWithParams = (route, params) => {
   try {
+    CheckInternetConnection();
     url = API_URL + route + "?";
     p_string = "";
     p_length = params.length;
@@ -60,13 +74,15 @@ export const getWithParams = (route, params) => {
       })
       .catch(err => console.log("Error!!!!" + err));
   } catch (err) {
-    alert("Error");
+    alert("Error: " + err);
   }
 };
 
 // //make get request with slash params
 export const getWithSlashParams = route => {
   try {
+    CheckInternetConnection();
+
     url = API_URL + route;
     //alert(url)
     return fetch(url)
@@ -90,6 +106,8 @@ const read_json = response => {
 
 export const postRequest = (route, params) => {
   try {
+    CheckInternetConnection();
+
     url = API_URL + route;
 
     return fetch(url, {

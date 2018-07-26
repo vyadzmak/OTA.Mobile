@@ -92,6 +92,7 @@ class DashboardScreen extends React.Component {
         _partner_elements_data = JSON.parse(value).view_settings
           .partner_elements_data;
 
+        //alert(JSON.stringify(_recomendation_elements_data));
         //alert("OOO: "+JSON.stringify(_slider_images_data))
 
         // We have data!!

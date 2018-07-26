@@ -58,6 +58,7 @@ export default class TabProfileClient extends React.Component {
         name: "",
         address: "",
         code: "",
+        phone_number: "",
         tobacco_alcohol_license: false,
         city_id: -1,
         is_default: false
@@ -118,6 +119,9 @@ export default class TabProfileClient extends React.Component {
           });
           this.setState({ c_address: { ...this.state.c_address, code: "" } });
           this.setState({
+            c_address: { ...this.state.c_address, phone_number: "" }
+          });
+          this.setState({
             c_address: { ...this.state.c_address, is_default: false }
           });
           this.setState({
@@ -141,6 +145,9 @@ export default class TabProfileClient extends React.Component {
       this.setState({ c_address: { ...this.state.c_address, name: "" } });
       this.setState({ c_address: { ...this.state.c_address, address: "" } });
       this.setState({ c_address: { ...this.state.c_address, code: "" } });
+      this.setState({
+        c_address: { ...this.state.c_address, phone_number: "" }
+      });
       this.setState({
         c_address: { ...this.state.c_address, is_default: false }
       });
@@ -179,6 +186,7 @@ export default class TabProfileClient extends React.Component {
           code: this.state.c_address.code,
           tobacco_alcohol_license: this.state.c_address.tobacco_alcohol_license,
           city_id: this.state.c_address.city_id,
+          phone_number: this.state.c_address.phone_number,
           is_default: this.state.c_address.is_default
         };
         //alert(JSON.stringify(model))
@@ -192,6 +200,7 @@ export default class TabProfileClient extends React.Component {
     this.setState({ c_address: { ...this.state.c_address, name: "" } });
     this.setState({ c_address: { ...this.state.c_address, address: "" } });
     this.setState({ c_address: { ...this.state.c_address, code: "" } });
+    this.setState({ c_address: { ...this.state.c_address, phone_number: "" } });
     this.setState({
       c_address: { ...this.state.c_address, is_default: false }
     });
@@ -446,64 +455,6 @@ export default class TabProfileClient extends React.Component {
               </Header>
               <Content>
                 <Form>
-                  <Item floatingLabel>
-                    <Label>Имя</Label>
-                    <Input
-                      underlineColorAndroid="rgba(0,0,0,0)"
-                      //   placeholder="Магазин 'Ромашка'"
-                      placeholderTextColor="rgba(255,255,255,0.7)"
-                      selectionColor="#fff"
-                      keyboardType="default"
-                      onChangeText={text =>
-                        this.setState({
-                          c_address: { ...this.state.c_address, name: text }
-                        })
-                      }
-                      value={this.state.c_address.name}
-                      maxLength={16}
-                      //   onSubmitEditing={()=> this.state.с_address_address_input.focus()}
-                    />
-                  </Item>
-                  <Item floatingLabel>
-                    <Label>Адрес</Label>
-                    <Input
-                      underlineColorAndroid="rgba(0,0,0,0)"
-                      //   placeholder="Набережная 16"
-                      placeholderTextColor="rgba(255,255,255,0.7)"
-                      selectionColor="#fff"
-                      keyboardType="default"
-                      value={this.state.c_address.address}
-                      onChangeText={text =>
-                        this.setState({
-                          c_address: { ...this.state.c_address, address: text }
-                        })
-                      }
-                      maxLength={50}
-                      //   ref={(input) => this.state.с_address_address_input = input}
-                      //   onSubmitEditing={()=> this.state.client_code_input.focus()}
-                    />
-                  </Item>
-
-                  <Item floatingLabel>
-                    <Label>Код</Label>
-                    <Input
-                      underlineColorAndroid="rgba(0,0,0,0)"
-                      //   placeholder="Набережная 16"
-                      placeholderTextColor="rgba(255,255,255,0.7)"
-                      selectionColor="#fff"
-                      keyboardType="default"
-                      value={this.state.c_address.code}
-                      onChangeText={text =>
-                        this.setState({
-                          c_address: { ...this.state.c_address, code: text }
-                        })
-                      }
-                      maxLength={50}
-                      //   ref={(input) => this.state.с_address_address_input = input}
-                      //   onSubmitEditing={()=> this.state.client_code_input.focus()}
-                    />
-                  </Item>
-
                   {/* </Item> */}
 
                   {/* <Item> */}
@@ -544,7 +495,91 @@ export default class TabProfileClient extends React.Component {
                     </Picker>
                   </View>
                   {/* <Item floatingLabel> */}
-                  <Item>
+
+                  <Item floatingLabel>
+                    <Label>Название</Label>
+                    <Input
+                      underlineColorAndroid="rgba(0,0,0,0)"
+                      //   placeholder="Магазин 'Ромашка'"
+                      placeholderTextColor="rgba(255,255,255,0.7)"
+                      selectionColor="#fff"
+                      keyboardType="default"
+                      onChangeText={text =>
+                        this.setState({
+                          c_address: { ...this.state.c_address, name: text }
+                        })
+                      }
+                      value={this.state.c_address.name}
+                      maxLength={16}
+                      //   onSubmitEditing={()=> this.state.с_address_address_input.focus()}
+                    />
+                  </Item>
+                  <Item floatingLabel>
+                    <Label>Адрес</Label>
+                    <Input
+                      underlineColorAndroid="rgba(0,0,0,0)"
+                      //   placeholder="Набережная 16"
+                      placeholderTextColor="rgba(255,255,255,0.7)"
+                      selectionColor="#fff"
+                      keyboardType="default"
+                      value={this.state.c_address.address}
+                      onChangeText={text =>
+                        this.setState({
+                          c_address: {
+                            ...this.state.c_address,
+                            address: text
+                          }
+                        })
+                      }
+                      maxLength={50}
+                      //   ref={(input) => this.state.с_address_address_input = input}
+                      //   onSubmitEditing={()=> this.state.client_code_input.focus()}
+                    />
+                  </Item>
+
+                  <Item floatingLabel>
+                    <Label>Код</Label>
+                    <Input
+                      underlineColorAndroid="rgba(0,0,0,0)"
+                      //   placeholder="Набережная 16"
+                      placeholderTextColor="rgba(255,255,255,0.7)"
+                      selectionColor="#fff"
+                      keyboardType="default"
+                      value={this.state.c_address.code}
+                      onChangeText={text =>
+                        this.setState({
+                          c_address: { ...this.state.c_address, code: text }
+                        })
+                      }
+                      maxLength={50}
+                      //   ref={(input) => this.state.с_address_address_input = input}
+                      //   onSubmitEditing={()=> this.state.client_code_input.focus()}
+                    />
+                  </Item>
+
+                  <Item floatingLabel>
+                    <Label>Мобильный телефон</Label>
+                    <Input
+                      underlineColorAndroid="rgba(0,0,0,0)"
+                      //   placeholder="Набережная 16"
+                      placeholderTextColor="rgba(255,255,255,0.7)"
+                      selectionColor="#fff"
+                      keyboardType="numeric"
+                      value={this.state.c_address.phone_number}
+                      onChangeText={text =>
+                        this.setState({
+                          c_address: {
+                            ...this.state.c_address,
+                            phone_number: text
+                          }
+                        })
+                      }
+                      maxLength={32}
+                      //   ref={(input) => this.state.с_address_address_input = input}
+                      //   onSubmitEditing={()=> this.state.client_code_input.focus()}
+                    />
+                  </Item>
+                  <Item style={{ marginTop: 35 }}>
                     <Left>
                       <Label>Лиц-я на алк. и табач. прод.</Label>
                     </Left>
