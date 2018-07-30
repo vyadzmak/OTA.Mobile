@@ -263,35 +263,68 @@ export class ProductFastCart extends React.Component {
   render() {
     return (
       <View style={{ flexDirection: "row" }}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center"
-          }}>
-          <Button
-            danger
-            style={styles.buttonsStyle}
-            onPress={() => this.minus_count()}>
-            <Text style={styles.buttonText}>-</Text>
-          </Button>
+        <Left>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+            <Button
+              danger
+              style={styles.buttonsStyle}
+              onPress={() => this.minus_count()}>
+              <Text style={styles.buttonText}>-</Text>
+            </Button>
 
-          <Text style={styles.countStyle}>{this.state.count}</Text>
+            <Text style={styles.countStyle}>{this.state.count}</Text>
 
-          <Button
-            success
-            style={styles.buttonsStyle}
-            onPress={() => this.plus_count()}>
-            <Text style={styles.buttonText}>+</Text>
-          </Button>
-        </View>
+            <Button
+              success
+              style={styles.buttonsStyle}
+              onPress={() => this.plus_count()}>
+              <Text style={styles.buttonText}>+</Text>
+            </Button>
+          </View>
 
-        <MCIcon
-          name="cart"
-          size={32}
-          style={styles.cartIconStyle}
-          onPress={() => this.add_to_cart()}
-        />
+          <MCIcon
+            name="cart"
+            size={32}
+            style={styles.cartIconStyle}
+            onPress={() => this.add_to_cart()}
+          />
+        </Left>
+        <Right>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
+            }}>
+            <Button
+              danger
+              style={styles.buttonsStyle}
+              onPress={() => this.minus_count()}>
+              <Text style={styles.buttonText}>-</Text>
+            </Button>
+
+            <Text style={styles.countStyle}>{this.state.count}</Text>
+
+            <Button
+              success
+              style={styles.buttonsStyle}
+              onPress={() => this.plus_count()}>
+              <Text style={styles.buttonText}>+</Text>
+            </Button>
+          </View>
+
+          <MCIcon
+            name="cart"
+            size={32}
+            style={styles.cartIconStyle}
+            onPress={() => this.add_to_cart()}
+          />
+        </Right>
       </View>
     );
   }

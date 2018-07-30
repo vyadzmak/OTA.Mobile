@@ -38,6 +38,7 @@ import FilterProductsScreen from "./FilterProductsScreen";
 import PrepareOrderScreen from "./PrepareOrderScreen";
 import OrderDetailsScreen from "./OrderDetailsScreen";
 import GalleryScreen from "./GalleryScreen";
+import ProdcutComments from "./ProductCommentsScreen";
 export const AccountsStack = createStackNavigator(
   {
     Account: {
@@ -125,7 +126,8 @@ export const DashboardStack = createStackNavigator(
     FilterProducts: { screen: FilterProductsScreen },
     Login: { screen: LoginScreen },
     Gallery: { screen: GalleryScreen },
-    Partners: { screen: PartnersCatalogScreen }
+    Partners: { screen: PartnersCatalogScreen },
+    ProductComments: { screen: ProdcutComments }
     //App :{screen: AppScreen}
   },
   {

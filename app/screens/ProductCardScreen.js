@@ -260,6 +260,7 @@ export default class ProductCardScreen extends React.Component {
           <Item>
             <ProductCardMainInfoComponent
               product_details={this.state.productDetails}
+              navigation = {this.props.navigation}
             />
           </Item>
 

@@ -211,7 +211,11 @@ export class ProductCardMainInfoComponent extends React.Component {
   }
 
   clickOnStar(rating) {
-    alert(rating);
+    this.props.navigation.push("ProductComments", {
+      product_id: this.state.productDetails.id,
+      //product_name: name,
+      navigation: this.props.navigation
+    });
   }
   render() {
     if (this.state.isLoading) {

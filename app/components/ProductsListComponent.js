@@ -148,24 +148,7 @@ export default class ProductsList extends React.Component {
                         discount_amount={item.discount_amount}
                       />
                     </View>
-                    <View style={{ flexDirection: "row" }}>
-                      <StarRating
-                        disabled={false}
-                        emptyStar={"ios-star-outline"}
-                        fullStar={"ios-star"}
-                        halfStar={"ios-star-half"}
-                        iconSet={"Ionicons"}
-                        maxStars={5}
-                        rating={item.rate}
-                        // selectedStar={(rating) => this.onStarRatingPress(rating)}
-                        fullStarColor={"orange"}
-                        starSize={20}
-                      />
-                      <Text style={{ color: "orange", fontSize: 16 }}>
-                        {" "}
-                        ({item.comments_count})
-                      </Text>
-                    </View>
+
                     <View style={{ flexDirection: "row" }}>
                       <ProductStockIcon
                         is_stock_product={item.is_stock_product}
@@ -183,6 +166,12 @@ export default class ProductsList extends React.Component {
               </TouchableOpacity>
 
               <CardItem>
+                <View style={{ flexDirection: "row" }}>
+                  <ProductFastCart product_id={item.id} count={item.count} />
+                </View>
+              </CardItem>
+
+              <CardItem>
                 <Left>
                   <View style={{ flexDirection: "row" }}>
                     <ProductFavorite
@@ -194,7 +183,22 @@ export default class ProductsList extends React.Component {
                 </Left>
                 <Right>
                   <View style={{ flexDirection: "row" }}>
-                    <ProductFastCart product_id={item.id} count={item.count} />
+                    <StarRating
+                      disabled={false}
+                      emptyStar={"ios-star-outline"}
+                      fullStar={"ios-star"}
+                      halfStar={"ios-star-half"}
+                      iconSet={"Ionicons"}
+                      maxStars={5}
+                      rating={item.rate}
+                      // selectedStar={(rating) => this.onStarRatingPress(rating)}
+                      fullStarColor={"orange"}
+                      starSize={30}
+                    />
+                    <Text style={{ color: "orange", fontSize: 20 }}>
+                      {" "}
+                      ({item.comments_count})
+                    </Text>
                   </View>
                 </Right>
               </CardItem>

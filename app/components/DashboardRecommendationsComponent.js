@@ -70,7 +70,7 @@ export class DashboardRecommendationsComponent extends React.Component {
                       amount={item.amount}
                       discount_amount={item.discount_amount}
                       rate={item.rate}
-                      comments_count={item.rate}
+                      comments_count={item.comments_count}
                     />
                   );
                 })}

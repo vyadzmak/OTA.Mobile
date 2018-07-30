@@ -24,7 +24,9 @@ import {
   List,
   Button,
   ListItem,
-  Right
+  Right,
+  Form,
+  Label
 } from "native-base";
 
 import { DrawerNavigator } from "react-navigation";
@@ -36,7 +38,7 @@ import {
 } from "./../modules/Http";
 import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import Toast from "react-native-simple-toast";
-
+import TextInputMask from "react-native-text-input-mask";
 export default class TabProfileUser extends React.Component {
   constructor(props) {
     super(props);
@@ -51,9 +53,9 @@ export default class TabProfileUser extends React.Component {
         user_password: "",
         user_phone_number: "",
         user_email: "",
-        total_bonuses_amount: 0,
+        total_bonuses_amount: "0",
         start_bonus_date: "",
-        end_bonus_date: ""
+        end_bonus_date: "-"
       }
     };
   }
@@ -91,20 +93,55 @@ export default class TabProfileUser extends React.Component {
           userProfile: response,
           isLoading: false
         });
-        this.setState({
-          user_data: {
-            ...this.state.user_data,
-            user_id: this.state.userProfile.user_data.id,
-            user_name: this.state.userProfile.user_data.name,
-            user_login: this.state.userProfile.login,
-            user_phone_number: this.state.userProfile.user_data.user_info
-              .phone_number,
-            user_email: this.state.userProfile.user_data.user_info.email,
-            total_bonuses_amount: this.state.userProfile.total_bonuses_amount,
-            start_bonus_date: this.state.userProfile.start_bonus_date,
-            end_bonus_date: this.state.userProfile.end_bonus_date
+        this.setState(
+          {
+            user_data: {
+              ...this.state.user_data,
+              user_id: this.state.userProfile.user_data.id,
+              user_name: this.state.userProfile.user_data.name,
+              user_login: "+7" + this.state.userProfile.login,
+              user_phone_number: this.state.userProfile.user_data.user_info
+                .phone_number,
+              user_email: this.state.userProfile.user_data.user_info.email,
+              total_bonuses_amount: this.state.userProfile.total_bonuses_amount,
+              start_bonus_date: this.state.userProfile.start_bonus_date,
+              end_bonus_date: this.state.userProfile.end_bonus_date
+            }
+          },
+          () => {
+            //alert(this.state.user_data.total_bonuses_amount);
+            bonuses_amount = this.state.user_data.total_bonuses_amount;
+            if (bonuses_amount == null || bonuses_amount == undefined) {
+              bonuses_amount = "0";
+            }
+
+            start_bonus_date = this.state.user_data.start_bonus_date;
+            if (
+              this.state.user_data.start_bonus_date == null ||
+              this.state.user_data.start_bonus_date == undefined
+            ) {
+              start_bonus_date = "-";
+            }
+
+            end_bonus_date = this.state.user_data.end_bonus_date;
+            if (
+              this.state.user_data.end_bonus_date == null ||
+              this.state.user_data.end_bonus_date == undefined
+            ) {
+              end_bonus_date = "-";
+            }
+            //alert(bonuses_amount);
+            bonuses_amount = bonuses_amount.toString();
+            this.setState({
+              user_data: {
+                ...this.state.user_data,
+                total_bonuses_amount: bonuses_amount,
+                start_bonus_date: start_bonus_date,
+                end_bonus_date: end_bonus_date
+              }
+            });
           }
-        });
+        );
       }
     });
   }
@@ -123,13 +160,89 @@ export default class TabProfileUser extends React.Component {
     return (
       <Container>
         <Content>
-          {/* <Item disabled>
-            <Text>Логин</Text>
-            <Input disabled placeholder='Login' value={this.state.userProfile.login}/>
-            <MCIcon name='login' size={this.iconSize} />
-          </Item> */}
+          <Form>
+            <Item floatingLabel>
+              <Label>Логин</Label>
+              <Input disabled value={this.state.user_data.user_login} />
+            </Item>
+            {/* last */}
+            <Item floatingLabel>
+              <Label>Пароль</Label>
+              <Input
+                value={this.state.user_data.user_password}
+                onChangeText={text =>
+                  this.setState({
+                    user_data: {
+                      ...this.state.user_data,
+                      user_password: text
+                    }
+                  })
+                }
+              />
+            </Item>
 
-          <Card>
+            <Item floatingLabel>
+              <Label>Имя</Label>
+              <Input
+                value={this.state.user_data.user_name}
+                onChangeText={text =>
+                  this.setState({
+                    user_data: { ...this.state.user_data, user_name: text }
+                  })
+                }
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Email</Label>
+              <Input
+                value={this.state.user_data.user_email}
+                onChangeText={text =>
+                  this.setState({
+                    user_data: { ...this.state.user_data, user_email: text }
+                  })
+                }
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Номер телефона</Label>
+              <Input
+                keyboardType="numeric"
+                value={this.state.user_data.user_phone_number}
+                onChangeText={text =>
+                  this.setState({
+                    user_data: {
+                      ...this.state.user_data,
+                      user_phone_number: text
+                    }
+                  })
+                }
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Бонусы</Label>
+              <Input
+                disabled
+                value={this.state.user_data.total_bonuses_amount}
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Бонусы за период</Label>
+              <Input
+                disabled
+                value={
+                  "C " +
+                  this.state.user_data.start_bonus_date +
+                  " по " +
+                  this.state.user_data.end_bonus_date
+                }
+              />
+            </Item>
+          </Form>
+          {/* <Card>
             <Item>
               <Left>
                 <Text>Логин</Text>
@@ -238,7 +351,7 @@ export default class TabProfileUser extends React.Component {
                 </Text>
               </Right>
             </Item>
-          </Card>
+          </Card> */}
           <Button block success onPress={() => this.update_user_data()}>
             <Text>СОХРАНИТЬ</Text>
           </Button>

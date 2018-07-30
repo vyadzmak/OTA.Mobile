@@ -334,115 +334,84 @@ export default class TabProfileClient extends React.Component {
       <View style={styles.container}>
         <Container>
           <Content>
-            {/* <Item disabled>
-          <Text>Логин</Text>
-          <Input disabled placeholder='Login' value={this.state.userProfile.login}/>
-          <MCIcon name='login' size={this.iconSize} />
-        </Item> */}
-
-            <Card>
-              <Item style={styles.itemStyle}>
-                <Left>
-                  <Text>Имя организации</Text>
-                </Left>
-                <Body>
-                  <Input
-                    disabled
-                    placeholder="Имя организации"
-                    value={this.state.client_data.client_name}
-                    style={styles.inputStyle}
-                  />
-                </Body>
-              </Item>
-              <Item style={styles.itemStyle}>
-                <Left>
-                  <Text>Регистрационный номер</Text>
-                </Left>
-                <Body>
-                  <Input
-                    style={styles.inputStyle}
-                    keyboardType="numeric"
-                    value={this.state.client_data.client_registration_number}
-                    onChangeText={text =>
-                      this.setState({
-                        client_data: {
-                          ...this.state.client_data,
-                          client_registration_number: text
-                        }
-                      })
-                    }
-                  />
-                </Body>
+            <Form>
+              <Item floatingLabel>
+                <Label>Имя организации</Label>
+                <Input disabled value={this.state.client_data.client_name} />
               </Item>
 
-              <Item style={styles.itemStyle}>
-                <Left>
-                  <Text>Email</Text>
-                </Left>
-                <Body>
-                  <Input
-                    style={styles.inputStyle}
-                    value={this.state.client_data.client_email}
-                    onChangeText={text =>
-                      this.setState({
-                        client_data: {
-                          ...this.state.client_data,
-                          client_email: text
-                        }
-                      })
-                    }
-                  />
-                </Body>
+              <Item floatingLabel>
+                <Label>Регистрационный номер</Label>
+                <Input
+                  keyboardType="numeric"
+                  value={this.state.client_data.client_registration_number}
+                  onChangeText={text =>
+                    this.setState({
+                      client_data: {
+                        ...this.state.client_data,
+                        client_registration_number: text
+                      }
+                    })
+                  }
+                />
               </Item>
 
-              <Item style={styles.itemStyle}>
-                <Left>
-                  <Text>Телефон</Text>
-                </Left>
-                <Body>
-                  <Input
-                    style={styles.inputStyle}
-                    keyboardType="numeric"
-                    value={this.state.client_data.client_phone_number}
-                    onChangeText={text =>
-                      this.setState({
-                        client_data: {
-                          ...this.state.client_data,
-                          client_phone_number: text
-                        }
-                      })
-                    }
-                  />
-                </Body>
+              <Item floatingLabel>
+                <Label>Email</Label>
+                <Input
+                  value={this.state.client_data.client_email}
+                  onChangeText={text =>
+                    this.setState({
+                      client_data: {
+                        ...this.state.client_data,
+                        client_email: text
+                      }
+                    })
+                  }
+                />
               </Item>
-            </Card>
-            <Button block success onPress={() => this.update_client_data()}>
-              <Text>СОХРАНИТЬ</Text>
-            </Button>
-            <Card>
-              <Label>Адреса</Label>
+
+              <Item floatingLabel>
+                <Label>Номер телефона</Label>
+                <Input
+                  keyboardType="numeric"
+                  value={this.state.client_data.client_phone_number}
+                  onChangeText={text =>
+                    this.setState({
+                      client_data: {
+                        ...this.state.client_data,
+                        client_phone_number: text
+                      }
+                    })
+                  }
+                />
+              </Item>
+
+              <Button block success onPress={() => this.update_client_data()}>
+                <Text>СОХРАНИТЬ</Text>
+              </Button>
+            </Form>
+            <Form>
+              <Label style={{ marginLeft: 15 }}>Адреса</Label>
               <List
                 dataArray={
                   this.state.userProfile.user_data.client_data.client_addresses
                 }
                 renderRow={item => (
                   <ListItem>
-                    <Text>{item.address}</Text>
-                    <Text>({item.name})</Text>
-                    {/* <Text>{item.city_data.name}</Text>
-                <Text>{item.city_data.area_data.name}</Text>
-                 */}
+                    <Text>{item.address + " (" + item.name + ")"}</Text>
                   </ListItem>
                 )}
               />
-            </Card>
-            <Button
-              block
-              primary
-              onPress={() => this._toggleModal(false)}
-              style={{ marginTop: 40 }}>
-              <Text>ДОБАВИТЬ АДРЕС</Text>
-            </Button>
+
+              <Button
+                block
+                primary
+                onPress={() => this._toggleModal(false)}
+                style={{ marginTop: 40 }}>
+                <Text>ДОБАВИТЬ АДРЕС</Text>
+              </Button>
+            </Form>
           </Content>
         </Container>
 

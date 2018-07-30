@@ -163,8 +163,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    borderWidth: 3,
-    borderColor: "#1c1c1c"
+    // shadowColor: "#000000",
+
+    // shadowOffset: {
+    //   width: 5,
+
+    //   height: 5
+    // },
+
+    // shadowRadius: 5,
+
+    // shadowOpacity: 1,
+    // shadowRadius: 20,
+    // shadowColor: "red",
+    marginHorizontal: 1,
+    borderWidth: 1,
+    borderColor: "#C0C0C0"
   },
   touchableOpacity: {
     flex: 1,

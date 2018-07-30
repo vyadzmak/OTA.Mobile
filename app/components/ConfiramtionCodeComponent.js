@@ -143,7 +143,7 @@ export default class ConfirmationCodeForm extends React.Component {
             <TextInput
               style={styles.inputBox}
               underlineColorAndroid="rgba(0,0,0,0)"
-              placeholder="****"
+              placeholder="Код подтверждения"
               placeholderTextColor="rgba(255,255,255,0.7)"
               selectionColor="#fff"
               keyboardType="numeric"

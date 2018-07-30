@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Alert
 } from "react-native";
-
+import TextInputMask from "react-native-text-input-mask";
 import { NavigationActions } from "react-navigation";
 import { getWithParams, getWithSlashParams } from "./../modules/Http";
 import { _storeData, _retrieveData } from "./../modules/AsyncStorageModule";
@@ -99,7 +99,7 @@ export default class LoginForm extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.signupText}>Номер телефона</Text>
-        <TextInput
+        {/* <TextInput
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
           placeholder="Логин"
@@ -113,6 +113,29 @@ export default class LoginForm extends React.Component {
             })
           }
           onSubmitEditing={() => this.password.focus()}
+        /> */}
+
+        <TextInputMask
+          refInput={ref => {
+            this.input = ref;
+          }}
+          style={styles.inputBox}
+          underlineColorAndroid="rgba(0,0,0,0)"
+          placeholder="+7 (123) 456 78 90"
+          placeholderTextColor="rgba(255,255,255,0.7)"
+          selectionColor="#fff"
+          keyboardType="numeric"
+          onChangeText={(formatted, extracted) => {
+            this.setState({
+              login_data: { ...this.state.login_data, login: extracted }
+            });
+            // console.log(formatted); // +1 (123) 456-78-90
+            // console.log(extracted); // 1234567890
+          }}
+          value={this.state.login_data.login}
+          maxLength={25}
+          onSubmitEditing={() => this.password.focus()}
+          mask={"+7 ([000]) [000] [00] [00]"}
         />
 
         <Text style={styles.signupText}>Пароль</Text>

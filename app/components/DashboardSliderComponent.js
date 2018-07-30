@@ -53,7 +53,8 @@ export default class DashboardSliderComponent extends React.Component {
             autoplayTimeout={4}
             loop={true}
             bounces={true}
-            height={150}>
+            height={150}
+            style={styles.swiperStyle}>
             {this.state.items.map((item, key) => {
               return (
                 <View key={key} style={styles.slide}>
@@ -82,6 +83,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: "100%",
     width: "100%"
+  },
+  swiperStyle: {
+    backgroundColor: "#ffffff",
+    padding: 0
   },
   slide: {
     flex: 1,

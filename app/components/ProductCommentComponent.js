@@ -25,20 +25,12 @@ import {
   Switch,
   Item
 } from "native-base";
-import API_URL from "./../modules/Settings";
+import API_URL from "../modules/Settings";
 import StarRating from "react-native-star-rating";
 
 import { ImageComponent, ThumbComponent } from "./ImagesComponents";
 
-import {
-  ProductStockIcon,
-  ProductDiscountIcon,
-  ProductAmountText,
-  ProductAmountDiscountText,
-  ProductDiscountText
-} from "./ProductListCardElements";
-
-export class BrandComponent extends React.Component {
+export class ProductCommentComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,46 +45,31 @@ export class BrandComponent extends React.Component {
     this.setState({
       id: this.props.id,
       image_path: this.props.image_path,
-      name: this.props.name
+      name: this.props.name,
+      comment_text: this.props.comment_text,
+      rate: this.props.rate,
+      date: this.props.date
     });
-  }
-
-  clickItem(id) {
-    try {
-      this.props.navigation.push("FilterProducts", {
-        filter_parameter: 1,
-        filter_value: id
-      });
-
-      //console.log(name);
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.touchableOpacity}
-          onPress={() => this.clickItem(this.state.id, this.state.name)}>
-          <View style={styles.imageItemStyle}>
-            <ImageComponent
-              image_url={this.state.image_path}
-              style={styles.imageStyle}
-            />
-          </View>
-
-          <View style={styles.nameItemStyle}>
-            <Text
-              style={styles.productNameStyle}
-              numberOfLines={3}
-              ellipsizeMode="tail">
-              {this.state.name}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <Item style={styles.container}>
+        <Left>
+          <ImageComponent
+            image_url={this.state.image_path}
+            style={styles.imageStyle}
+          />
+        </Left>
+        <Body>
+          <Text
+            style={styles.productNameStyle}
+            numberOfLines={3}
+            ellipsizeMode="tail">
+            {this.state.comment_text}
+          </Text>
+        </Body>
+      </Item>
     );
   }
 }
@@ -104,10 +81,7 @@ const styles = StyleSheet.create({
     padding: 0,
     flexDirection: "column",
     justifyContent: "center",
-    alignContent: "center",
-    marginHorizontal: 1,
-    borderWidth: 1,
-    borderColor: "#C0C0C0"
+    alignContent: "center"
   },
   touchableOpacity: {
     flex: 1,

@@ -273,7 +273,7 @@ class DashboardScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f6f5f3",
     flex: 1
   },
   slider_component: {
