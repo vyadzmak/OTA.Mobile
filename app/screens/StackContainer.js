@@ -39,6 +39,7 @@ import PrepareOrderScreen from "./PrepareOrderScreen";
 import OrderDetailsScreen from "./OrderDetailsScreen";
 import GalleryScreen from "./GalleryScreen";
 import ProdcutComments from "./ProductCommentsScreen";
+import NewCommentScreen from "./NewCommentScreen";
 export const AccountsStack = createStackNavigator(
   {
     Account: {
@@ -48,7 +49,7 @@ export const AccountsStack = createStackNavigator(
         headerLeft: (
           <MaterialIcon
             name="menu"
-            style={{ color: "#ffffff", fontSize: 32 }}
+            style={{ color: "#ffffff", fontSize: 32, marginLeft: 10 }}
             onPress={() => navigation.toggleDrawer()}
           />
         )
@@ -81,7 +82,7 @@ export const UserAgreementStack = createStackNavigator(
         headerLeft: (
           <MaterialIcon
             name="menu"
-            style={{ color: "#ffffff", fontSize: 32 }}
+            style={{ color: "#ffffff", fontSize: 32, marginLeft: 10 }}
             onPress={() => navigation.toggleDrawer()}
           />
         )
@@ -127,7 +128,8 @@ export const DashboardStack = createStackNavigator(
     Login: { screen: LoginScreen },
     Gallery: { screen: GalleryScreen },
     Partners: { screen: PartnersCatalogScreen },
-    ProductComments: { screen: ProdcutComments }
+    ProductComments: { screen: ProdcutComments },
+    NewComment: { screen: NewCommentScreen }
     //App :{screen: AppScreen}
   },
   {

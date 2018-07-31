@@ -31,7 +31,8 @@ import {
   USER_DATA,
   SetUserCartId,
   SetUserData,
-  SetUserCartProductsCount
+  SetUserCartProductsCount,
+  SetUserCartAmount
 } from "./../modules/VarContainer";
 import Toast from "react-native-simple-toast";
 import {
@@ -195,6 +196,7 @@ export default class ProductCardScreen extends React.Component {
       //if (response.)
       //alert(JSON.stringify(response))
       SetUserCartProductsCount(response.products_count);
+      SetUserCartAmount(response.total_amount);
       //alert(response.products_count)
       SetUserCartId(response.id);
       Toast.show("Продукт был добавлен в корзину");
@@ -260,7 +262,7 @@ export default class ProductCardScreen extends React.Component {
           <Item>
             <ProductCardMainInfoComponent
               product_details={this.state.productDetails}
-              navigation = {this.props.navigation}
+              navigation={this.props.navigation}
             />
           </Item>
 

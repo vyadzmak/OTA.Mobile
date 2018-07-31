@@ -49,7 +49,8 @@ export default class ProductCommentsScreen extends React.Component {
       parent_category_name: "",
       user_id: USER_ID,
       route: "/productUsersComments",
-      category_name: "Комментарии"
+      category_name: "Комментарии",
+      can_comments: false
     };
     //navigation.setParam({ title:'Allog' })
   }
@@ -95,11 +96,26 @@ export default class ProductCommentsScreen extends React.Component {
     });
   }
 
+  sendCommentClick() {
+    if (!this.state.can_comments) {
+      alert(
+        "Вы не можете оставлять комментарии так как не покупали этот продукт!"
+      );
+      return;
+    }
+    this.props.navigation.push("NewComment", {
+      product_id: this.state.product_id,
+      navigation: this.props.navigation
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const _product_id = navigation.getParam("product_id", -1);
+    const _can_comments = navigation.getParam("can_comments", false);
 
     this.state.product_id = _product_id;
+    this.state.can_comments = _can_comments;
     if (this.state.isLoading) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
@@ -115,63 +131,80 @@ export default class ProductCommentsScreen extends React.Component {
     ) {
       return (
         <View>
+          <Button block warning onPress={() => this.sendCommentClick()}>
+            <Text>Добавить отзыв</Text>
+          </Button>
           <Text>Комментарии к данному товару отсутствуют</Text>
         </View>
       );
     }
 
     return (
-      <List
-        dataArray={this.state.userComments}
-        renderRow={
-          item => (
-            <Item>
-              <View styles={styles.imageContainerStyle}>
-                <ThumbComponent
-                  image_url={item.comment_user_data.avatar.thumb_file_path}
-                  style={styles.imageStyle}
-                />
-              </View>
-              <View style={{ flexDirection: "column", marginLeft: 15 }}>
-                <View>
-                  <Text style={styles.userNameStyle}>
-                    {item.comment_user_data.name}
-                  </Text>
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <StarRating
-                    disabled={false}
-                    emptyStar={"ios-star-outline"}
-                    fullStar={"ios-star"}
-                    halfStar={"ios-star-half"}
-                    iconSet={"Ionicons"}
-                    maxStars={5}
-                    rating={item.rate}
-                    // selectedStar={rating => this.clickOnStar(rating)}
-                    fullStarColor={"orange"}
-                    starSize={15}
-                  />
-                  <Text style={styles.dateStyle}> {item.creation_date}</Text>
-                </View>
-                <View>
-                  <Text style={styles.commentStyle}>{item.comment_text}</Text>
-                </View>
-              </View>
-            </Item>
-            // <TouchableOpacity  >
-            // <ListItem>
-            // <ProductCommentComponent
-            //   image_path={item.comment_user_data.avatar.thumb_file_path}
-            //   name={item.comment_user_data.name}
-            //   comment_text={item.comment_text}
-            //   rate={item.rate}
-            //   date={item.creation_date}
-            // />
-            // </ListItem>
-          )
-          // </ TouchableOpacity>
-        }
-      />
+      <Container>
+        <Content>
+          {/* <Item> */}
+          <Button block warning onPress={() => this.sendCommentClick()}>
+            <Text>Добавить отзыв</Text>
+          </Button>
+          {/* </Item> */}
+          <List
+            dataArray={this.state.userComments}
+            renderRow={
+              item => (
+                <Item>
+                  <View styles={styles.imageContainerStyle}>
+                    <ThumbComponent
+                      image_url={item.comment_user_data.avatar.thumb_file_path}
+                      style={styles.imageStyle}
+                    />
+                  </View>
+                  <View style={{ flexDirection: "column", marginLeft: 15 }}>
+                    <View>
+                      <Text style={styles.userNameStyle}>
+                        {item.comment_user_data.name}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: "row" }}>
+                      <StarRating
+                        disabled={false}
+                        emptyStar={"ios-star-outline"}
+                        fullStar={"ios-star"}
+                        halfStar={"ios-star-half"}
+                        iconSet={"Ionicons"}
+                        maxStars={5}
+                        rating={item.rate}
+                        // selectedStar={rating => this.clickOnStar(rating)}
+                        fullStarColor={"orange"}
+                        starSize={15}
+                      />
+                      <Text style={styles.dateStyle}>
+                        {" "}
+                        {item.creation_date}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={styles.commentStyle}>
+                        {item.comment_text}
+                      </Text>
+                    </View>
+                  </View>
+                </Item>
+                // <TouchableOpacity  >
+                // <ListItem>
+                // <ProductCommentComponent
+                //   image_path={item.comment_user_data.avatar.thumb_file_path}
+                //   name={item.comment_user_data.name}
+                //   comment_text={item.comment_text}
+                //   rate={item.rate}
+                //   date={item.creation_date}
+                // />
+                // </ListItem>
+              )
+              // </ TouchableOpacity>
+            }
+          />
+        </Content>
+      </Container>
     );
   }
 }
@@ -186,11 +219,14 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     maxHeight: 50,
-    maxWidth: 50
+    maxWidth: 50,
+    padding: 30
   },
   imageStyle: {
     width: 50,
-    height: 50
+    height: 50,
+    maxHeight: 50,
+    maxWidth: 50
   },
   userNameStyle: {
     fontSize: 12

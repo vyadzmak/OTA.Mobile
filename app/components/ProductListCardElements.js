@@ -27,7 +27,8 @@ import {
   USER_DATA,
   SetUserCartId,
   SetUserData,
-  SetUserCartProductsCount
+  SetUserCartProductsCount,
+  SetUserCartAmount
 } from "./../modules/VarContainer";
 
 export class ProductStockIcon extends React.Component {
@@ -234,6 +235,7 @@ export class ProductFastCart extends React.Component {
       //if (response.)
       //alert(JSON.stringify(response))
       SetUserCartProductsCount(response.products_count);
+      SetUserCartAmount(response.total_amount);
       //alert(response.products_count)
       SetUserCartId(response.id);
       Toast.show("Продукт был добавлен в корзину");

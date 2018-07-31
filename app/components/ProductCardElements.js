@@ -214,7 +214,8 @@ export class ProductCardMainInfoComponent extends React.Component {
     this.props.navigation.push("ProductComments", {
       product_id: this.state.productDetails.id,
       //product_name: name,
-      navigation: this.props.navigation
+      navigation: this.props.navigation,
+      can_comments: this.state.productDetails.can_comments
     });
   }
   render() {
@@ -241,6 +242,12 @@ export class ProductCardMainInfoComponent extends React.Component {
         <ProductCardMainInfoFullDescriptionComponent
           description={this.state.productDetails.full_description}
         />
+
+        <Item>
+          <Text style={styles.bonusesStyle}>
+            {"Бонусы  (% от цены) " + this.state.productDetails.bonus_percent}
+          </Text>
+        </Item>
 
         <Item style={styles.itemDetailsStyle}>
           <View style={{ flexDirection: "row" }}>
@@ -398,7 +405,7 @@ export class ProductCardInfoComponent extends React.Component {
           </Right>
         </Item>
 
-        <Item style={styles.itemDetailsStyle}>
+        {/* <Item style={styles.itemDetailsStyle}>
           <Left>
             <Text style={styles.itemNameTextStyle}>Бонусы (% от цены) </Text>
           </Left>
@@ -407,7 +414,7 @@ export class ProductCardInfoComponent extends React.Component {
               {this.state.productDetails.bonus_percent}
             </Text>
           </Right>
-        </Item>
+        </Item> */}
 
         <Item style={styles.itemDetailsStyle}>
           <Left>
@@ -556,5 +563,9 @@ const styles = {
   },
   mainInfoStyle: {
     marginTop: 15
+  },
+  bonusesStyle: {
+    fontSize: 14,
+    color: "red"
   }
 };
