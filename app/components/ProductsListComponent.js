@@ -166,8 +166,16 @@ export default class ProductsList extends React.Component {
               </TouchableOpacity>
 
               <CardItem>
-                <View style={{ flexDirection: "row" }}>
-                  <ProductFastCart product_id={item.id} count={item.count} />
+                <View style={{ flexDirection: "row", width: "100%" }}>
+                  <ProductFastCart
+                    product_id={item.id}
+                    count={item.count}
+                    alt_count={item.alt_count}
+                    unit_name={item.product_unit_data.display_value}
+                    alt_unit_name={item.product_alt_unit_data.display_value}
+                    amount={item.amount}
+                    alt_amount={item.alt_amount}
+                  />
                 </View>
               </CardItem>
 

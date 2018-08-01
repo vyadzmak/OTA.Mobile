@@ -215,20 +215,59 @@ export class ProductFastCart extends React.Component {
     this.state = {
       product_id: this.props.product_id,
       count: this.props.count,
-      route: "/addCartPositionToCart"
+      alt_count: this.props.alt_count,
+      unit_name: this.props.unit_name,
+      alt_unit_name: this.props.alt_unit_name,
+      amount: this.props.amount,
+      alt_amount: this.props.alt_amount,
+
+      route: "/addCartPositionToCart",
+      show_alt: false
     };
+  }
+  componentDidMount() {
+    if (
+      this.props.unit_name == undefined ||
+      this.props.unit_name == null ||
+      this.props.unit_name == "null"
+    ) {
+      this.setState({
+        unit_name: "НЕТ"
+      });
+    }
+
+    if (
+      this.props.alt_unit_name != undefined &&
+      this.props.alt_unit_name != null &&
+      this.props.alt_unit_name != "null"
+    ) {
+      this.setState({
+        show_alt: true
+        //alt_count: 0
+      });
+    } else {
+      this.setState({
+        show_alt: false,
+        alt_count: 0
+      });
+    }
   }
   add_to_cart() {
     user_id = USER_ID;
     count = this.state.count;
+    alt_count = this.state.alt_count;
     cart_id = CART_ID;
     product_id = this.props.product_id;
 
+    if (alt_count == undefined) {
+      alt_count = 0;
+    }
     params = [
       { name: "user_id", value: user_id },
       { name: "user_cart_id", value: cart_id },
       { name: "product_id", value: product_id },
-      { name: "count", value: count }
+      { name: "count", value: count },
+      { name: "alt_count", value: alt_count }
     ];
     //alert(JSON.stringify(params))
     response = getWithParams(this.state.route, params).then(response => {
@@ -262,73 +301,143 @@ export class ProductFastCart extends React.Component {
       count: _count
     });
   }
+
+  plus_alt_count() {
+    _count = this.state.alt_count;
+    _count += 1;
+    //alert(_count);
+
+    this.setState({
+      alt_count: _count
+    });
+  }
+
+  minus_alt_count() {
+    _count = this.state.alt_count;
+    if (_count == 0) return;
+    _count -= 1;
+    //alert(_count);
+    this.setState({
+      alt_count: _count
+    });
+  }
   render() {
-    return (
-      <View style={{ flexDirection: "row" }}>
-        <Left>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-            <Button
-              danger
-              style={styles.buttonsStyle}
-              onPress={() => this.minus_count()}>
-              <Text style={styles.buttonText}>-</Text>
-            </Button>
+    if (this.state.show_alt) {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Left style={{ flexDirection: "column" }}>
+            <Text style={styles.countStyle}>
+              {this.state.alt_unit_name + "/" + this.state.alt_amount + " ₸"}
+            </Text>
 
-            <Text style={styles.countStyle}>{this.state.count}</Text>
+            <View
+              style={{
+                flexDirection: "row"
+                // alignItems: "center",
+                // justifyContent: "center"
+              }}>
+              <Button
+                danger
+                style={styles.buttonsStyle}
+                onPress={() => this.minus_alt_count()}>
+                <Text style={styles.buttonText}>-</Text>
+              </Button>
 
-            <Button
-              success
-              style={styles.buttonsStyle}
-              onPress={() => this.plus_count()}>
-              <Text style={styles.buttonText}>+</Text>
-            </Button>
-          </View>
+              <Text style={styles.countStyle}>{this.state.alt_count}</Text>
 
-          <MCIcon
-            name="cart"
-            size={32}
-            style={styles.cartIconStyle}
-            onPress={() => this.add_to_cart()}
-          />
-        </Left>
-        <Right>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center"
-            }}>
-            <Button
-              danger
-              style={styles.buttonsStyle}
-              onPress={() => this.minus_count()}>
-              <Text style={styles.buttonText}>-</Text>
-            </Button>
+              <Button
+                success
+                style={styles.buttonsStyle}
+                onPress={() => this.plus_alt_count()}>
+                <Text style={styles.buttonText}>+</Text>
+              </Button>
+            </View>
+          </Left>
+          <Body />
+          <Right style={{ flexDirection: "column" }}>
+            <View style={{ marginRight: 30 }}>
+              <Text style={styles.countStyle}>
+                {this.state.unit_name + "/" + this.state.amount + " ₸"}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row"
+                // alignItems: "center",
+                // justifyContent: "center"
+              }}>
+              <Button
+                danger
+                style={styles.buttonsStyle}
+                onPress={() => this.minus_count()}>
+                <Text style={styles.buttonText}>-</Text>
+              </Button>
 
-            <Text style={styles.countStyle}>{this.state.count}</Text>
+              <Text style={styles.countStyle}>{this.state.count}</Text>
 
-            <Button
-              success
-              style={styles.buttonsStyle}
-              onPress={() => this.plus_count()}>
-              <Text style={styles.buttonText}>+</Text>
-            </Button>
-          </View>
+              <Button
+                success
+                style={styles.buttonsStyle}
+                onPress={() => this.plus_count()}>
+                <Text style={styles.buttonText}>+</Text>
+              </Button>
+              <MCIcon
+                name="cart"
+                size={32}
+                style={styles.cartIconStyle}
+                onPress={() => this.add_to_cart()}
+              />
+            </View>
+          </Right>
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            //backgroundColor: "red",
+            width: "100%"
+          }}>
+          <Left />
+          <Right style={{ flexDirection: "column" }}>
+            <View style={{ marginRight: 40 }}>
+              <Text style={styles.countStyle}>
+                {this.state.unit_name + "/" + this.state.amount + " ₸"}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: "row"
+                // alignItems: "center",
+                // justifyContent: "center"
+              }}>
+              <Button
+                danger
+                style={styles.buttonsStyle}
+                onPress={() => this.minus_count()}>
+                <Text style={styles.buttonText}>-</Text>
+              </Button>
 
-          <MCIcon
-            name="cart"
-            size={32}
-            style={styles.cartIconStyle}
-            onPress={() => this.add_to_cart()}
-          />
-        </Right>
-      </View>
-    );
+              <Text style={styles.countStyle}>{this.state.count}</Text>
+
+              <Button
+                success
+                style={styles.buttonsStyle}
+                onPress={() => this.plus_count()}>
+                <Text style={styles.buttonText}>+</Text>
+              </Button>
+              <MCIcon
+                name="cart"
+                size={32}
+                style={styles.cartIconStyle}
+                onPress={() => this.add_to_cart()}
+              />
+            </View>
+          </Right>
+        </View>
+      );
+    }
   }
 }
 

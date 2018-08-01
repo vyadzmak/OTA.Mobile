@@ -58,6 +58,10 @@ export default class ProductCardScreen extends React.Component {
       product_name: " ",
       user_id: USER_ID,
       count: 1,
+      alt_count: 0,
+      unit_name: "НЕТ",
+      alt_unit_name: "НЕТ",
+      show_alt: false,
       recomendation_elements_data: null,
       recommendation_visibility: true,
       show_recommendations: true
@@ -90,9 +94,12 @@ export default class ProductCardScreen extends React.Component {
         } else {
           //alert(JSON.stringify(response));
           _count = response.product_count;
+          _alt_count = response.alt_product_count;
+
           this.setState({
             isLoading: false,
-            count: _count
+            count: _count,
+            alt_count: _alt_count
           });
         }
         //alert(count);
@@ -119,11 +126,33 @@ export default class ProductCardScreen extends React.Component {
             return;
           }
 
-          this.setState({
-            productDetails: response,
-            product_gallery: response.gallery_images_data,
-            recomendation_elements_data: response.product_recomendations_data
-          });
+          this.setState(
+            {
+              productDetails: response,
+              unit_name: response.product_unit_data.display_value,
+              alt_unit_name: response.product_alt_unit_data.display_value,
+
+              product_gallery: response.gallery_images_data,
+              recomendation_elements_data: response.product_recomendations_data
+            },
+            () => {
+              if (
+                this.state.alt_unit_name != undefined &&
+                this.state.alt_unit_name != null &&
+                this.state.alt_unit_name != "null"
+              ) {
+                this.setState({
+                  show_alt: true
+                  //alt_count: 0
+                });
+              } else {
+                this.setState({
+                  show_alt: false,
+                  alt_count: 0
+                });
+              }
+            }
+          );
         })
         .then(x => {
           if (
@@ -181,6 +210,7 @@ export default class ProductCardScreen extends React.Component {
   add_to_cart() {
     user_id = USER_ID;
     count = this.state.count;
+    alt_count = this.state.alt_count;
     cart_id = CART_ID;
     _product_id = this.state.productDetails.id;
 
@@ -188,7 +218,8 @@ export default class ProductCardScreen extends React.Component {
       { name: "user_id", value: user_id },
       { name: "user_cart_id", value: cart_id },
       { name: "product_id", value: _product_id },
-      { name: "count", value: count }
+      { name: "count", value: count },
+      { name: "alt_count", value: alt_count }
     ];
 
     //alert(JSON.stringify(params))
@@ -215,6 +246,20 @@ export default class ProductCardScreen extends React.Component {
       c = this.state.count;
       c -= 1;
       this.setState({ count: c });
+    }
+  }
+
+  addAltCount() {
+    c = this.state.alt_count;
+    c += 1;
+    this.setState({ alt_count: c });
+  }
+
+  minusAltCount() {
+    if (this.state.alt_count > 0) {
+      c = this.state.alt_count;
+      c -= 1;
+      this.setState({ alt_count: c });
     }
   }
 
@@ -267,6 +312,7 @@ export default class ProductCardScreen extends React.Component {
           </Item>
 
           <Item style={{ marginTop: 15 }}>
+            {/* <Text>{this.state.unit_name}</Text> */}
             {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
             <Left>
               <Button block danger onPress={() => this.minusCount()}>
@@ -275,7 +321,9 @@ export default class ProductCardScreen extends React.Component {
             </Left>
             <Body>
               <Button block primary onPress={() => this.add_to_cart()}>
-                <Text>Добавить в корзину ({this.state.count})</Text>
+                <Text>
+                  Добавить ({this.state.unit_name}) ({this.state.count})
+                </Text>
               </Button>
             </Body>
             <Right>
@@ -285,6 +333,34 @@ export default class ProductCardScreen extends React.Component {
             </Right>
             {/* </View> */}
           </Item>
+
+          {this.state.show_alt && (
+            //  <Text>{this.state.alt_unit_name}</Text>
+            <Item style={{ marginTop: 15 }}>
+              {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
+              <Left>
+                <Button block danger onPress={() => this.minusAltCount()}>
+                  <Text>-</Text>
+                </Button>
+              </Left>
+              <Body>
+                <Button block primary onPress={() => this.add_to_cart()}>
+                  <Text>
+                    Добавить ({this.state.alt_unit_name}) ({
+                      this.state.alt_count
+                    })
+                  </Text>
+                </Button>
+              </Body>
+              <Right>
+                <Button block success onPress={() => this.addAltCount()}>
+                  <Text>+</Text>
+                </Button>
+              </Right>
+              {/* </View> */}
+            </Item>
+          )}
+
           <Item>
             <ProductCardInfoComponent
               product_details={this.state.productDetails}

@@ -92,7 +92,7 @@ export default class NewCommentsScreen extends React.Component {
       //alert(JSON.stringify(data))
       response = postRequest(update_route, data).then(response => {
         txt = JSON.stringify(response);
-        alert("Answer " + txt);
+        //alert("Answer " + txt);
         status = response.code;
         //alert(status);
         if (response.message != undefined) {

@@ -26,7 +26,12 @@ import {
   Item
 } from "native-base";
 import API_URL from "./../modules/Settings";
-import { USER_DATA, USER_ID, CART_ID } from "./../modules/VarContainer";
+import {
+  USER_DATA,
+  USER_ID,
+  CART_ID,
+  SetUserCartAmount
+} from "./../modules/VarContainer";
 import { getWithParams, getWithSlashParams } from "./../modules/Http";
 import { postRequest } from "./../modules/Http";
 import {
@@ -68,6 +73,8 @@ export default class CartScreen extends React.Component {
         } else {
           //alert(JSON.stringify(response))
           this.cart = response;
+          // this.state.cartPositions.total_amount
+          SetUserCartAmount(this.cart.total_amount);
           this.setState({ cartPositions: {} }, function() {
             this.setState({ cartPositions: this.cart }, function() {});
           });
@@ -100,6 +107,7 @@ export default class CartScreen extends React.Component {
         }
         if (response.message == undefined) {
           // alert(JSON.stringify(response))
+
           this.setState({
             isLoading: false,
             cartPositions: response
@@ -150,6 +158,40 @@ export default class CartScreen extends React.Component {
       });
   }
 
+  plus_alt_count(id) {
+    index = -1;
+    for (i = 0; i < this.cart.cart_positions.length; i++) {
+      if (this.cart.cart_positions[i].id == id) {
+        this.cart.cart_positions[i].alt_count += 1;
+        break;
+      }
+    }
+    this.setState({ cartPositions: {} }, function() {
+      this.setState({ cartPositions: this.cart }, function() {
+        this.update_cart();
+      });
+    });
+  }
+
+  minus_alt_count(id) {
+    index = -1;
+    update = false;
+    for (i = 0; i < this.cart.cart_positions.length; i++) {
+      if (this.cart.cart_positions[i].id == id) {
+        if (this.cart.cart_positions[i].alt_count > 0) {
+          this.cart.cart_positions[i].alt_count -= 1;
+          update = true;
+        }
+        break;
+      }
+    }
+    if (update == true)
+      this.setState({ cartPositions: {} }, function() {
+        this.setState({ cartPositions: this.cart }, function() {
+          this.update_cart();
+        });
+      });
+  }
   manage_invoice(id) {
     index = -1;
     update = false;
@@ -185,10 +227,27 @@ export default class CartScreen extends React.Component {
 
   prepare_order() {
     try {
-      //this.props.navigation.popToTop()
-      this.props.navigation.navigate("PrepareOrder", {
-        navigation: this.props.navigation
-      });
+      params = [
+        { name: "user_id", value: USER_ID },
+        { name: "user_cart_id", value: CART_ID }
+      ];
+
+      if (CART_ID != -1) {
+        //alert('1')
+        response = getWithParams("/checkMinimumSumCartByPartners", params).then(
+          response => {
+            //alert(JSON.stringify(response));
+            //this.props.navigation.popToTop()
+            this.props.navigation.navigate("PrepareOrder", {
+              navigation: this.props.navigation
+            });
+          }
+        );
+      } else {
+        this.setState({
+          isLoading: false
+        });
+      }
     } catch (err) {
       alert(err);
     }
@@ -266,13 +325,39 @@ export default class CartScreen extends React.Component {
                   <View>
                     <ListItem>
                       <Left>
-                        <View style={{ flexDirection: "row", marginTop: 10 }}>
-                          <Text style={styles.nameTextStyle}>Счет-фактура</Text>
-                          <Switch
-                            value={item.need_invoice}
-                            onValueChange={() => this.manage_invoice(item.id)}
-                          />
-                        </View>
+                        {item.user_cart_position_product_data.alt_unit_value !=
+                          null && (
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center"
+                            }}>
+                            <Text>
+                              {
+                                item.user_cart_position_product_data
+                                  .product_alt_unit_data.display_value
+                              }
+                            </Text>
+                            <Button
+                              danger
+                              style={styles.buttonsStyle}
+                              onPress={() => this.minus_alt_count(item.id)}>
+                              <Text>-</Text>
+                            </Button>
+
+                            <Text style={styles.countStyle}>
+                              {item.alt_count}
+                            </Text>
+
+                            <Button
+                              success
+                              style={styles.buttonsStyle}
+                              onPress={() => this.plus_alt_count(item.id)}>
+                              <Text>+</Text>
+                            </Button>
+                          </View>
+                        )}
                       </Left>
                       <Right>
                         <View
@@ -281,6 +366,12 @@ export default class CartScreen extends React.Component {
                             alignItems: "center",
                             justifyContent: "center"
                           }}>
+                          <Text>
+                            {
+                              item.user_cart_position_product_data
+                                .product_unit_data.display_value
+                            }
+                          </Text>
                           <Button
                             danger
                             style={styles.buttonsStyle}
@@ -327,6 +418,17 @@ export default class CartScreen extends React.Component {
                         </View>
                       </Right>
                     </ListItem>
+                    <ListItem>
+                      <Left>
+                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                          <Text style={styles.nameTextStyle}>Счет-фактура</Text>
+                          <Switch
+                            value={item.need_invoice}
+                            onValueChange={() => this.manage_invoice(item.id)}
+                          />
+                        </View>
+                      </Left>
+                    </ListItem>
                   </View>
                   <Item />
                 </View>
@@ -339,7 +441,7 @@ export default class CartScreen extends React.Component {
               </Separator>
               <ListItem>
                 <Left>
-                  <Text>Количество товаров</Text>
+                  <Text>Количество позиций</Text>
                 </Left>
                 <Right>
                   <Text>{this.state.cartPositions.products_count}</Text>
