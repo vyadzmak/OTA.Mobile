@@ -26,7 +26,8 @@ const data = [];
 import { USER_DATA, USER_ID } from "./../modules/VarContainer";
 import {
   ImageComponent,
-  ThumbComponent
+  ThumbComponent,
+  CatImageComponent
 } from "./../components/ImagesComponents";
 
 const rowCount = 1;
@@ -50,7 +51,7 @@ const formatData = (data, numColumns) => {
 
   return data;
 };
-
+const numColumns = 2;
 formatProductCategoriesToData = async productCategories => {
   //alert("tttt");
   data = [];
@@ -59,20 +60,20 @@ formatProductCategoriesToData = async productCategories => {
       key: element.name,
       id: element.id,
       internal_categories_count: element.internal_categories_count,
-      internal_internal_products_count: element.internal_products_count,
+      internal_products_count: element.internal_products_count,
       image: element.default_image_data.thumb_file_path
     };
     data.push(item_element);
   });
 
   const numberOfFullRows = Math.floor(data.length / numColumns);
-  rowCount = numberOfFullRows + 2;
+  d = 4 - numColumns;
+  rowCount = numberOfFullRows + d;
   h = (Dimensions.get("window").width / numColumns) * rowCount;
 
   return h;
 };
 
-const numColumns = 3;
 export default class ProductsCategoryList extends React.Component {
   constructor(props) {
     super(props);
@@ -87,13 +88,26 @@ export default class ProductsCategoryList extends React.Component {
       height: 100
     };
   }
-  clickItem(id) {
-    //alert(id)
-
-    this.props.navigation.push("ProductCategories", {
-      current_category_id: id,
-      navigation: this.props.navigation
-    });
+  clickItem(id, internal_categories_count, internal_products_count) {
+    try {
+      //alert('TTTTT')
+      //alert(internal_categories_count + " " + internal_products_count);
+      if (
+        internal_categories_count > 0 ||
+        (internal_categories_count == 0 && internal_products_count == 0)
+      ) {
+        this.props.navigation.push("ProductCategories", {
+          current_category_id: id
+        });
+      } else if (internal_products_count > 0) {
+        //alert('!!!')
+        this.props.navigation.navigate("ProductsCatalog", {
+          current_category_id: id
+        });
+      }
+    } catch (err) {
+      alert(err);
+    }
   }
 
   static navigationOptions = {
@@ -134,9 +148,15 @@ export default class ProductsCategoryList extends React.Component {
     return (
       <TouchableOpacity
         style={styles.touchableOpacity}
-        onPress={() => this.clickItem(item.id)}>
+        onPress={() =>
+          this.clickItem(
+            item.id,
+            item.internal_categories_count,
+            item.internal_products_count
+          )
+        }>
         <View style={styles.item}>
-          <ImageComponent image_url={item.image} />
+          <CatImageComponent image_url={item.image} />
           <View style={styles.paragraph}>
             <Text style={styles.pTextStyle}>{item.key}</Text>
           </View>
@@ -187,8 +207,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 10,
-    backgroundColor: "#ffffff",
-    paddingBottom: 50
+    backgroundColor: "#ffffff"
+    //paddingBottom: 50
   },
   item: {
     backgroundColor: "#ffffff",
@@ -199,7 +219,7 @@ const styles = StyleSheet.create({
     //padding: 5,
     borderWidth: 1,
     borderColor: "#C0C0C0",
-    height: Dimensions.get("window").width / numColumns + 20 // approximate a square
+    height: Dimensions.get("window").width / numColumns + 20 //+ 20 approximate a square
   },
   itemInvisible: {
     backgroundColor: "transparent",
@@ -212,14 +232,17 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   image: {
-    height: Dimensions.get("window").width / numColumns - 20,
-    width: Dimensions.get("window").width / numColumns - 20,
-
-    padding: 20
+    //height: Dimensions.get("window").width / numColumns, //- 20,
+    //width: Dimensions.get("window").width / numColumns //- 20,
+    width: "100%",
+    height: "100%"
+    //padding: 20
   },
   touchableOpacity: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    paddingBottom: 3,
+    paddingRight: 3
   },
   icon: {
     width: 24,

@@ -243,7 +243,7 @@ class DashboardScreen extends React.Component {
           <Item style={styles.itemStyle}>
             <ProductsCategoryList
               navigation={this.props.navigation}
-              // style={{ paddingBottom: 50 }}
+              style={{ paddingBottom: 50 }}
             />
           </Item>
 
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   recommendation_component: {
-    // marginTop:200
+    //marginTop: 200
   },
   itemStyle: {
     padding: 5

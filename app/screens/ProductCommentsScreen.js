@@ -32,7 +32,8 @@ import { getWithParams, getWithSlashParams } from "./../modules/Http";
 import API_URL from "./../modules/Settings";
 import {
   ImageComponent,
-  ThumbComponent
+  ThumbComponent,
+  AvatarComponent
 } from "./../components/ImagesComponents";
 
 import { USER_DATA, USER_ID } from "./../modules/VarContainer";
@@ -153,7 +154,7 @@ export default class ProductCommentsScreen extends React.Component {
               item => (
                 <Item>
                   <View styles={styles.imageContainerStyle}>
-                    <ThumbComponent
+                    <AvatarComponent
                       image_url={item.comment_user_data.avatar.thumb_file_path}
                       style={styles.imageStyle}
                     />

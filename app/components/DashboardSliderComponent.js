@@ -59,8 +59,8 @@ export default class DashboardSliderComponent extends React.Component {
               return (
                 <View key={key} style={styles.slide}>
                   <Image
-                    resizeMode="contain"
-                    source={{ uri: API_URL + item.thumb_file_path }}
+                    resizeMode="stretch"
+                    source={{ uri: API_URL + item.file_path }}
                     style={styles.slideImage}
                   />
                 </View>
@@ -89,10 +89,10 @@ const styles = StyleSheet.create({
     padding: 0
   },
   slide: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 150,
+    //flex: 1,
+    //justifyContent: "center",
+    //alignItems: "center",
+    height: "100%",
     width: "100%"
   },
   slideImage: {

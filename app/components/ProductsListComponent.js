@@ -24,7 +24,8 @@ import {
   Icon,
   Left,
   Body,
-  Right
+  Right,
+  Item
 } from "native-base";
 import StarRating from "react-native-star-rating";
 import { getWithParams, getWithSlashParams } from "./../modules/Http";
@@ -35,9 +36,13 @@ import {
   ProductAmountText,
   ProductAmountDiscountText,
   ProductDiscountText,
-  ProductFastCart,
-  ProductFavorite
+  //ProductFastCart,
+  //ProductFavorite,
+  ProductBonus
+  //MultiFastCart
 } from "../components/ProductListCardElements";
+
+import { MultiFastCart } from "../components/MultiFastCartComponent";
 import {
   ImageComponent,
   ThumbComponent
@@ -83,6 +88,7 @@ export default class ProductsList extends React.Component {
 
   clickItem(id, name) {
     try {
+      //alert(id + " " + name);
       this.props.navigation.push("ProductCard", {
         product_id: id,
         product_name: name,
@@ -116,101 +122,59 @@ export default class ProductsList extends React.Component {
         dataArray={this.state.products}
         renderRow={
           item => (
-            //   <ListItem>
-            <Card style={{ flex: 1, padding: 0 }}>
+            <View style={{ flex: 1, padding: 0 }}>
               <TouchableOpacity
                 style={styles.touchableOpacity}
                 onPress={() => this.clickItem(item.id, item.name)}>
-                <CardItem>
-                  {/* <Left style={{alignItems: 'center'}} > */}
+                <View>
+                  <CardItem>
+                    <ThumbComponent
+                      image_url={
+                        item.default_image_data.optimized_size_file_path
+                      }
+                    />
 
-                  {/* <Thumbnail source={{uri: API_URL+item.default_image_data.thumb_file_path}} style={styles.image} /> */}
-                  <ThumbComponent
-                    image_url={item.default_image_data.thumb_file_path}
-                  />
-                  {/* </Left> */}
-                  <Body style={{ paddingLeft: 20 }}>
-                    <Text>{item.name}</Text>
-                    <Text note>{item.short_description}</Text>
-                    {/* <Text>{item.amount} {item.product_currency_data.display_value}</Text> */}
-                    <View style={{ flexDirection: "row" }}>
-                      <ProductAmountText
-                        amount={item.amount}
-                        currency_display_value={
-                          item.product_currency_data.display_value
-                        }
-                        discount_amount={item.discount_amount}
-                      />
-                      <ProductAmountDiscountText
-                        currency_display_value={
-                          item.product_currency_data.display_value
-                        }
-                        discount_amount={item.discount_amount}
-                      />
-                    </View>
-
-                    <View style={{ flexDirection: "row" }}>
-                      <ProductStockIcon
-                        is_stock_product={item.is_stock_product}
-                        style={styles.icons}
-                      />
-                      <ProductDiscountIcon
-                        is_discount_product={item.is_discount_product}
-                        style={styles.icons}
-                      />
-                    </View>
-                    <ProductDiscountText stock_text={item.stock_text} />
-                  </Body>
-                  {/* <Right> */}
-                </CardItem>
-              </TouchableOpacity>
-
-              <CardItem>
-                <View style={{ flexDirection: "row", width: "100%" }}>
-                  <ProductFastCart
-                    product_id={item.id}
-                    count={item.count}
-                    alt_count={item.alt_count}
-                    unit_name={item.product_unit_data.display_value}
-                    alt_unit_name={item.product_alt_unit_data.display_value}
-                    amount={item.amount}
-                    alt_amount={item.alt_amount}
-                  />
+                    <Body style={{ paddingLeft: 20 }}>
+                      <Text>{item.name}</Text>
+                      <Text note>{item.short_description}</Text>
+                      <View style={{ flexDirection: "row" }}>
+                        <ProductAmountText
+                          amount={item.amount}
+                          alt_amount={item.alt_amount}
+                          currency_display_value={
+                            item.product_currency_data.display_value
+                          }
+                          discount_amount={item.discount_amount}
+                        />
+                        <ProductAmountDiscountText
+                          currency_display_value={
+                            item.product_currency_data.display_value
+                          }
+                          discount_amount={item.discount_amount}
+                        />
+                      </View>
+                      <View>
+                        <ProductBonus bonus={item.bonus_percent} />
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <ProductStockIcon
+                          is_stock_product={item.is_stock_product}
+                          style={styles.icons}
+                        />
+                        <ProductDiscountIcon
+                          is_discount_product={item.is_discount_product}
+                          style={styles.icons}
+                        />
+                      </View>
+                      <ProductDiscountText stock_text={item.stock_text} />
+                    </Body>
+                  </CardItem>
                 </View>
-              </CardItem>
+              </TouchableOpacity>
+              <MultiFastCart item={item} />
+            </View>
 
-              <CardItem>
-                <Left>
-                  <View style={{ flexDirection: "row" }}>
-                    <ProductFavorite
-                      is_favorite={item.is_favorite}
-                      product_id={item.id}
-                      style={styles.favoriteElementStyle}
-                    />
-                  </View>
-                </Left>
-                <Right>
-                  <View style={{ flexDirection: "row" }}>
-                    <StarRating
-                      disabled={false}
-                      emptyStar={"ios-star-outline"}
-                      fullStar={"ios-star"}
-                      halfStar={"ios-star-half"}
-                      iconSet={"Ionicons"}
-                      maxStars={5}
-                      rating={item.rate}
-                      // selectedStar={(rating) => this.onStarRatingPress(rating)}
-                      fullStarColor={"orange"}
-                      starSize={30}
-                    />
-                    <Text style={{ color: "orange", fontSize: 20 }}>
-                      {" "}
-                      ({item.comments_count})
-                    </Text>
-                  </View>
-                </Right>
-              </CardItem>
-            </Card>
+            // </Container>
           )
           //   </ListItem>
         }

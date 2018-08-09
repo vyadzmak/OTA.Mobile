@@ -480,19 +480,19 @@ export class ProductCardGalleryComponent extends React.Component {
       return (
         // <View style={styles.container}>
         <Swiper
-          showsButtons={false}
-          showsPagination={false}
+          showsButtons={true}
+          showsPagination={true}
           // autoplay={true}
           // autoplayTimeout={4}
           // loop={true}
           bounces={true}
-          height={150}>
+          height={300}>
           {this.state.items.map((item, key) => {
             return (
               <View key={key} style={styles.slide}>
                 <Image
-                  resizeMode="contain"
-                  source={{ uri: API_URL + item.thumb_file_path }}
+                  resizeMode="stretch"
+                  source={{ uri: API_URL + item.file_path }}
                   style={styles.slideImage}
                 />
               </View>

@@ -163,19 +163,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
-    // shadowColor: "#000000",
 
-    // shadowOffset: {
-    //   width: 5,
-
-    //   height: 5
-    // },
-
-    // shadowRadius: 5,
-
-    // shadowOpacity: 1,
-    // shadowRadius: 20,
-    // shadowColor: "red",
     marginHorizontal: 1,
     borderWidth: 1,
     borderColor: "#C0C0C0"
@@ -184,30 +172,37 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     width: "100%",
-    height: "100%"
+    height: "100%",
+    backgroundColor: "#f6f5f3"
+    //backgroundColor: "#f6f5f3"
   },
   productNameStyle: {
     fontSize: 14,
     justifyContent: "center",
-    alignContent: "center"
+    alignContent: "center",
+    //backgroundColor: "#f6f5f3"
+    backgroundColor: "transparent"
   },
   productAmountStyle: {
-    fontSize: 12
+    fontSize: 12,
+    backgroundColor: "transparent"
   },
   productDiscountTextStyle: {
     fontSize: 12
   },
   rateTextStyle: {
     color: "orange",
-    fontSize: 12
+    fontSize: 12,
+    backgroundColor: "transparent"
   },
   imageStyle: {
-    width: "100%",
+    width: 170,
     height: "100%"
   },
   imageItemStyle: {
     height: "55%",
     width: "100%",
+    backgroundColor: "#FFFFFF",
 
     justifyContent: "flex-start",
     alignContent: "center",
@@ -221,7 +216,8 @@ const styles = StyleSheet.create({
     //alignContent: "center",
     alignItems: "center",
     borderWidth: 0,
-    borderColor: "transparent"
+    borderColor: "transparent",
+    backgroundColor: "transparent"
   },
   amountItemStyle: {
     height: "12%",
@@ -229,7 +225,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderWidth: 0,
-    borderColor: "transparent"
+    borderColor: "transparent",
+    backgroundColor: "transparent"
   },
   rateItemStyle: {
     height: "7%",
@@ -237,6 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderWidth: 0,
-    borderColor: "transparent"
+    borderColor: "transparent",
+    backgroundColor: "transparent"
   }
 });

@@ -36,7 +36,27 @@ export class ThumbComponent extends React.Component {
     }
   }
 }
-
+export class AvatarComponent extends React.Component {
+  render() {
+    if (this.props.image_url != null && this.props.image_url != undefined) {
+      return (
+        <Thumbnail
+          source={{ uri: API_URL + this.props.image_url }}
+          style={styles.avatarImage}
+          resizeMode="contain"
+        />
+      );
+    } else {
+      return (
+        <Thumbnail
+          source={{ uri: API_URL + NO_IMAGE_URL }}
+          style={styles.avatarImage}
+          resizeMode="contain"
+        />
+      );
+    }
+  }
+}
 export class ImageComponent extends React.Component {
   render() {
     //
@@ -60,6 +80,28 @@ export class ImageComponent extends React.Component {
   }
 }
 
+export class CatImageComponent extends React.Component {
+  render() {
+    //
+    if (this.props.image_url != null) {
+      return (
+        <Image
+          resizeMode="stretch"
+          source={{ uri: API_URL + this.props.image_url }}
+          style={styles.catImgStyle}
+        />
+      );
+    } else {
+      return (
+        <Image
+          source={{ uri: API_URL + NO_IMAGE_URL }}
+          resizeMode="stretch"
+          style={styles.catImgStyle}
+        />
+      );
+    }
+  }
+}
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -94,10 +136,26 @@ const styles = StyleSheet.create({
     right: 5
     // backgroundColor: 'rgba(0,0,0,0.5)',
   },
+  catImgStyle: {
+    position: "absolute",
+    width: "100%",
+    height: "100%"
+    // top: 5,
+    // left: 5,
+    // bottom: 5,
+    // right: 5
+    // backgroundColor: 'rgba(0,0,0,0.5)',
+  },
   thumbImage: {
-    height: 96,
-    width: 96,
+    height: 160,
+    width: 160,
 
     paddingHorizontal: 20
+  },
+  avatarImage: {
+    height: 64,
+    width: 64,
+    padding: 20
+    //paddingHorizontal: 20
   }
 });

@@ -36,9 +36,11 @@ import { getWithParams, getWithSlashParams } from "./../modules/Http";
 import { postRequest } from "./../modules/Http";
 import {
   ImageComponent,
-  ThumbComponent
+  ThumbComponent,
+  AvatarComponent
 } from "./../components/ImagesComponents";
-
+import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MultiFastCartUserCart } from "./../components/MultiFastCartUserCartComponent";
 export default class CartScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -86,6 +88,54 @@ export default class CartScreen extends React.Component {
       alert(err);
     }
   }
+
+  simple_update_cart = () => {
+    try {
+      params = [
+        { name: "user_id", value: USER_ID },
+        { name: "user_cart_id", value: CART_ID }
+      ];
+      if (CART_ID != -1) {
+        response = getWithParams("/userCartDetails", params).then(response => {
+          if (response == undefined) {
+            this.setState({
+              isLoading: false
+            });
+          }
+          if (response.message == undefined) {
+            //alert("YO-HO-HO");
+            this.setState(
+              {
+                cartPositions: {
+                  ...this.state.cartPositions,
+                  products_count: response.products_count,
+                  total_amount: response.total_amount,
+                  total_amount_without_discount:
+                    response.total_amount_without_discount,
+                  discount_amount: response.discount_amount,
+                  economy_delta: response.economy_delta,
+                  economy_percent: response.economy_percent,
+                  bonuses_amount: response.bonuses_amount
+                },
+                isLoading: false
+                //currency_data:c
+              },
+              () => {
+                //alert(JSON.stringify(this.state.cartPositions));
+              }
+            );
+          }
+          // this.cart = response;
+        });
+      } else {
+        // this.setState({
+        //   isLoading: false
+        // });
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   componentDidMount() {
     params = [
@@ -276,7 +326,7 @@ export default class CartScreen extends React.Component {
                     <ListItem>
                       <Left>
                         <Left>
-                          <ThumbComponent
+                          <AvatarComponent
                             image_url={
                               item.user_cart_position_product_data
                                 .default_image_data.thumb_file_path
@@ -323,101 +373,11 @@ export default class CartScreen extends React.Component {
                     </ListItem>
                   </View>
                   <View>
-                    <ListItem>
-                      <Left>
-                        {item.user_cart_position_product_data.alt_unit_value !=
-                          null && (
-                          <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}>
-                            <Text>
-                              {
-                                item.user_cart_position_product_data
-                                  .product_alt_unit_data.display_value
-                              }
-                            </Text>
-                            <Button
-                              danger
-                              style={styles.buttonsStyle}
-                              onPress={() => this.minus_alt_count(item.id)}>
-                              <Text>-</Text>
-                            </Button>
+                    <MultiFastCartUserCart
+                      item={item}
+                      fn={this.simple_update_cart}
+                    />
 
-                            <Text style={styles.countStyle}>
-                              {item.alt_count}
-                            </Text>
-
-                            <Button
-                              success
-                              style={styles.buttonsStyle}
-                              onPress={() => this.plus_alt_count(item.id)}>
-                              <Text>+</Text>
-                            </Button>
-                          </View>
-                        )}
-                      </Left>
-                      <Right>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            justifyContent: "center"
-                          }}>
-                          <Text>
-                            {
-                              item.user_cart_position_product_data
-                                .product_unit_data.display_value
-                            }
-                          </Text>
-                          <Button
-                            danger
-                            style={styles.buttonsStyle}
-                            onPress={() => this.minus_count(item.id)}>
-                            <Text>-</Text>
-                          </Button>
-
-                          <Text style={styles.countStyle}>{item.count}</Text>
-
-                          <Button
-                            success
-                            style={styles.buttonsStyle}
-                            onPress={() => this.plus_count(item.id)}>
-                            <Text>+</Text>
-                          </Button>
-
-                          <Button
-                            light
-                            style={styles.buttonsStyle}
-                            icon
-                            onPress={() => {
-                              Alert.alert(
-                                "Удаление",
-                                "Вы действительно хотите удалить данную позицию из заказа?",
-                                [
-                                  {
-                                    text: "Отмена",
-                                    onPress: () =>
-                                      console.log("Cancel Pressed"),
-                                    style: "cancel"
-                                  },
-                                  {
-                                    text: "Да",
-                                    onPress: () => {
-                                      this.remove_item(item.id);
-                                    }
-                                  }
-                                ],
-                                { cancelable: false }
-                              );
-                            }}>
-                            <Text>X</Text>
-                          </Button>
-                        </View>
-                      </Right>
-                    </ListItem>
                     <ListItem>
                       <Left>
                         <View style={{ flexDirection: "row", marginTop: 10 }}>
@@ -428,6 +388,33 @@ export default class CartScreen extends React.Component {
                           />
                         </View>
                       </Left>
+                      <Right>
+                        <MCIcon
+                          name="delete"
+                          size={35}
+                          style={styles.trashIconStyle}
+                          onPress={() => {
+                            Alert.alert(
+                              "Удаление",
+                              "Вы действительно хотите удалить данную позицию из заказа?",
+                              [
+                                {
+                                  text: "Отмена",
+                                  onPress: () => console.log("Cancel Pressed"),
+                                  style: "cancel"
+                                },
+                                {
+                                  text: "Да",
+                                  onPress: () => {
+                                    this.remove_item(item.id);
+                                  }
+                                }
+                              ],
+                              { cancelable: false }
+                            );
+                          }}
+                        />
+                      </Right>
                     </ListItem>
                   </View>
                   <Item />
@@ -518,6 +505,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  trashIconStyle: {
+    color: "red"
+    //marginLeft: 10,
+    //marginRight: 10
   },
   buttonsStyle: {
     width: 40,

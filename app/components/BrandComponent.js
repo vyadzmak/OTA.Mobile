@@ -107,7 +107,8 @@ const styles = StyleSheet.create({
     alignContent: "center",
     marginHorizontal: 1,
     borderWidth: 1,
-    borderColor: "#C0C0C0"
+    borderColor: "#C0C0C0",
+    backgroundColor: "#ffffff"
   },
   touchableOpacity: {
     flex: 1,

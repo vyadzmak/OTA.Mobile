@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, ActivityIndicator } from "react-native";
 import {
   Container,
   Header,
@@ -20,6 +20,8 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import FIcon from "react-native-vector-icons/FontAwesome";
 import Toast from "react-native-simple-toast";
+import StarRating from "react-native-star-rating";
+
 import { getWithParams, getWithSlashParams } from "./../modules/Http";
 import {
   USER_ID,
@@ -80,21 +82,45 @@ export class ProductAmountText extends React.Component {
 
   render() {
     if (this.props.discount_amount == 0) {
-      return (
-        <View>
-          <Text style={styles.productAmount}>
-            {this.props.amount} {this.props.currency_display_value}
-          </Text>
-        </View>
-      );
+      if (this.props.alt_amount != 0) {
+        return (
+          <View>
+            <Text style={styles.productAmount}>
+              {this.props.alt_amount} {this.props.currency_display_value}
+              {"/"}
+              {this.props.amount} {this.props.currency_display_value}
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <Text style={styles.productAmount}>
+              {this.props.amount} {this.props.currency_display_value}
+            </Text>
+          </View>
+        );
+      }
     } else {
-      return (
-        <View>
-          <Text style={styles.productAmountWithDiscount}>
-            {this.props.amount} {this.props.currency_display_value}
-          </Text>
-        </View>
-      );
+      if (this.props.alt_amount != 0) {
+        return (
+          <View>
+            <Text style={styles.productAmountWithDiscount}>
+              {this.props.alt_amount} {this.props.currency_display_value}
+              {"/"}
+              {this.props.amount} {this.props.currency_display_value}
+            </Text>
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <Text style={styles.productAmountWithDiscount}>
+              {this.props.amount} {this.props.currency_display_value}
+            </Text>
+          </View>
+        );
+      }
     }
   }
 }
@@ -140,6 +166,30 @@ export class ProductDiscountText extends React.Component {
   }
 }
 
+export class ProductBonus extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    if (
+      this.props.bonus != "" &&
+      this.props.bonus != null &&
+      this.props.bonus != undefined
+    ) {
+      return (
+        <View>
+          <Text style={styles.productBonusText}>
+            {"Бонус " + this.props.bonus + "%"}
+          </Text>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  }
+}
 export class ProductFavorite extends React.Component {
   constructor(props) {
     super(props);
@@ -209,238 +259,6 @@ export class ProductFavorite extends React.Component {
   }
 }
 
-export class ProductFastCart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      product_id: this.props.product_id,
-      count: this.props.count,
-      alt_count: this.props.alt_count,
-      unit_name: this.props.unit_name,
-      alt_unit_name: this.props.alt_unit_name,
-      amount: this.props.amount,
-      alt_amount: this.props.alt_amount,
-
-      route: "/addCartPositionToCart",
-      show_alt: false
-    };
-  }
-  componentDidMount() {
-    if (
-      this.props.unit_name == undefined ||
-      this.props.unit_name == null ||
-      this.props.unit_name == "null"
-    ) {
-      this.setState({
-        unit_name: "НЕТ"
-      });
-    }
-
-    if (
-      this.props.alt_unit_name != undefined &&
-      this.props.alt_unit_name != null &&
-      this.props.alt_unit_name != "null"
-    ) {
-      this.setState({
-        show_alt: true
-        //alt_count: 0
-      });
-    } else {
-      this.setState({
-        show_alt: false,
-        alt_count: 0
-      });
-    }
-  }
-  add_to_cart() {
-    user_id = USER_ID;
-    count = this.state.count;
-    alt_count = this.state.alt_count;
-    cart_id = CART_ID;
-    product_id = this.props.product_id;
-
-    if (alt_count == undefined) {
-      alt_count = 0;
-    }
-    params = [
-      { name: "user_id", value: user_id },
-      { name: "user_cart_id", value: cart_id },
-      { name: "product_id", value: product_id },
-      { name: "count", value: count },
-      { name: "alt_count", value: alt_count }
-    ];
-    //alert(JSON.stringify(params))
-    response = getWithParams(this.state.route, params).then(response => {
-      //if (response.)
-      //alert(JSON.stringify(response))
-      SetUserCartProductsCount(response.products_count);
-      SetUserCartAmount(response.total_amount);
-      //alert(response.products_count)
-      SetUserCartId(response.id);
-      Toast.show("Продукт был добавлен в корзину");
-      //alert(CART_ID)
-    });
-  }
-
-  plus_count() {
-    _count = this.state.count;
-    _count += 1;
-    //alert(_count);
-
-    this.setState({
-      count: _count
-    });
-  }
-
-  minus_count() {
-    _count = this.state.count;
-    if (_count == 1) return;
-    _count -= 1;
-    //alert(_count);
-    this.setState({
-      count: _count
-    });
-  }
-
-  plus_alt_count() {
-    _count = this.state.alt_count;
-    _count += 1;
-    //alert(_count);
-
-    this.setState({
-      alt_count: _count
-    });
-  }
-
-  minus_alt_count() {
-    _count = this.state.alt_count;
-    if (_count == 0) return;
-    _count -= 1;
-    //alert(_count);
-    this.setState({
-      alt_count: _count
-    });
-  }
-  render() {
-    if (this.state.show_alt) {
-      return (
-        <View style={{ flexDirection: "row" }}>
-          <Left style={{ flexDirection: "column" }}>
-            <Text style={styles.countStyle}>
-              {this.state.alt_unit_name + "/" + this.state.alt_amount + " ₸"}
-            </Text>
-
-            <View
-              style={{
-                flexDirection: "row"
-                // alignItems: "center",
-                // justifyContent: "center"
-              }}>
-              <Button
-                danger
-                style={styles.buttonsStyle}
-                onPress={() => this.minus_alt_count()}>
-                <Text style={styles.buttonText}>-</Text>
-              </Button>
-
-              <Text style={styles.countStyle}>{this.state.alt_count}</Text>
-
-              <Button
-                success
-                style={styles.buttonsStyle}
-                onPress={() => this.plus_alt_count()}>
-                <Text style={styles.buttonText}>+</Text>
-              </Button>
-            </View>
-          </Left>
-          <Body />
-          <Right style={{ flexDirection: "column" }}>
-            <View style={{ marginRight: 30 }}>
-              <Text style={styles.countStyle}>
-                {this.state.unit_name + "/" + this.state.amount + " ₸"}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row"
-                // alignItems: "center",
-                // justifyContent: "center"
-              }}>
-              <Button
-                danger
-                style={styles.buttonsStyle}
-                onPress={() => this.minus_count()}>
-                <Text style={styles.buttonText}>-</Text>
-              </Button>
-
-              <Text style={styles.countStyle}>{this.state.count}</Text>
-
-              <Button
-                success
-                style={styles.buttonsStyle}
-                onPress={() => this.plus_count()}>
-                <Text style={styles.buttonText}>+</Text>
-              </Button>
-              <MCIcon
-                name="cart"
-                size={32}
-                style={styles.cartIconStyle}
-                onPress={() => this.add_to_cart()}
-              />
-            </View>
-          </Right>
-        </View>
-      );
-    } else {
-      return (
-        <View
-          style={{
-            flexDirection: "row",
-            //backgroundColor: "red",
-            width: "100%"
-          }}>
-          <Left />
-          <Right style={{ flexDirection: "column" }}>
-            <View style={{ marginRight: 40 }}>
-              <Text style={styles.countStyle}>
-                {this.state.unit_name + "/" + this.state.amount + " ₸"}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row"
-                // alignItems: "center",
-                // justifyContent: "center"
-              }}>
-              <Button
-                danger
-                style={styles.buttonsStyle}
-                onPress={() => this.minus_count()}>
-                <Text style={styles.buttonText}>-</Text>
-              </Button>
-
-              <Text style={styles.countStyle}>{this.state.count}</Text>
-
-              <Button
-                success
-                style={styles.buttonsStyle}
-                onPress={() => this.plus_count()}>
-                <Text style={styles.buttonText}>+</Text>
-              </Button>
-              <MCIcon
-                name="cart"
-                size={32}
-                style={styles.cartIconStyle}
-                onPress={() => this.add_to_cart()}
-              />
-            </View>
-          </Right>
-        </View>
-      );
-    }
-  }
-}
-
 const styles = StyleSheet.create({
   drawerIconsDiscount: {
     color: "#ff0066",
@@ -478,6 +296,12 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     paddingRight: 5
   },
+  productBonusText: {
+    fontSize: 18,
+    color: "red",
+    //fontStyle: "italic",
+    paddingRight: 5
+  },
   cartIconStyle: {
     color: "#ff9900",
     marginLeft: 10
@@ -486,8 +310,8 @@ const styles = StyleSheet.create({
     color: "#993399"
   },
   buttonsStyle: {
-    width: 32,
-    height: 32,
+    width: "70%",
+    height: "70%",
     alignItems: "center",
     justifyContent: "center",
     alignContent: "center"
@@ -495,11 +319,14 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#ffffff",
-    fontSize: 14
+    fontSize: 28
   },
   countStyle: {
     padding: 5,
     fontSize: 14,
     fontWeight: "bold"
+  },
+  favoriteElementStyle: {
+    marginLeft: -50
   }
 });

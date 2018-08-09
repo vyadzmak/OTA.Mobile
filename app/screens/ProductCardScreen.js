@@ -42,6 +42,7 @@ import {
   ProductCardMainInfoComponent
 } from "./../components/ProductCardElements";
 
+import { MultiFastCartProductCard } from "./../components/MultiFastCartProductCardComponent";
 import { DashboardRecommendationsComponent } from "../components/DashboardRecommendationsComponent";
 
 //import {USER_ID, CART_ID} from './../modules/VarContainer'
@@ -97,9 +98,9 @@ export default class ProductCardScreen extends React.Component {
           _alt_count = response.alt_product_count;
 
           this.setState({
-            isLoading: false,
             count: _count,
-            alt_count: _alt_count
+            alt_count: _alt_count,
+            isLoading: false
           });
         }
         //alert(count);
@@ -125,7 +126,13 @@ export default class ProductCardScreen extends React.Component {
             });
             return;
           }
+          response.count = {};
+          response.alt_count = {};
 
+          response.count = this.state.count;
+          response.alt_count = this.state.alt_count;
+
+          //alert("Response " + JSON.stringify(response));
           this.setState(
             {
               productDetails: response,
@@ -311,55 +318,8 @@ export default class ProductCardScreen extends React.Component {
             />
           </Item>
 
-          <Item style={{ marginTop: 15 }}>
-            {/* <Text>{this.state.unit_name}</Text> */}
-            {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
-            <Left>
-              <Button block danger onPress={() => this.minusCount()}>
-                <Text>-</Text>
-              </Button>
-            </Left>
-            <Body>
-              <Button block primary onPress={() => this.add_to_cart()}>
-                <Text>
-                  Добавить ({this.state.unit_name}) ({this.state.count})
-                </Text>
-              </Button>
-            </Body>
-            <Right>
-              <Button block success onPress={() => this.addCount()}>
-                <Text>+</Text>
-              </Button>
-            </Right>
-            {/* </View> */}
-          </Item>
-
-          {this.state.show_alt && (
-            //  <Text>{this.state.alt_unit_name}</Text>
-            <Item style={{ marginTop: 15 }}>
-              {/* <View style={{flexDirection:'row',alignItems: "center" ,justifyContent: "center"}}> */}
-              <Left>
-                <Button block danger onPress={() => this.minusAltCount()}>
-                  <Text>-</Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button block primary onPress={() => this.add_to_cart()}>
-                  <Text>
-                    Добавить ({this.state.alt_unit_name}) ({
-                      this.state.alt_count
-                    })
-                  </Text>
-                </Button>
-              </Body>
-              <Right>
-                <Button block success onPress={() => this.addAltCount()}>
-                  <Text>+</Text>
-                </Button>
-              </Right>
-              {/* </View> */}
-            </Item>
-          )}
+          {/* ЗДЕСЬ МЕНЯЕМ ПОЛИТИКУ ДОБАВЛЕНИЯ */}
+          <MultiFastCartProductCard item={this.state.productDetails} />
 
           <Item>
             <ProductCardInfoComponent
