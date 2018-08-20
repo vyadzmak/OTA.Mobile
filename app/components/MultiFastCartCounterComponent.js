@@ -51,7 +51,7 @@ export class MultiFastCartCounter extends React.Component {
 
   minus_count() {
     _count = this.state.count;
-    if (_count == 1) return;
+    if (_count == 0) return;
     _count -= 1;
     this.props.fn(_count);
     this.setState({
@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
     height: "70%",
     maxHeight: "70%",
     borderColor: "transparent",
-    flexDirection: "column"
+    flexDirection: "column",
+    backgroundColor: "#ffffff"
   },
   amountUnitValueViewStyle: {
     width: "100%",
@@ -150,7 +151,8 @@ const styles = StyleSheet.create({
     maxHeight: "30%",
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderColor: "transparent"
   },
   amountUnitValueTextStyle: {
     fontSize: 20
@@ -159,19 +161,22 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "70%",
     maxHeight: "70%",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    borderColor: "transparent"
   },
   controlsItemStyle: {
     width: "100%",
     height: "100%",
     maxHeight: "100%",
     backgroundColor: "transparent",
-    padding: 5
+    padding: 5,
+    borderColor: "transparent"
   },
   leftComponentStyle: {
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderColor: "transparent"
   },
   leftViewStyle: {
     width: "100%",
@@ -180,14 +185,13 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center"
-    //backgroundColor: "green"
+    justifyContent: "center",
+    borderColor: "transparent"
   },
   rightComponentStyle: {
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center"
-    //backgroundColor: "orange"
   },
   rightViewStyle: {
     width: "100%",
@@ -196,14 +200,15 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderColor: "transparent"
   },
   bodyStyle: {
-    //maxWidth: "30%"
+    // maxWidth: "30%"
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center"
-    //backgroundColor: "red"
+    justifyContent: "center",
+    borderColor: "transparent"
   },
   countTextStyle: {
     fontSize: 28

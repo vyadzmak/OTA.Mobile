@@ -99,7 +99,7 @@ export default class TabProfileUser extends React.Component {
               ...this.state.user_data,
               user_id: this.state.userProfile.user_data.id,
               user_name: this.state.userProfile.user_data.name,
-              user_login: "+7" + this.state.userProfile.login,
+              user_login: this.state.userProfile.login,
               user_phone_number: this.state.userProfile.user_data.user_info
                 .phone_number,
               user_email: this.state.userProfile.user_data.user_info.email,

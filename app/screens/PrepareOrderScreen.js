@@ -69,9 +69,14 @@ export default class PrepareOrderScreen extends React.Component {
   };
 
   componentDidMount() {
+    if (CART_ID == -1) {
+      this.back_to_cart();
+      return;
+    }
     this.setState({
       order_params: { ...this.state.order_params, user_cart_id: CART_ID }
     });
+
     params = [
       { name: "user_id", value: USER_ID },
       { name: "client_id", value: CLIENT_ID }
@@ -83,7 +88,8 @@ export default class PrepareOrderScreen extends React.Component {
           addresses: response
         });
 
-        if (response != null && response != undefined) {
+        if (response != null && response != undefined && response != "") {
+          //alert(response)
           _address = response[0];
           for (i = 0; i < response.length; i++) {
             if (response[i].is_default) {
@@ -93,20 +99,43 @@ export default class PrepareOrderScreen extends React.Component {
               this.setState({ isLoading: false });
               break;
             }
-          }
 
-          // this.setState({
-          //   address: _address,
-          //   confirmed: _address.confirmed,
-          //   isLoading:false,
-          //   order_params:{...this.state.order_params,client_address_id : _address.id}
-          // })
+            // this.setState({
+            //   address: _address,
+            //   confirmed: _address.confirmed,
+            //   isLoading:false,
+            //   order_params:{...this.state.order_params,client_address_id : _address.id}
+            // })
+          }
+        } else {
+          this.setState({ isLoading: false, addresses: undefined });
+          Alert.alert(
+            "Ошибка",
+            "Не найдено ни одного адреса. Оформить заказ невозможно. Добавьте адрес в профиле",
+            [
+              {
+                text: "OK",
+                onPress: () => {
+                  this.back_to_cart();
+                }
+              }
+            ],
+            { cancelable: false }
+          );
         }
       } else {
+        this.setState({ isLoading: false, addresses: undefined });
         Alert.alert(
           "Ошибка",
           "Не найдено ни одного адреса. Оформить заказ невозможно. Добавьте адрес в профиле",
-          [{ text: "Да" }],
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                this.back_to_cart();
+              }
+            }
+          ],
           { cancelable: false }
         );
         this.setState({
@@ -141,6 +170,9 @@ export default class PrepareOrderScreen extends React.Component {
   complete_order() {
     SetUserCartId(-1);
     this.props.navigation.navigate("Dashboard", {});
+  }
+  back_to_cart() {
+    this.props.navigation.navigate("Cart", {});
   }
 
   make_order(data) {

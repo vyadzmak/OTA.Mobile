@@ -53,7 +53,7 @@ export default class DashboardSliderComponent extends React.Component {
             autoplayTimeout={4}
             loop={true}
             bounces={true}
-            height={150}
+            height={200}
             style={styles.swiperStyle}>
             {this.state.items.map((item, key) => {
               return (

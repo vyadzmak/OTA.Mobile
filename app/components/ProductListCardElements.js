@@ -82,7 +82,11 @@ export class ProductAmountText extends React.Component {
 
   render() {
     if (this.props.discount_amount == 0) {
-      if (this.props.alt_amount != 0) {
+      if (
+        this.props.alt_amount != 0 &&
+        this.props.alt_amount != undefined &&
+        this.props.alt_amount != null
+      ) {
         return (
           <View>
             <Text style={styles.productAmount}>
@@ -102,7 +106,11 @@ export class ProductAmountText extends React.Component {
         );
       }
     } else {
-      if (this.props.alt_amount != 0) {
+      if (
+        this.props.alt_amount != 0 &&
+        this.props.alt_amount != undefined &&
+        this.props.alt_amount != null
+      ) {
         return (
           <View>
             <Text style={styles.productAmountWithDiscount}>

@@ -54,15 +54,20 @@ get_cart_products_count = () => {
 
 get_cart_products_amount = () => {
   try {
-    //alert("YEP");
-    AsyncStorage.getItem("cart_products_amount")
+    let t = AsyncStorage.getItem("cart_products_amount")
       .then(value => {
+        //alert(value);
         if (value != null) {
           CART_PRODUCTS_AMOUNT = value;
           //alert(CART_PRODUCTS_AMOUNT);
+          return value;
+        } else {
+          // alert("null");
         }
       })
       .then(res => {});
+
+    //alert("T = " + JSON.stringify(t));
   } catch (err) {}
 };
 get_cart_data = () => {
@@ -75,19 +80,26 @@ get_cart_data = () => {
         }
       })
       .then(res => {});
-  } catch (err) {}
+  } catch (err) {
+    alert(err);
+  }
 };
 
 export const InitVars = () => {
-  get_user_data();
-  get_cart_id();
-  get_cart_data();
-  get_cart_products_count();
-  get_cart_products_amount();
+  try {
+    get_user_data();
+    get_cart_id();
+    get_cart_data();
+    get_cart_products_count();
+
+    get_cart_products_amount();
+  } catch (e) {
+    alert(e);
+  }
 };
 
 export const InitProductsAmount = () => {
-  get_cart_products_amount();
+  return get_cart_products_amount();
 };
 export const DropVars = () => {
   USER_DATA = {};
@@ -97,6 +109,12 @@ export const DropVars = () => {
   CART_PRODUCTS_COUNT = 0;
   CART_PRODUCTS_AMOUNT = 0;
   AsyncStorage.setItem("cart_products_amount", "0");
+  //alert("Drop");
+};
+
+export const DropCartAmount = () => {
+  CART_PRODUCTS_AMOUNT = 0;
+  AsyncStorage.setItem("cart_products_amount", CART_PRODUCTS_AMOUNT.toString());
 };
 
 export const SetUserCartId = id => {
@@ -104,20 +122,34 @@ export const SetUserCartId = id => {
   //SetUserCartAmount(0);
   //CART_PRODUCTS_AMOUNT = 0;
   //alert(CART_ID)
-  AsyncStorage.setItem("cart_products_amount", "0");
+  //alert("SetUID");
+  if (id == -1) {
+    CART_PRODUCTS_AMOUNT = 0;
+  }
+  AsyncStorage.setItem("cart_products_amount", CART_PRODUCTS_AMOUNT.toString());
   AsyncStorage.setItem("cart_id", id.toString());
 };
 
 export const SetUserCartProductsCount = count => {
   CART_PRODUCTS_COUNT = count;
+
   //alert(CART_ID)
   AsyncStorage.setItem("cart_products_count", count.toString());
 };
 
 export const SetUserCartAmount = amount => {
-  CART_PRODUCTS_AMOUNT = amount;
-  //alert(CART_ID)
-  AsyncStorage.setItem("cart_products_amount", amount.toString());
+  try {
+    if (amount == undefined) {
+      amount = 0;
+    }
+    CART_PRODUCTS_AMOUNT = amount;
+    //alert("SETUCA");
+
+    //alert(CART_ID)
+    AsyncStorage.setItem("cart_products_amount", amount.toString());
+  } catch (e) {
+    alert(e);
+  }
 };
 
 export const SetUserCartData = cart_data => {

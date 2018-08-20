@@ -113,6 +113,7 @@ export class RecommendationProductComponent extends React.Component {
               }}>
               <ProductAmountText
                 amount={this.state.amount}
+                //alt_amount={this.state.amount}
                 currency_display_value={this.state.currency_display_value}
                 discount_amount={this.state.discount_amount}
                 style={styles.productAmountStyle}
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     height: "100%",
-    backgroundColor: "#f6f5f3"
+    backgroundColor: "#FFFFFF"
     //backgroundColor: "#f6f5f3"
   },
   productNameStyle: {

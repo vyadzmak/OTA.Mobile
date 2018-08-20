@@ -30,7 +30,8 @@ export default class HeaderCartComponent extends React.Component {
   }
 
   componentDidMount() {
-    InitProductsAmount();
+    //t = InitProductsAmount();
+    //alert("TTTTTTTT" + t);
     this.setState({
       BadgeCount: CART_PRODUCTS_AMOUNT
     });

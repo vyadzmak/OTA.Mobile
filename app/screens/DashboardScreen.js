@@ -36,7 +36,9 @@ import DashboardSliderComponent from "./../components/DashboardSliderComponent";
 import { DashboardBadgesComponent } from "./../components/DashboardBadgesComponent";
 import { DashboardRecommendationsComponent } from "../components/DashboardRecommendationsComponent";
 import { DashboardBrandsComponent } from "./../components/DashboardBrandsComponent";
-
+import { _storeData, _retrieveData } from "./../modules/AsyncStorageModule";
+import { USER_ID } from "./../modules/VarContainer";
+import { getWithParams, getWithSlashParams } from "./../modules/Http";
 var self;
 class DashboardScreen extends React.Component {
   constructor(props) {
@@ -170,10 +172,38 @@ class DashboardScreen extends React.Component {
     }
   };
 
+  _syncData = async => {
+    try {
+      if (USER_ID == -1) {
+        return;
+      }
+      params = [{ name: "user_id", value: USER_ID }];
+
+      _response = getWithParams("/authMainInfo", params).then(response => {
+        //alert(JSON.stringify(response));
+        if (response != undefined) {
+          _storeData("user_data", JSON.stringify(response)).then(() => {
+            this.props.navigation.setParams({ manageBar: this._manageBar });
+            this._retrieveData("user_data");
+            InitVars();
+          });
+        } else {
+          this.props.navigation.setParams({ manageBar: this._manageBar });
+          this._retrieveData("user_data");
+          InitVars();
+        }
+      });
+    } catch (err) {}
+  };
+
   componentDidMount() {
-    this.props.navigation.setParams({ manageBar: this._manageBar });
-    this._retrieveData("user_data");
-    InitVars();
+    if (USER_ID != -1) {
+      this._syncData();
+    } else {
+      this.props.navigation.setParams({ manageBar: this._manageBar });
+      this._retrieveData("user_data");
+      InitVars();
+    }
   }
 
   _manageBar = () => {
@@ -219,7 +249,7 @@ class DashboardScreen extends React.Component {
 
         <ScrollView>
           {this.state.slider_visibility && (
-            <Item style={styles.itemStyle}>
+            <Item style={styles.sliderItemStyle}>
               <DashboardSliderComponent
                 style={styles.slider_component}
                 images_data={this.state.slider_images_data}
@@ -228,16 +258,18 @@ class DashboardScreen extends React.Component {
             </Item>
           )}
           {this.state.badges_visibility && (
-            <Item style={styles.itemStyle}>
-              <DashboardBadgesComponent
-                navigation={this.props.navigation}
-                show_badge_popular={this.state.show_badge_popular}
-                show_badge_partners={this.state.show_badge_partners}
-                show_badge_discount={this.state.show_badge_discount}
-                show_badge_stock={this.state.show_badge_stock}
-                show_badges={this.state.show_badges}
-              />
-            </Item>
+            <View style={styles.badgesViewStyle}>
+              <Item style={styles.badgesItemStyle}>
+                <DashboardBadgesComponent
+                  navigation={this.props.navigation}
+                  show_badge_popular={this.state.show_badge_popular}
+                  show_badge_partners={this.state.show_badge_partners}
+                  show_badge_discount={this.state.show_badge_discount}
+                  show_badge_stock={this.state.show_badge_stock}
+                  show_badges={this.state.show_badges}
+                />
+              </Item>
+            </View>
           )}
 
           <Item style={styles.itemStyle}>
@@ -273,19 +305,46 @@ class DashboardScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f6f5f3",
-    flex: 1
+    //backgroundColor: "#f6f5f3",
+    backgroundColor: "#edebee",
+    flex: 1,
+    padding: 0,
+    marginLeft: -2
   },
   slider_component: {
-    marginTop: 10,
     height: 100,
-    width: "100%"
+    width: "100%",
+    padding: 0
   },
   recommendation_component: {
     //marginTop: 200
   },
   itemStyle: {
-    padding: 5
+    //padding: 5,
+    borderColor: "transparent"
+    //padding: 5
+  },
+  sliderItemStyle: {
+    padding: 0,
+    borderColor: "transparent"
+    //padding: 5
+  },
+  badgesViewStyle: {
+    //marginTop: 5,
+    width: "100%",
+    height: 40,
+    //backgroundColor: "purple",
+    alignContent: "center",
+    justifyContent: "center"
+  },
+  badgesItemStyle: {
+    borderColor: "transparent",
+    //backgroundColor: "red",
+    height: "100%",
+    width: "90%",
+    alignSelf: "center",
+    alignContent: "center",
+    justifyContent: "center"
   },
   recommendedItemStyle: {
     padding: 5,

@@ -197,7 +197,7 @@ export default class RegistrationForm extends React.Component {
             value={this.state.user_data.phone_number}
             maxLength={25}
             onSubmitEditing={() => this.state.user_name_input.focus()}
-            mask={"+7 ([000]) [000] [00] [00]"}
+            mask={"+[0] ([000]) [000] [00] [00]"}
           />
 
           <Text style={styles.signupText}>Ваше имя</Text>

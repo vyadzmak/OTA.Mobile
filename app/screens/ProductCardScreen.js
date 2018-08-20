@@ -311,7 +311,7 @@ export default class ProductCardScreen extends React.Component {
             />
           </Item>
 
-          <Item>
+          <Item style={styles.mainItemStyle}>
             <ProductCardMainInfoComponent
               product_details={this.state.productDetails}
               navigation={this.props.navigation}
@@ -321,12 +321,12 @@ export default class ProductCardScreen extends React.Component {
           {/* ЗДЕСЬ МЕНЯЕМ ПОЛИТИКУ ДОБАВЛЕНИЯ */}
           <MultiFastCartProductCard item={this.state.productDetails} />
 
-          <Item>
+          <Item style={styles.mainItemStyle}>
             <ProductCardInfoComponent
               product_details={this.state.productDetails}
             />
           </Item>
-          <Item>
+          <Item style={styles.mainItemStyle}>
             <ProductCardProductRemmendationsComponent
               product_recomendations_data={
                 this.state.productDetails.product_recomendations_data
@@ -352,11 +352,14 @@ export default class ProductCardScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffffff"
     //flex: 1,
     //alignItems: "center",
     //justifyContent: "center",
-    marginVertical: 5
+    //marginVertical: 5
+  },
+  mainItemStyle: {
+    borderColor: "transparent"
   },
   nameText: {
     color: "#000",

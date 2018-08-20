@@ -91,8 +91,17 @@ export default class FilterProductsScreen extends React.Component {
     } catch (err) {
       alert(err);
     } finally {
+      r_products = [];
+
+      for (i = 0; i < _products.length; i++) {
+        prod = _products[i];
+
+        if (prod.not_show_in_catalog == false) {
+          r_products.push(prod);
+        }
+      }
       this.setState({
-        productsCatalog: _products,
+        productsCatalog: r_products,
         isLoading: false
       });
     }
@@ -183,8 +192,9 @@ export default class FilterProductsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
-    backgroundColor: "#ffffff"
+    marginVertical: 20
+    //backgroundColor: "#ffffff",
+    //backgroundColor: "red"
   },
   item: {
     backgroundColor: "#ffffff",

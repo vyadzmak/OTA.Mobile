@@ -67,16 +67,18 @@ export default class CartScreen extends React.Component {
       //alert(JSON.stringify(data))
       response = postRequest(update_route, data).then(response => {
         //txt = JSON.stringify(response)
-
+        //alert(JSON.stringify(response));
         status = response.code;
         if (status == 400) {
-          Alert.alert(JSON.stringify(response.message));
+          //Alert.alert(JSON.stringify(response.message));
           this.setState({ isLoading: false });
         } else {
-          //alert(JSON.stringify(response))
+          // alert(JSON.stringify(response));
           this.cart = response;
           // this.state.cartPositions.total_amount
+
           SetUserCartAmount(this.cart.total_amount);
+
           this.setState({ cartPositions: {} }, function() {
             this.setState({ cartPositions: this.cart }, function() {});
           });
@@ -150,7 +152,7 @@ export default class CartScreen extends React.Component {
         //console.log(JSON.stringify(response))
         //this.check_favorites(response)
         //alert(JSON.stringify(response))
-        if (response == undefined) {
+        if (response == undefined || response.message != undefined) {
           this.setState({
             isLoading: false
           });
@@ -287,6 +289,28 @@ export default class CartScreen extends React.Component {
         response = getWithParams("/checkMinimumSumCartByPartners", params).then(
           response => {
             //alert(JSON.stringify(response));
+            if (response.length > 0) {
+              message =
+                "Невозможно оформить заказ. Вы не набрали на минимальную сумму от наших партнеров:\n";
+
+              for (i = 0; i < response.length; i++) {
+                line = response[i];
+                partner_name = line[1];
+                need_amount = line[2];
+                cart_amount = line[3];
+                m_line =
+                  "Партнер: " +
+                  partner_name +
+                  ", мин. сумма: " +
+                  need_amount +
+                  ", ваша сумма:" +
+                  cart_amount;
+                message += m_line + "\n";
+              }
+              alert(message);
+
+              return;
+            }
             //this.props.navigation.popToTop()
             this.props.navigation.navigate("PrepareOrder", {
               navigation: this.props.navigation
@@ -311,7 +335,10 @@ export default class CartScreen extends React.Component {
         </View>
       );
     }
-    if (this.state.cartPositions.cart_positions != undefined) {
+    if (
+      this.state.cartPositions.cart_positions != undefined &&
+      this.state.cartPositions.cart_positions.length > 0
+    ) {
       return (
         <Container>
           <Header style={styles.headerStyle}>
@@ -319,11 +346,12 @@ export default class CartScreen extends React.Component {
           </Header>
           <Content>
             <List
+              style={styles.listItemStyle}
               dataArray={this.state.cartPositions.cart_positions}
               renderRow={item => (
                 <View style={styles.cartPositionStyle}>
                   <View>
-                    <ListItem>
+                    <ListItem style={styles.listItemStyle}>
                       <Left>
                         <Left>
                           <AvatarComponent
@@ -378,7 +406,7 @@ export default class CartScreen extends React.Component {
                       fn={this.simple_update_cart}
                     />
 
-                    <ListItem>
+                    <ListItem style={styles.listItemStyle}>
                       <Left>
                         <View style={{ flexDirection: "row", marginTop: 10 }}>
                           <Text style={styles.nameTextStyle}>Счет-фактура</Text>
@@ -422,11 +450,11 @@ export default class CartScreen extends React.Component {
               )}>
               }
             </List>
-            <List>
+            <List style={styles.listItemStyle}>
               <Separator bordered>
                 <Text style={{ fontSize: 14 }}>Общее</Text>
               </Separator>
-              <ListItem>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
                   <Text>Количество позиций</Text>
                 </Left>
@@ -434,7 +462,7 @@ export default class CartScreen extends React.Component {
                   <Text>{this.state.cartPositions.products_count}</Text>
                 </Right>
               </ListItem>
-              <ListItem>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
                   <Text>Итого</Text>
                 </Left>
@@ -446,7 +474,7 @@ export default class CartScreen extends React.Component {
                 </Right>
               </ListItem>
 
-              <ListItem>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
                   <Text>Итого учетом скидки</Text>
                 </Left>
@@ -458,7 +486,7 @@ export default class CartScreen extends React.Component {
                 </Right>
               </ListItem>
 
-              <ListItem>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
                   <Text>Скидка</Text>
                 </Left>
@@ -470,7 +498,7 @@ export default class CartScreen extends React.Component {
                 </Right>
               </ListItem>
 
-              <ListItem>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
                   <Text>Итого бонусов</Text>
                 </Left>
@@ -532,6 +560,11 @@ const styles = StyleSheet.create({
     color: "#ffffff"
   },
   cartPositionStyle: {
-    padding: 5
+    padding: 5,
+    backgroundColor: "#ffffff"
+  },
+  listItemStyle: {
+    backgroundColor: "#ffffff",
+    borderColor: "transparent"
   }
 });

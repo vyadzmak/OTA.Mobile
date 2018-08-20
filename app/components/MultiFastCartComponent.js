@@ -149,27 +149,31 @@ export class MultiFastCart extends React.Component {
                 backgroundColor: "#ffffff"
               }}>
               <View style={{ flexDirection: "row", marginBottom: 0 }}>
-                <ProductFavorite
-                  is_favorite={this.state.item.is_favorite}
-                  product_id={this.state.item.id}
-                  style={styles.favoriteElementStyle}
-                />
-
-                <StarRating
-                  disabled={false}
-                  emptyStar={"ios-star-outline"}
-                  fullStar={"ios-star"}
-                  halfStar={"ios-star-half"}
-                  iconSet={"Ionicons"}
-                  maxStars={5}
-                  rating={this.state.item.rate}
-                  fullStarColor={"orange"}
-                  starSize={30}
-                />
-                <Text style={{ color: "orange", fontSize: 20 }}>
-                  {" "}
-                  ({this.state.item.comments_count})
-                </Text>
+                <Left>
+                  <ProductFavorite
+                    is_favorite={this.state.item.is_favorite}
+                    product_id={this.state.item.id}
+                    style={styles.favoriteElementStyle}
+                  />
+                </Left>
+                <Body style={{ flexDirection: "row" }}>
+                  <StarRating
+                    disabled={false}
+                    emptyStar={"ios-star-outline"}
+                    fullStar={"ios-star"}
+                    halfStar={"ios-star-half"}
+                    iconSet={"Ionicons"}
+                    maxStars={5}
+                    rating={this.state.item.rate}
+                    fullStarColor={"orange"}
+                    starSize={20}
+                  />
+                  <Text style={{ color: "orange", fontSize: 16 }}>
+                    {" "}
+                    ({this.state.item.comments_count})
+                  </Text>
+                </Body>
+                <Right />
               </View>
             </Item>
           </View>

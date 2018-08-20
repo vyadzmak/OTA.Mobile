@@ -67,8 +67,15 @@ formatProductCategoriesToData = async productCategories => {
   });
 
   const numberOfFullRows = Math.floor(data.length / numColumns);
+  t = numberOfFullRows % 2 === 0;
+  //alert(t);
+
   d = 4 - numColumns;
+  if (t == true) {
+    d = d - 1;
+  }
   rowCount = numberOfFullRows + d;
+  //alert("")
   h = (Dimensions.get("window").width / numColumns) * rowCount;
 
   return h;
@@ -206,8 +213,8 @@ export default class ProductsCategoryList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 10,
-    backgroundColor: "#ffffff"
+    //marginVertical: 10,
+    backgroundColor: "#edebee"
     //paddingBottom: 50
   },
   item: {

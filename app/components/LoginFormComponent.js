@@ -135,7 +135,7 @@ export default class LoginForm extends React.Component {
           value={this.state.login_data.login}
           maxLength={25}
           onSubmitEditing={() => this.password.focus()}
-          mask={"+7 ([000]) [000] [00] [00]"}
+          mask={"+[0] ([000]) [000] [00] [00]"}
         />
 
         <Text style={styles.signupText}>Пароль</Text>

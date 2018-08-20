@@ -170,13 +170,16 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    alignSelf: "center"
   },
   scrollStyle: {
     //padding: 10,
     //marginLeft: 10,
     //height: 50,
     width: "100%"
+    //ustifyContent: "center",
+    //alignItems: "center"
   },
   badgeStyle: {
     //marginHorizontal: 50,
