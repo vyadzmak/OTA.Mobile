@@ -35,6 +35,7 @@ import {
 } from "./../components/ProductListCardElements";
 import StarRating from "react-native-star-rating";
 
+import { IS_CONFIRMED } from "./../modules/VarContainer";
 export class ProductCardProductRemmendationsComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -369,42 +370,45 @@ export class ProductCardInfoComponent extends React.Component {
           </Right>
         </Item>
 
-        <Item style={styles.itemDetailsStyle}>
-          <Left>
-            <Text style={styles.itemNameTextStyle}>Цена</Text>
-          </Left>
-          <Right>
-            <Text style={styles.itemValueTextStyle}>
-              {this.state.productDetails.amount}{" "}
-              {this.state.currency_data.display_value}
-            </Text>
-          </Right>
-        </Item>
-
-        <Item style={styles.itemDetailsStyle}>
-          <Left>
-            <Text style={styles.itemNameTextStyle}>Цена со скидкой</Text>
-          </Left>
-          <Right>
-            <Text style={styles.itemValueTextStyle}>
-              {this.state.productDetails.discount_amount}{" "}
-              {this.state.currency_data.display_value}
-            </Text>
-          </Right>
-        </Item>
-
-        <Item style={styles.itemDetailsStyle}>
-          <Left>
-            <Text style={styles.itemNameTextStyle}>Рекомендуемая цена</Text>
-          </Left>
-          <Right>
-            <Text style={styles.itemValueTextStyle}>
-              {this.state.productDetails.recommended_amount}{" "}
-              {this.state.currency_data.display_value}
-            </Text>
-          </Right>
-        </Item>
-
+        {IS_CONFIRMED && (
+          <Item style={styles.itemDetailsStyle}>
+            <Left>
+              <Text style={styles.itemNameTextStyle}>Цена</Text>
+            </Left>
+            <Right>
+              <Text style={styles.itemValueTextStyle}>
+                {this.state.productDetails.amount}{" "}
+                {this.state.currency_data.display_value}
+              </Text>
+            </Right>
+          </Item>
+        )}
+        {IS_CONFIRMED && (
+          <Item style={styles.itemDetailsStyle}>
+            <Left>
+              <Text style={styles.itemNameTextStyle}>Цена со скидкой</Text>
+            </Left>
+            <Right>
+              <Text style={styles.itemValueTextStyle}>
+                {this.state.productDetails.discount_amount}{" "}
+                {this.state.currency_data.display_value}
+              </Text>
+            </Right>
+          </Item>
+        )}
+        {IS_CONFIRMED && (
+          <Item style={styles.itemDetailsStyle}>
+            <Left>
+              <Text style={styles.itemNameTextStyle}>Рекомендуемая цена</Text>
+            </Left>
+            <Right>
+              <Text style={styles.itemValueTextStyle}>
+                {this.state.productDetails.recommended_amount}{" "}
+                {this.state.currency_data.display_value}
+              </Text>
+            </Right>
+          </Item>
+        )}
         {/* <Item style={styles.itemDetailsStyle}>
           <Left>
             <Text style={styles.itemNameTextStyle}>Бонусы (% от цены) </Text>

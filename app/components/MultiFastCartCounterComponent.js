@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { Left, Body, Right, Button, Item } from "native-base";
-
+import { IS_CONFIRMED } from "./../modules/VarContainer";
 export class MultiFastCartCounter extends React.Component {
   constructor(props) {
     super(props);
@@ -66,6 +66,10 @@ export class MultiFastCartCounter extends React.Component {
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
       );
+    }
+
+    if (IS_CONFIRMED == false) {
+      return null;
     }
 
     return (

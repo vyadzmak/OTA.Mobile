@@ -9,6 +9,7 @@ export var CLIENT_ID = -1;
 export var USER_DATA = {};
 export var CART_DATA = {};
 export var NO_IMAGE_URL = "";
+export var IS_CONFIRMED = false;
 get_user_data = () => {
   try {
     AsyncStorage.getItem("user_data")
@@ -19,6 +20,8 @@ get_user_data = () => {
           USER_ID = USER_DATA.user_data.id;
           NO_IMAGE_URL = USER_DATA.no_image_url;
           CLIENT_ID = USER_DATA.user_data.client_data.id;
+          //alert(USER_DATA.is_confirmed);
+          IS_CONFIRMED = USER_DATA.is_confirmed;
           //alert('USER ID '+USER_ID+' CLIENT_ID '+CLIENT_ID)
         }
       })
@@ -108,6 +111,7 @@ export const DropVars = () => {
   CART_ID = -1;
   CART_PRODUCTS_COUNT = 0;
   CART_PRODUCTS_AMOUNT = 0;
+  IS_CONFIRMED = false;
   AsyncStorage.setItem("cart_products_amount", "0");
   //alert("Drop");
 };

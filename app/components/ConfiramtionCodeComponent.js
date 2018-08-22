@@ -46,7 +46,7 @@ export default class ConfirmationCodeForm extends React.Component {
       .then(res => {
         Alert.alert(
           "Код подтверждения",
-          "Ваш код подтверждения: " + this.state.temp_code
+          "На указанный Вами номер была отправлена СМС с кодом."
         );
       });
   };
@@ -98,11 +98,7 @@ export default class ConfirmationCodeForm extends React.Component {
 
       if (response.message != undefined) {
         if (response.message == "Error") {
-          Alert.alert(
-            "Ошибка подтверждения кода",
-            "Повторите код еще раз! Ваш код подтвержения: " +
-              this.state.temp_code
-          );
+          Alert.alert("Ошибка подтверждения кода", "Повторите код еще раз!");
         }
       }
 

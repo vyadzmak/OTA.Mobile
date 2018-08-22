@@ -30,7 +30,8 @@ import {
   SetUserCartId,
   SetUserData,
   SetUserCartProductsCount,
-  SetUserCartAmount
+  SetUserCartAmount,
+  IS_CONFIRMED
 } from "./../modules/VarContainer";
 
 import {
@@ -76,6 +77,12 @@ export class MultiFastCart extends React.Component {
   }
 
   add_to_cart(item) {
+    if (IS_CONFIRMED == false) {
+      alert(
+        "Невозможно добавить товар в корзину. У ва нет подтвержденных адресов. Свяжитесь с поддержкой."
+      );
+      return;
+    }
     //alert(JSON.stringify(item.alt_count));
     user_id = USER_ID;
     count = item.count;

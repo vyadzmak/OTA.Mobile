@@ -30,7 +30,8 @@ import {
   SetUserCartId,
   SetUserData,
   SetUserCartProductsCount,
-  SetUserCartAmount
+  SetUserCartAmount,
+  IS_CONFIRMED
 } from "./../modules/VarContainer";
 
 export class ProductStockIcon extends React.Component {
@@ -41,6 +42,9 @@ export class ProductStockIcon extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (this.props.is_stock_product) {
       return (
         <View>
@@ -62,6 +66,9 @@ export class ProductDiscountIcon extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (this.props.is_discount_product) {
       return (
         <View>
@@ -81,6 +88,9 @@ export class ProductAmountText extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (this.props.discount_amount == 0) {
       if (
         this.props.alt_amount != 0 &&
@@ -140,6 +150,9 @@ export class ProductAmountDiscountText extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (this.props.discount_amount != 0) {
       return (
         <View>
@@ -160,6 +173,9 @@ export class ProductDiscountText extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (this.props.stock_text != "") {
       return (
         <View>
@@ -181,6 +197,9 @@ export class ProductBonus extends React.Component {
   }
 
   render() {
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (
       this.props.bonus != "" &&
       this.props.bonus != null &&

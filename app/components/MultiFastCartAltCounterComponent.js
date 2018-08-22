@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { Left, Body, Right, Button, Item } from "native-base";
-
+import { IS_CONFIRMED } from "./../modules/VarContainer";
 export class MultiFastCartAltCounter extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +68,9 @@ export class MultiFastCartAltCounter extends React.Component {
         </View>
       );
     }
-
+    if (IS_CONFIRMED == false) {
+      return null;
+    }
     if (!this.state.show_alt) {
       return <Item style={styles.mainItemStyle} />;
     }

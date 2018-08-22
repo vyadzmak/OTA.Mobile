@@ -29,7 +29,7 @@ import API_URL from "./../modules/Settings";
 import StarRating from "react-native-star-rating";
 
 import { ImageComponent, ThumbComponent } from "./ImagesComponents";
-
+import { IS_CONFIRMED } from "./../modules/VarContainer";
 import {
   ProductStockIcon,
   ProductDiscountIcon,
@@ -103,29 +103,29 @@ export class RecommendationProductComponent extends React.Component {
               {this.state.name}
             </Text>
           </View>
-
-          <View style={styles.amountItemStyle}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignContent: "center"
-              }}>
-              <ProductAmountText
-                amount={this.state.amount}
-                //alt_amount={this.state.amount}
-                currency_display_value={this.state.currency_display_value}
-                discount_amount={this.state.discount_amount}
-                style={styles.productAmountStyle}
-              />
-              <ProductAmountDiscountText
-                currency_display_value={this.state.currency_display_value}
-                discount_amount={this.state.discount_amount}
-                style={styles.productDiscountTextStyle}
-              />
+          {IS_CONFIRMED && (
+            <View style={styles.amountItemStyle}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignContent: "center"
+                }}>
+                <ProductAmountText
+                  amount={this.state.amount}
+                  //alt_amount={this.state.amount}
+                  currency_display_value={this.state.currency_display_value}
+                  discount_amount={this.state.discount_amount}
+                  style={styles.productAmountStyle}
+                />
+                <ProductAmountDiscountText
+                  currency_display_value={this.state.currency_display_value}
+                  discount_amount={this.state.discount_amount}
+                  style={styles.productDiscountTextStyle}
+                />
+              </View>
             </View>
-          </View>
-
+          )}
           <View style={styles.rateItemStyle}>
             <View
               style={{

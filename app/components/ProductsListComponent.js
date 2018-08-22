@@ -49,7 +49,7 @@ import {
 } from "./../components/ImagesComponents";
 //import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { IS_CONFIRMED } from "./../modules/VarContainer";
 export default class ProductsList extends React.Component {
   constructor(props) {
     super(props);
@@ -137,22 +137,25 @@ export default class ProductsList extends React.Component {
                     <Body style={{ paddingLeft: 20 }}>
                       <Text>{item.name}</Text>
                       <Text note>{item.short_description}</Text>
-                      <View style={{ flexDirection: "row" }}>
-                        <ProductAmountText
-                          amount={item.amount}
-                          alt_amount={item.alt_amount}
-                          currency_display_value={
-                            item.product_currency_data.display_value
-                          }
-                          discount_amount={item.discount_amount}
-                        />
-                        <ProductAmountDiscountText
-                          currency_display_value={
-                            item.product_currency_data.display_value
-                          }
-                          discount_amount={item.discount_amount}
-                        />
-                      </View>
+
+                      {IS_CONFIRMED && (
+                        <View style={{ flexDirection: "row" }}>
+                          <ProductAmountText
+                            amount={item.amount}
+                            alt_amount={item.alt_amount}
+                            currency_display_value={
+                              item.product_currency_data.display_value
+                            }
+                            discount_amount={item.discount_amount}
+                          />
+                          <ProductAmountDiscountText
+                            currency_display_value={
+                              item.product_currency_data.display_value
+                            }
+                            discount_amount={item.discount_amount}
+                          />
+                        </View>
+                      )}
                       <View>
                         <ProductBonus bonus={item.bonus_percent} />
                       </View>
@@ -171,7 +174,7 @@ export default class ProductsList extends React.Component {
                   </CardItem>
                 </View>
               </TouchableOpacity>
-              <MultiFastCart item={item} />
+              {IS_CONFIRMED && <MultiFastCart item={item} />}
             </View>
 
             // </Container>

@@ -32,7 +32,8 @@ import {
   SetUserCartId,
   SetUserData,
   SetUserCartProductsCount,
-  SetUserCartAmount
+  SetUserCartAmount,
+  IS_CONFIRMED
 } from "./../modules/VarContainer";
 import Toast from "react-native-simple-toast";
 import {
@@ -319,8 +320,9 @@ export default class ProductCardScreen extends React.Component {
           </Item>
 
           {/* ЗДЕСЬ МЕНЯЕМ ПОЛИТИКУ ДОБАВЛЕНИЯ */}
-          <MultiFastCartProductCard item={this.state.productDetails} />
-
+          {IS_CONFIRMED && (
+            <MultiFastCartProductCard item={this.state.productDetails} />
+          )}
           <Item style={styles.mainItemStyle}>
             <ProductCardInfoComponent
               product_details={this.state.productDetails}

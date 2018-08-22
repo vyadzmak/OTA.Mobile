@@ -37,7 +37,7 @@ import { DashboardBadgesComponent } from "./../components/DashboardBadgesCompone
 import { DashboardRecommendationsComponent } from "../components/DashboardRecommendationsComponent";
 import { DashboardBrandsComponent } from "./../components/DashboardBrandsComponent";
 import { _storeData, _retrieveData } from "./../modules/AsyncStorageModule";
-import { USER_ID } from "./../modules/VarContainer";
+import { USER_ID, IS_CONFIRMED } from "./../modules/VarContainer";
 import { getWithParams, getWithSlashParams } from "./../modules/Http";
 var self;
 class DashboardScreen extends React.Component {
@@ -200,6 +200,7 @@ class DashboardScreen extends React.Component {
     if (USER_ID != -1) {
       this._syncData();
     } else {
+      //alert("IS_CONFIRMED=" + IS_CONFIRMED);
       this.props.navigation.setParams({ manageBar: this._manageBar });
       this._retrieveData("user_data");
       InitVars();
