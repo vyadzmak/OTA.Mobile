@@ -170,18 +170,29 @@ export default class OrderDetailsScreen extends React.Component {
             renderRow={item => (
               <ListItem>
                 <Body>
-                  <Text style={styles.nameTextStyle}>
+                  <Text style={styles.nameTextStyle} note>
                     {item.product_data.name}
                   </Text>
                   <Text note>
                     Цена за единицу: {item.amount_per_item}{" "}
                     {this.state.orderDetails.currency_data.display_value}
+                    {"/"}
+                    {item.alt_amount_per_item}{" "}
+                    {this.state.orderDetails.currency_data.display_value}
                   </Text>
                   <Text note>
                     Цена за единицу (скидка): {item.amount_per_item_discount}{" "}
                     {this.state.orderDetails.currency_data.display_value}
+                    {"/"}
+                    {item.alt_amount_per_item_discount}{" "}
+                    {this.state.orderDetails.currency_data.display_value}
                   </Text>
-                  <Text note>Количество: {item.count}</Text>
+                  <Text note>
+                    Количество: {item.count}{" "}
+                    {item.product_data.unit_display_value}
+                    {"/"}
+                    {item.alt_count} {item.product_data.alt_unit_display_value}
+                  </Text>
                   <Text note>
                     Итого: {item.total_amount}{" "}
                     {this.state.orderDetails.currency_data.display_value}

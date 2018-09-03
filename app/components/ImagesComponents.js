@@ -57,6 +57,28 @@ export class AvatarComponent extends React.Component {
     }
   }
 }
+
+export class CartImageComponent extends React.Component {
+  render() {
+    if (this.props.image_url != null && this.props.image_url != undefined) {
+      return (
+        <Image
+          source={{ uri: API_URL + this.props.image_url }}
+          style={styles.cartImage}
+          resizeMode="stretch"
+        />
+      );
+    } else {
+      return (
+        <Image
+          source={{ uri: API_URL + NO_IMAGE_URL }}
+          style={styles.cartImage}
+          resizeMode="stretch"
+        />
+      );
+    }
+  }
+}
 export class ImageComponent extends React.Component {
   render() {
     //
@@ -155,6 +177,13 @@ const styles = StyleSheet.create({
   avatarImage: {
     height: 64,
     width: 64,
+    padding: 20
+    //paddingHorizontal: 20
+  },
+
+  cartImage: {
+    height: 128,
+    width: 128,
     padding: 20
     //paddingHorizontal: 20
   }

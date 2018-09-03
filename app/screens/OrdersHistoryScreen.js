@@ -104,7 +104,7 @@ export default class OrdersHistoryScreen extends React.Component {
           isLoading: false
         });
         if (response.cart_id != undefined) {
-          //alert(response.cart_id);
+          //alert(JSON.stringify(response));
 
           if (CART_ID == -1) {
             SetUserCartId(response.cart_id);

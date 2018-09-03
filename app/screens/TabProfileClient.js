@@ -341,23 +341,7 @@ export default class TabProfileClient extends React.Component {
               </Item>
 
               <Item floatingLabel>
-                <Label>Регистрационный номер</Label>
-                <Input
-                  keyboardType="numeric"
-                  value={this.state.client_data.client_registration_number}
-                  onChangeText={text =>
-                    this.setState({
-                      client_data: {
-                        ...this.state.client_data,
-                        client_registration_number: text
-                      }
-                    })
-                  }
-                />
-              </Item>
-
-              <Item floatingLabel>
-                <Label>Email</Label>
+                <Label>Регистрация</Label>
                 <Input
                   value={this.state.client_data.client_email}
                   onChangeText={text =>
@@ -371,6 +355,21 @@ export default class TabProfileClient extends React.Component {
                 />
               </Item>
 
+              <Item floatingLabel>
+                <Label>ИИН/БИН</Label>
+                <Input
+                  keyboardType="numeric"
+                  value={this.state.client_data.client_registration_number}
+                  onChangeText={text =>
+                    this.setState({
+                      client_data: {
+                        ...this.state.client_data,
+                        client_registration_number: text
+                      }
+                    })
+                  }
+                />
+              </Item>
               <Item floatingLabel>
                 <Label>Номер телефона</Label>
                 <Input
@@ -387,12 +386,16 @@ export default class TabProfileClient extends React.Component {
                 />
               </Item>
 
-              <Button block success onPress={() => this.update_client_data()}>
+              <Button
+                style={{ marginTop: 40 }}
+                block
+                success
+                onPress={() => this.update_client_data()}>
                 <Text>СОХРАНИТЬ</Text>
               </Button>
             </Form>
             <Form>
-              <Label style={{ marginLeft: 15 }}>Адреса</Label>
+              <Label style={{ marginLeft: 15, marginTop: 10 }}>Адреса</Label>
               <List
                 dataArray={
                   this.state.userProfile.user_data.client_data.client_addresses

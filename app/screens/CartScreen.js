@@ -37,7 +37,9 @@ import { postRequest } from "./../modules/Http";
 import {
   ImageComponent,
   ThumbComponent,
-  AvatarComponent
+  AvatarComponent,
+  CartImageComponent,
+  CatImageComponent
 } from "./../components/ImagesComponents";
 import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import { MultiFastCartUserCart } from "./../components/MultiFastCartUserCartComponent";
@@ -49,7 +51,8 @@ export default class CartScreen extends React.Component {
     this.state = {
       isLoading: true,
       cartPositions: [],
-      route: "/userCartDetails"
+      route: "/userCartDetails",
+      lastScrollPos: 0
     };
     //navigation.setParam({ title:'Allog' })
   }
@@ -73,6 +76,27 @@ export default class CartScreen extends React.Component {
           //Alert.alert(JSON.stringify(response.message));
           this.setState({ isLoading: false });
         } else {
+          indexes = [];
+          for (i = 0; i < response.cart_positions.length; i++) {
+            position = response.cart_positions[i];
+            //alert(position.id);
+            indexes.push(+position.id);
+          }
+          indexes.sort();
+
+          //alert(indexes);
+          n_positions = [];
+          for (i = 0; i < indexes.length; i++) {
+            for (j = 0; i < response.cart_positions.length; j++) {
+              position = response.cart_positions[j];
+              if (indexes[i].toString() == position.id) {
+                n_positions.push(position);
+                break;
+              }
+            }
+          }
+
+          response.cart_positions = n_positions;
           // alert(JSON.stringify(response));
           this.cart = response;
           // this.state.cartPositions.total_amount
@@ -158,8 +182,28 @@ export default class CartScreen extends React.Component {
           });
         }
         if (response.message == undefined) {
-          // alert(JSON.stringify(response))
+          //alert(JSON.stringify(response.cart_positions));
+          indexes = [];
+          for (i = 0; i < response.cart_positions.length; i++) {
+            position = response.cart_positions[i];
+            //alert(position.id);
+            indexes.push(+position.id);
+          }
+          indexes.sort();
 
+          //alert(indexes);
+          n_positions = [];
+          for (i = 0; i < indexes.length; i++) {
+            for (j = 0; i < response.cart_positions.length; j++) {
+              position = response.cart_positions[j];
+              if (indexes[i].toString() == position.id) {
+                n_positions.push(position);
+                break;
+              }
+            }
+          }
+
+          response.cart_positions = n_positions;
           this.setState({
             isLoading: false,
             cartPositions: response
@@ -255,6 +299,7 @@ export default class CartScreen extends React.Component {
         break;
       }
     }
+
     if (update == true)
       this.setState({ cartPositions: {} }, function() {
         this.setState({ cartPositions: this.cart }, function() {
@@ -275,6 +320,9 @@ export default class CartScreen extends React.Component {
         this.update_cart();
       });
     });
+  }
+  positionEvent(y) {
+    alert(y);
   }
 
   prepare_order() {
@@ -354,10 +402,10 @@ export default class CartScreen extends React.Component {
                     <ListItem style={styles.listItemStyle}>
                       <Left>
                         <Left>
-                          <AvatarComponent
+                          <CartImageComponent
                             image_url={
                               item.user_cart_position_product_data
-                                .default_image_data.thumb_file_path
+                                .default_image_data.file_path
                             }
                           />
                         </Left>
