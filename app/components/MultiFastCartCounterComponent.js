@@ -17,6 +17,7 @@ export class MultiFastCartCounter extends React.Component {
       amount: this.props.item.amount,
       //alt_amount: this.props.item.alt_amount,
       route: "/addCartPositionToCart",
+      discount_amount: this.props.item.discount_amount,
       show_alt: false
     };
   }
@@ -36,6 +37,12 @@ export class MultiFastCartCounter extends React.Component {
     } else {
       this.setState({
         unit_name: this.props.item.product_unit_data.display_value
+      });
+    }
+
+    if (this.props.item.discount_amount > 0) {
+      this.setState({
+        amount: this.props.item.discount_amount
       });
     }
   }

@@ -69,6 +69,7 @@ export default class CartScreen extends React.Component {
       update_route = "/manageUserCartDetails";
       //alert(JSON.stringify(data))
       response = postRequest(update_route, data).then(response => {
+        SetUserCartAmount(0);
         //txt = JSON.stringify(response)
         //alert(JSON.stringify(response));
         status = response.code;

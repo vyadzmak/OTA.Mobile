@@ -56,6 +56,7 @@ export class DashboardRecommendationsComponent extends React.Component {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
+                removeClippedSubviews={true}
                 style={styles.scrollBarStyle}>
                 {this.state.items.map((item, key) => {
                   return (

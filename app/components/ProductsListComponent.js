@@ -129,9 +129,7 @@ export default class ProductsList extends React.Component {
                 <View>
                   <CardItem>
                     <ThumbComponent
-                      image_url={
-                        item.default_image_data.optimized_size_file_path
-                      }
+                      image_url={item.default_image_data.thumb_file_path}
                     />
 
                     <Body style={{ paddingLeft: 20 }}>

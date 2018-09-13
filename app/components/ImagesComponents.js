@@ -65,7 +65,7 @@ export class CartImageComponent extends React.Component {
         <Image
           source={{ uri: API_URL + this.props.image_url }}
           style={styles.cartImage}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
       );
     } else {
@@ -73,7 +73,7 @@ export class CartImageComponent extends React.Component {
         <Image
           source={{ uri: API_URL + NO_IMAGE_URL }}
           style={styles.cartImage}
-          resizeMode="stretch"
+          resizeMode="cover"
         />
       );
     }
@@ -108,7 +108,7 @@ export class CatImageComponent extends React.Component {
     if (this.props.image_url != null) {
       return (
         <Image
-          resizeMode="stretch"
+          resizeMode="cover"
           source={{ uri: API_URL + this.props.image_url }}
           style={styles.catImgStyle}
         />
@@ -117,7 +117,7 @@ export class CatImageComponent extends React.Component {
       return (
         <Image
           source={{ uri: API_URL + NO_IMAGE_URL }}
-          resizeMode="stretch"
+          resizeMode="cover"
           style={styles.catImgStyle}
         />
       );

@@ -202,6 +202,7 @@ export default class ProductsCategoryList extends React.Component {
               style={styles.container}
               renderItem={this.renderItem}
               numColumns={numColumns}
+              removeClippedSubviews={true}
             />
           </Content>
         </Container>

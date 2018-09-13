@@ -79,7 +79,7 @@ export class MultiFastCart extends React.Component {
   add_to_cart(item) {
     if (IS_CONFIRMED == false) {
       alert(
-        "Невозможно добавить товар в корзину. У ва нет подтвержденных адресов. Свяжитесь с поддержкой."
+        "Невозможно добавить товар в корзину. У вас нет подтвержденных адресов. Свяжитесь с поддержкой."
       );
       return;
     }

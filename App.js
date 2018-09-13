@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // import { View, Text,AsyncStorage, ActivityIndicator } from 'react-native';
 // import { createStackNavigator } from 'react-navigation';
 
@@ -9,12 +9,38 @@ import React from 'react';
 // import ConfirmationCodeScreen from './app/screens/ConfirmationCodeScreen'
 // import {GetStorageValue,SetStorageValue,GetWrap} from './app/modules/AsyncStorageModule'
 // import {USER_ID, USER_NAME, CLIENT_ID, CLIENT_NAME} from './app/modules/StorageVars'
-import StartScreen from './app/screens/StartScreen'
-
+import StartScreen from "./app/screens/StartScreen";
+import { Alert, BackHandler } from "react-native";
 
 export default class AppScreen extends React.Component {
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", function() {
+      Alert.alert(
+        "Выход",
+        "Вы действительно хотите выйти?",
+        [
+          {
+            text: "Отмена",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          {
+            text: "OK",
+            onPress: () => BackHandler.exitApp()
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+      return true;
+    });
+  }
 
   render() {
-    return (<StartScreen/>)
+    return <StartScreen />;
   }
 }

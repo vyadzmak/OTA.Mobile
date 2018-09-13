@@ -495,8 +495,8 @@ export class ProductCardGalleryComponent extends React.Component {
             return (
               <View key={key} style={styles.slide}>
                 <Image
-                  resizeMode="stretch"
-                  source={{ uri: API_URL + item.file_path }}
+                  resizeMode="contain"
+                  source={{ uri: API_URL + item.optimized_size_file_path }}
                   style={styles.slideImage}
                 />
               </View>

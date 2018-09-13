@@ -48,7 +48,7 @@ export default class FilterProductsScreen extends React.Component {
 
     if (images != undefined) {
       for (i = 0; i < images.length; i++) {
-        uri = API_URL + images[i].file_path;
+        uri = API_URL + images[i].optimized_size_file_path;
 
         p_img = {};
         p_img.source = {};
