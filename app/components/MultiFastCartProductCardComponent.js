@@ -102,7 +102,7 @@ export class MultiFastCartProductCard extends React.Component {
       SetUserCartAmount(response.total_amount);
       //alert(response.products_count)
       SetUserCartId(response.id);
-      Toast.show("Продукт был добавлен в корзину");
+      //Toast.show("Продукт был добавлен в корзину");
       //alert(CART_ID)
     });
   };

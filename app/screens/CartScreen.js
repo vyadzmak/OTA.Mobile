@@ -415,10 +415,19 @@ export default class CartScreen extends React.Component {
                           <Text style={styles.nameTextStyle}>
                             {item.user_cart_position_product_data.name}
                           </Text>
+
                           <Text note>
                             {
                               item.user_cart_position_product_data
                                 .short_description
+                            }
+                          </Text>
+
+                          <Text style={styles.nameTextStyle}>
+                            Партнер{" "}
+                            {
+                              item.user_cart_position_product_data.partner_data
+                                .name
                             }
                           </Text>
                         </Right>

@@ -4,16 +4,40 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  Image,  TouchableOpacity,Alert, AsyncStorage
+  Image,
+  TouchableOpacity,
+  Alert,
+  AsyncStorage
 } from "react-native";
 
-//library imports 
-import { Container, Content, Icon, Header, Body, Left, Footer, Item,Separator, CardItem,List,Button, ListItem } from 'native-base'
-import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView,createDrawerNavigator, createStackNavigator } from 'react-navigation'
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { StackActions, NavigationActions } from 'react-navigation';
-//import stack elements 
+//library imports
+import {
+  Container,
+  Content,
+  Icon,
+  Header,
+  Body,
+  Left,
+  Footer,
+  Item,
+  Separator,
+  CardItem,
+  List,
+  Button,
+  ListItem
+} from "native-base";
+import {
+  DrawerNavigator,
+  StackNavigator,
+  DrawerItems,
+  SafeAreaView,
+  createDrawerNavigator,
+  createStackNavigator
+} from "react-navigation";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import MCIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { StackActions, NavigationActions } from "react-navigation";
+//import stack elements
 import {
   DashboardStack,
   AccountsStack,
@@ -24,194 +48,252 @@ import {
   PartnersCatalogStack,
   RecommendationsCatalogStack,
   CartStack,
-  FavoritesStack
-
-} from './StackContainer'
+  FavoritesStack,
+  ContactsStack
+} from "./StackContainer";
 
 //import StartScreen from './StartScreen'
 import DrawerLogo from "../components/DrawerLogoComponent";
-const LogoMenuItemComponent = (props)=>{
-
-  logout=()=>{
+const LogoMenuItemComponent = props => {
+  logout = () => {
     //const nav = props.nav;
 
-    alert(props.nav)
+    alert(props.nav);
     //alert(JSON.stringify(props.navigation))
     //props.navigation.replace('StartScreen');
     //props.navigation.popToTop()
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Auth' })],
+      actions: [NavigationActions.navigate({ routeName: "Auth" })]
     });
     props.navigation.dispatch(resetAction);
-    
-  }
+  };
   //const { navigation } = this;
 
   //t = this.navigation
   return (
-    
-      <Container>
-        <Header style={{height:150,backgroundColor:'#074c99'}}>
-          <DrawerLogo/>
-        </Header>
-        <Content>
-          <DrawerItems {...props}/>
-          <List>
+    <Container>
+      <Header style={{ height: 150, backgroundColor: "#074c99" }}>
+        <DrawerLogo />
+      </Header>
+      <Content>
+        <DrawerItems {...props} />
+        <List>
           {/* <TouchableOpacity  > */}
-        <ListItem icon onPress={()=>{Alert.alert(
-                'Выход',
-                'Вы действительно хотите выйти?',
+          <ListItem
+            icon
+            onPress={() => {
+              Alert.alert(
+                "Выход",
+                "Вы действительно хотите выйти?",
                 [
-                  {text: 'Отмена', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                  {text: 'Да', onPress: () => {this.logout() }},
+                  {
+                    text: "Отмена",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  },
+                  {
+                    text: "Да",
+                    onPress: () => {
+                      this.logout();
+                    }
+                  }
                 ],
                 { cancelable: false }
-              )}}>
+              );
+            }}>
             <Left>
-            <MCIcon name="exit-to-app" size={iconSize} style={styles.exitIcons}></MCIcon>
+              <MCIcon
+                name="exit-to-app"
+                size={iconSize}
+                style={styles.exitIcons}
+              />
             </Left>
             <Body>
-              
               <Text style={styles.exitButton}>Выход</Text>
             </Body>
           </ListItem>
           {/* </TouchableOpacity> */}
-        
         </List>
-        </Content>
-        {/* .<Footer> */}
-        {/* <Content> */}
-        
-        {/* </Content> */}
-      </Container>
-  )
-}
-const iconSize =24
-const Root = DrawerNavigator({
+      </Content>
+      {/* .<Footer> */}
+      {/* <Content> */}
 
-  
+      {/* </Content> */}
+    </Container>
+  );
+};
+const iconSize = 24;
+const Root = DrawerNavigator(
+  {
     Dashboard: {
       screen: DashboardStack,
       navigationOptions: {
-        title: 'Главная',
+        title: "Главная",
         //drawerLabel: 'Home',
-          drawerIcon: () => (
-          <MaterialIcon name="home" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+        drawerIcon: () => (
+          <MaterialIcon
+            name="home"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
-   
+
     OrdersHistory: {
       screen: OrdersHistoryStack,
       navigationOptions: {
-        title: 'История заказов', 
+        title: "История заказов",
         drawerIcon: () => (
-          <MaterialIcon name="history" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="history"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
     UserAgreement: {
       screen: UserAgreementStack,
       navigationOptions: {
-        title: 'Cоглашение',
+        title: "Cоглашение",
         drawerIcon: () => (
-          <MaterialIcon name="check" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="check"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
     Account: {
       screen: AccountsStack,
       navigationOptions: {
-        title: 'Профиль', 
+        title: "Профиль",
         drawerIcon: () => (
-          <MaterialIcon name="face" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="face"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
     BrandsCatalog: {
       screen: BrandsCatalogStack,
       navigationOptions: {
-        title: 'Бренды', 
+        title: "Бренды",
         drawerIcon: () => (
-          <MaterialIcon name="label" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="label"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
-    }  ,
+    },
     PartnersCatalog: {
       screen: PartnersCatalogStack,
       navigationOptions: {
-        title: 'Партнеры', 
+        title: "Партнеры",
         drawerIcon: () => (
-          <MaterialIcon name="loyalty" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="loyalty"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
     RecommendationsCatalog: {
       screen: RecommendationsCatalogStack,
       navigationOptions: {
-        title: 'Рекомендации', 
+        title: "Рекомендации",
         drawerIcon: () => (
-          <MaterialIcon name="redeem" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="redeem"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
     },
     Cart: {
       screen: CartStack,
       navigationOptions: {
-        title: 'Корзина', 
+        title: "Корзина",
         drawerIcon: () => (
-          <MaterialIcon name="shopping-cart" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="shopping-cart"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
-    }  ,
+    },
     Favorites: {
       screen: FavoritesStack,
       navigationOptions: {
-        title: 'Избранное', 
+        title: "Избранное",
         drawerIcon: () => (
-          <MaterialIcon name="favorite" size={iconSize} style={styles.drawerIcons}></MaterialIcon>
-          )
+          <MaterialIcon
+            name="favorite"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
       }
-    } 
-           
-  }, {
-    
-    contentComponent:
-        LogoMenuItemComponent 
-  })
-
-  export default class RootScreen extends Component {
-    static navigationOptions = {
-        headerMode: 'none',
-        header: null,
-
-      };
-
-    logout_f(){
-      alert('OK')
+    },
+    Contacts: {
+      screen: ContactsStack,
+      navigationOptions: {
+        title: "Контакты",
+        drawerIcon: () => (
+          <MaterialIcon
+            name="favorite"
+            size={iconSize}
+            style={styles.drawerIcons}
+          />
+        )
+      }
     }
+  },
+  {
+    contentComponent: LogoMenuItemComponent
+  }
+);
 
-    render() {
-      return (   
-        // <View>
-          // <Button onPress={()=>this.logout_f()}><Text>TEXT</Text></Button>     
-          <Root navigation={this.navigation}/>
-        // </View>
-      )
-    }
+export default class RootScreen extends Component {
+  static navigationOptions = {
+    headerMode: "none",
+    header: null
+  };
+
+  logout_f() {
+    alert("OK");
   }
 
-  const styles = StyleSheet.create({
-    drawerIcons: {
-       color :"#1c313a",       
-     },
-     exitIcons: {
-      color :"#074c99",      
-    },
-     exitButton:{
-       marginLeft: 12,
-       color: "#074c99",
-       fontWeight: 'bold'
-     }
-   });
+  render() {
+    return (
+      // <View>
+      // <Button onPress={()=>this.logout_f()}><Text>TEXT</Text></Button>
+      <Root navigation={this.navigation} />
+      // </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  drawerIcons: {
+    color: "#1c313a"
+  },
+  exitIcons: {
+    color: "#074c99"
+  },
+  exitButton: {
+    marginLeft: 12,
+    color: "#074c99",
+    fontWeight: "bold"
+  }
+});

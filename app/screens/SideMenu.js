@@ -2,7 +2,14 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import styles from "./SideMenu.style";
 import { NavigationActions } from "react-navigation";
-import { ScrollView, Text, View, AsyncStorage, Alert } from "react-native";
+import {
+  ScrollView,
+  Text,
+  View,
+  AsyncStorage,
+  Alert,
+  Share
+} from "react-native";
 import {
   Container,
   Content,
@@ -35,6 +42,13 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      result: ""
+    };
+  }
+
   redirect() {
     DropVars();
     AsyncStorage.clear();
@@ -42,6 +56,7 @@ class SideMenu extends Component {
       this.navigateToScreen("AuthLoading")
     );
   }
+
   logout() {
     Alert.alert(
       "Выход",
@@ -64,6 +79,22 @@ class SideMenu extends Component {
 
     //this.props.navigation.navigate('AuthLoading')
     //this.navigateToScreen('AuthLoading')
+  }
+
+  showResult(result) {
+    this.setState({ result });
+    // alert("show result");
+  }
+
+  share() {
+    try {
+      _message =
+        "Online Trade Assistant заходи и скачивай на Play Market " + "\n";
+      _message += "https://play.google.com/store/apps/details?id=com.otamobile";
+      //_url = "";
+
+      Share.share({ message: _message }).then(this.showResult());
+    } catch (e) {}
   }
   render() {
     return (
@@ -169,6 +200,25 @@ class SideMenu extends Component {
               style={styles.drawerIcons}
             />
             <Text style={styles.navItemStyle}>Избранное</Text>
+          </Item>
+
+          <Item
+            style={styles.navItemElementStyle}
+            onPress={this.navigateToScreen("Contacts")}>
+            <MaterialIcon
+              name="phone"
+              size={iconSize}
+              style={styles.drawerIcons}
+            />
+            <Text style={styles.navItemStyle}>Контакты</Text>
+          </Item>
+          <Item style={styles.navItemElementStyle} onPress={() => this.share()}>
+            <MaterialIcon
+              name="share"
+              size={iconSize}
+              style={styles.drawerIcons}
+            />
+            <Text style={styles.navItemStyle}>Поделиться</Text>
           </Item>
 
           <Item

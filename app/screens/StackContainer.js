@@ -40,6 +40,8 @@ import OrderDetailsScreen from "./OrderDetailsScreen";
 import GalleryScreen from "./GalleryScreen";
 import ProdcutComments from "./ProductCommentsScreen";
 import NewCommentScreen from "./NewCommentScreen";
+import ContactsScreen from "./ContactsScreen";
+
 export const AccountsStack = createStackNavigator(
   {
     Account: {
@@ -93,6 +95,39 @@ export const UserAgreementStack = createStackNavigator(
     initialRouteName: "UserAgreement",
     navigationOptions: ({ navigation }) => ({
       title: "Пользовательское соглашение", // Title to appear in status bar
+      //headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
+      headerStyle: {
+        backgroundColor: "#074c99"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold"
+      }
+    })
+    //mode: 'modal',
+  }
+);
+
+export const ContactsStack = createStackNavigator(
+  {
+    Contacts: {
+      screen: ContactsScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: "Контакты", // Title to appear in status bar
+        headerLeft: (
+          <MaterialIcon
+            name="menu"
+            style={{ color: "#ffffff", fontSize: 32, marginLeft: 10 }}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        )
+      })
+    }
+  },
+  {
+    initialRouteName: "Contacts",
+    navigationOptions: ({ navigation }) => ({
+      title: "Контакты", // Title to appear in status bar
       //headerLeft: <MaterialIcon name="menu" style={{color:'#ffffff',fontSize:32}}  onPress={ () => navigation.toggleDrawer() } />,
       headerStyle: {
         backgroundColor: "#074c99"

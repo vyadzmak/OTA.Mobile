@@ -314,6 +314,17 @@ export class ProductCardInfoComponent extends React.Component {
         <Item header style={styles.itemDetailsStyle}>
           <Text style={styles.itemHeaderTextStyle}>Данные по товару</Text>
         </Item>
+
+        <Item style={styles.itemDetailsStyle}>
+          <Left>
+            <Text style={styles.itemNameTextStyle}>Партнер</Text>
+          </Left>
+          <Right>
+            <Text style={styles.itemValueTextStyle}>
+              {this.state.partner_data.name}
+            </Text>
+          </Right>
+        </Item>
         {/* <Item style={styles.itemDetailsStyle}>
           <Left>
             <Text style={styles.itemNameTextStyle}>Наименование</Text>
@@ -420,16 +431,7 @@ export class ProductCardInfoComponent extends React.Component {
           </Right>
         </Item> */}
 
-        <Item style={styles.itemDetailsStyle}>
-          <Left>
-            <Text style={styles.itemNameTextStyle}>Партнер</Text>
-          </Left>
-          <Right>
-            <Text style={styles.itemValueTextStyle}>
-              {this.state.partner_data.name}
-            </Text>
-          </Right>
-        </Item>
+        
 
         <Item style={styles.itemDetailsStyle}>
           <Left>
