@@ -6,4 +6,5 @@
 // export default (API_URL = "http://192.168.0.104:5000");
 
 //production server URL
-export default (API_URL = "http://78.140.223.111:81");
+//export default (API_URL = "http://78.140.223.111:81");
+export default (API_URL = "https://api.ota24.kz");
